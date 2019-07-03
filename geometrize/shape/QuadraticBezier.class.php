@@ -8,32 +8,32 @@ class geometrize_shape_QuadraticBezier implements geometrize_shape_Shape{
 		if(!(0 <= $upper)) {
 			throw new HException("FAIL: lower <= upper");
 		}
-		$this->x1 = Math::floor(($upper + 1) * Math::random());
+		$this->x1 = mt_rand(0,$upper);
 		$upper1 = $yBound - 1;
 		if(!(0 <= $upper1)) {
 			throw new HException("FAIL: lower <= upper");
 		}
-		$this->y1 = Math::floor(($upper1 + 1) * Math::random());
+		$this->y1 = mt_rand(0,$upper1);
 		$upper2 = $xBound - 1;
 		if(!(0 <= $upper2)) {
 			throw new HException("FAIL: lower <= upper");
 		}
-		$this->cx = Math::floor(($upper2 + 1) * Math::random());
+		$this->cx = mt_rand(0,$upper2);
 		$upper3 = $yBound - 1;
 		if(!(0 <= $upper3)) {
 			throw new HException("FAIL: lower <= upper");
 		}
-		$this->cy = Math::floor(($upper3 + 1) * Math::random());
+		$this->cy = mt_rand(0,$upper3);
 		$upper4 = $xBound - 1;
 		if(!(0 <= $upper4)) {
 			throw new HException("FAIL: lower <= upper");
 		}
-		$this->x2 = Math::floor(($upper4 + 1) * Math::random());
+		$this->x2 = mt_rand(0,$upper4);
 		$upper5 = $yBound - 1;
 		if(!(0 <= $upper5)) {
 			throw new HException("FAIL: lower <= upper");
 		}
-		$this->y2 = Math::floor(($upper5 + 1) * Math::random());
+		$this->y2 = mt_rand(0,$upper5);
 		$this->xBound = $xBound;
 		$this->yBound = $yBound;
 	}}
@@ -91,14 +91,14 @@ class geometrize_shape_QuadraticBezier implements geometrize_shape_Shape{
 		if(!true) {
 			throw new HException("FAIL: lower <= upper");
 		}
-		$r = Math::floor(3 * Math::random());
+		$r = mt_rand(0,2);
 		switch($r) {
 		case 0:{
 			$value = $this->cx;
 			if(!true) {
 				throw new HException("FAIL: lower <= upper");
 			}
-			$value1 = $value + (-8 + Math::floor(17 * Math::random()));
+			$value1 = $value + mt_rand(-8,+8);
 			$max = $this->xBound - 1;
 			if(!(0 <= $max)) {
 				throw new HException("FAIL: min <= max");
@@ -118,7 +118,7 @@ class geometrize_shape_QuadraticBezier implements geometrize_shape_Shape{
 			if(!true) {
 				throw new HException("FAIL: lower <= upper");
 			}
-			$value3 = $value2 + (-8 + Math::floor(17 * Math::random()));
+			$value3 = $value2 + mt_rand(-8,+8);
 			$max1 = $this->yBound - 1;
 			if(!(0 <= $max1)) {
 				throw new HException("FAIL: min <= max");
@@ -140,7 +140,7 @@ class geometrize_shape_QuadraticBezier implements geometrize_shape_Shape{
 			if(!true) {
 				throw new HException("FAIL: lower <= upper");
 			}
-			$value5 = $value4 + (-8 + Math::floor(17 * Math::random()));
+			$value5 = $value4 + mt_rand(-8,+8);
 			$max2 = $this->xBound - 1;
 			if(!(1 <= $max2)) {
 				throw new HException("FAIL: min <= max");
@@ -160,7 +160,7 @@ class geometrize_shape_QuadraticBezier implements geometrize_shape_Shape{
 			if(!true) {
 				throw new HException("FAIL: lower <= upper");
 			}
-			$value7 = $value6 + (-8 + Math::floor(17 * Math::random()));
+			$value7 = $value6 + mt_rand(-8,+8);
 			$max3 = $this->yBound - 1;
 			if(!(1 <= $max3)) {
 				throw new HException("FAIL: min <= max");
@@ -182,7 +182,7 @@ class geometrize_shape_QuadraticBezier implements geometrize_shape_Shape{
 			if(!true) {
 				throw new HException("FAIL: lower <= upper");
 			}
-			$value9 = $value8 + (-8 + Math::floor(17 * Math::random()));
+			$value9 = $value8 + mt_rand(-8,+8);
 			$max4 = $this->xBound - 1;
 			if(!(1 <= $max4)) {
 				throw new HException("FAIL: min <= max");
@@ -202,7 +202,7 @@ class geometrize_shape_QuadraticBezier implements geometrize_shape_Shape{
 			if(!true) {
 				throw new HException("FAIL: lower <= upper");
 			}
-			$value11 = $value10 + (-8 + Math::floor(17 * Math::random()));
+			$value11 = $value10 + mt_rand(-8,+8);
 			$max5 = $this->yBound - 1;
 			if(!(1 <= $max5)) {
 				throw new HException("FAIL: min <= max");

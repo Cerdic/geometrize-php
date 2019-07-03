@@ -46,7 +46,7 @@ class geometrize_shape_ShapeFactory {
 		if(!(0 <= $upper)) {
 			throw new HException("FAIL: lower <= upper");
 		}
-		return geometrize_shape_ShapeFactory::create($a[Math::floor(($upper + 1) * Math::random())], $xBound, $yBound);
+		return geometrize_shape_ShapeFactory::create($a[mt_rand(0,$upper)], $xBound, $yBound);
 	}
 	static function randomShapeOf($types, $xBound, $yBound) {
 		$tmp = null;
@@ -62,7 +62,7 @@ class geometrize_shape_ShapeFactory {
 		if(!(0 <= $upper)) {
 			throw new HException("FAIL: lower <= upper");
 		}
-		return geometrize_shape_ShapeFactory::create($types[Math::floor(($upper + 1) * Math::random())], $xBound, $yBound);
+		return geometrize_shape_ShapeFactory::create($types[mt_rand(0,$upper)], $xBound, $yBound);
 	}
 	function __toString() { return 'geometrize.shape.ShapeFactory'; }
 }

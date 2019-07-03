@@ -15,7 +15,7 @@ class geometrize_shape_Circle extends geometrize_shape_Ellipse {
 			if(!true) {
 				throw new HException("FAIL: lower <= upper");
 			}
-			$value1 = $value + (-16 + Math::floor(33 * Math::random()));
+			$value1 = $value + mt_rand(-16,+16);
 			$max = $this->xBound - 1;
 			if(!(0 <= $max)) {
 				throw new HException("FAIL: min <= max");
@@ -35,7 +35,7 @@ class geometrize_shape_Circle extends geometrize_shape_Ellipse {
 			if(!true) {
 				throw new HException("FAIL: lower <= upper");
 			}
-			$value3 = $value2 + (-16 + Math::floor(33 * Math::random()));
+			$value3 = $value2 + mt_rand(-16,+16);
 			$max1 = $this->yBound - 1;
 			if(!(0 <= $max1)) {
 				throw new HException("FAIL: min <= max");
@@ -57,7 +57,7 @@ class geometrize_shape_Circle extends geometrize_shape_Ellipse {
 			if(!true) {
 				throw new HException("FAIL: lower <= upper");
 			}
-			$value5 = $value4 + (-16 + Math::floor(33 * Math::random()));
+			$value5 = $value4 + mt_rand(-16,+16);
 			$max2 = $this->xBound - 1;
 			if(!(1 <= $max2)) {
 				throw new HException("FAIL: min <= max");

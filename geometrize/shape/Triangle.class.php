@@ -10,22 +10,22 @@ class geometrize_shape_Triangle implements geometrize_shape_Shape{
 		if(!true) {
 			throw new HException("FAIL: lower <= upper");
 		}
-		$this->x2 = $tmp + (-16 + Math::floor(33 * Math::random()));
+		$this->x2 = $tmp + mt_rand(-16,+16);
 		$tmp1 = $this->y1;
 		if(!true) {
 			throw new HException("FAIL: lower <= upper");
 		}
-		$this->y2 = $tmp1 + (-16 + Math::floor(33 * Math::random()));
+		$this->y2 = $tmp1 + mt_rand(-16,+16);
 		$tmp2 = $this->x1;
 		if(!true) {
 			throw new HException("FAIL: lower <= upper");
 		}
-		$this->x3 = $tmp2 + (-16 + Math::floor(33 * Math::random()));
+		$this->x3 = $tmp2  + mt_rand(-16,+16);
 		$tmp3 = $this->y1;
 		if(!true) {
 			throw new HException("FAIL: lower <= upper");
 		}
-		$this->y3 = $tmp3 + (-16 + Math::floor(33 * Math::random()));
+		$this->y3 = $tmp3  + mt_rand(-16,+16);
 		$this->xBound = $xBound;
 		$this->yBound = $yBound;
 	}}
@@ -42,14 +42,14 @@ class geometrize_shape_Triangle implements geometrize_shape_Shape{
 		return geometrize_rasterizer_Scanline::trim($tmp, $this->xBound, $this->yBound);
 	}
 	public function mutate() {
-		$r = Std::random(3);
+		$r = mt_rand(0,2);
 		switch($r) {
 		case 0:{
 			$value = $this->x1;
 			if(!true) {
 				throw new HException("FAIL: lower <= upper");
 			}
-			$value1 = $value + (-16 + Math::floor(33 * Math::random()));
+			$value1 = $value  + mt_rand(-16,+16);
 			$max = $this->xBound - 1;
 			if(!(0 <= $max)) {
 				throw new HException("FAIL: min <= max");
@@ -69,7 +69,7 @@ class geometrize_shape_Triangle implements geometrize_shape_Shape{
 			if(!true) {
 				throw new HException("FAIL: lower <= upper");
 			}
-			$value3 = $value2 + (-16 + Math::floor(33 * Math::random()));
+			$value3 = $value2  + mt_rand(-16,+16);
 			$max1 = $this->yBound - 1;
 			if(!(0 <= $max1)) {
 				throw new HException("FAIL: min <= max");
@@ -91,7 +91,7 @@ class geometrize_shape_Triangle implements geometrize_shape_Shape{
 			if(!true) {
 				throw new HException("FAIL: lower <= upper");
 			}
-			$value5 = $value4 + (-16 + Math::floor(33 * Math::random()));
+			$value5 = $value4  + mt_rand(-16,+16);
 			$max2 = $this->xBound - 1;
 			if(!(0 <= $max2)) {
 				throw new HException("FAIL: min <= max");
@@ -111,7 +111,7 @@ class geometrize_shape_Triangle implements geometrize_shape_Shape{
 			if(!true) {
 				throw new HException("FAIL: lower <= upper");
 			}
-			$value7 = $value6 + (-16 + Math::floor(33 * Math::random()));
+			$value7 = $value6  + mt_rand(-16,+16);
 			$max3 = $this->yBound - 1;
 			if(!(0 <= $max3)) {
 				throw new HException("FAIL: min <= max");
@@ -133,7 +133,7 @@ class geometrize_shape_Triangle implements geometrize_shape_Shape{
 			if(!true) {
 				throw new HException("FAIL: lower <= upper");
 			}
-			$value9 = $value8 + (-16 + Math::floor(33 * Math::random()));
+			$value9 = $value8  + mt_rand(-16,+16);
 			$max4 = $this->xBound - 1;
 			if(!(0 <= $max4)) {
 				throw new HException("FAIL: min <= max");
@@ -153,7 +153,7 @@ class geometrize_shape_Triangle implements geometrize_shape_Shape{
 			if(!true) {
 				throw new HException("FAIL: lower <= upper");
 			}
-			$value11 = $value10 + (-16 + Math::floor(33 * Math::random()));
+			$value11 = $value10  + mt_rand(-16,+16);
 			$max5 = $this->yBound - 1;
 			if(!(0 <= $max5)) {
 				throw new HException("FAIL: min <= max");
