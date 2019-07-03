@@ -4,6 +4,7 @@
 interface geometrize_shape_Shape {
 	function rasterize();
 	function mutate();
+	function rescale($scale);
 	function hclone();
 	function getType();
 	function getRawShapeData();

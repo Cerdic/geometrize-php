@@ -221,6 +221,16 @@ class geometrize_shape_QuadraticBezier implements geometrize_shape_Shape{
 		}break;
 		}
 	}
+	public function rescale($scale) {
+		$this->cx = intval(round($this->cx * $scale));
+		$this->cy = intval(round($this->cy * $scale));
+		$this->x1 = intval(round($this->x1 * $scale));
+		$this->y1 = intval(round($this->y1 * $scale));
+		$this->x2 = intval(round($this->x2 * $scale));
+		$this->y2 = intval(round($this->y2 * $scale));
+		$this->xBound = intval(round($this->xBound * $scale));
+		$this->yBound = intval(round($this->yBound * $scale));
+	}
 	public function hclone() {
 		$bezier = new geometrize_shape_QuadraticBezier($this->xBound, $this->yBound);
 		$bezier->cx = $this->cx;

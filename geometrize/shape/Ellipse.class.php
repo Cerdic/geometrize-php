@@ -178,6 +178,14 @@ class geometrize_shape_Ellipse implements geometrize_shape_Shape{
 		}break;
 		}
 	}
+	public function rescale($scale) {
+		$this->x = intval(round($this->x * $scale));
+		$this->y = intval(round($this->y * $scale));
+		$this->rx = intval(round($this->rx * $scale));
+		$this->ry = intval(round($this->ry * $scale));
+		$this->xBound = intval(round($this->xBound * $scale));
+		$this->yBound = intval(round($this->yBound * $scale));
+	}
 	public function hclone() {
 		$ellipse = new geometrize_shape_Ellipse($this->xBound, $this->yBound);
 		$ellipse->x = $this->x;

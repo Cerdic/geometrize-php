@@ -215,6 +215,14 @@ class geometrize_shape_RotatedRectangle implements geometrize_shape_Shape{
 		}break;
 		}
 	}
+	public function rescale($scale) {
+		$this->x1 = intval(round($this->x1 * $scale));
+		$this->y1 = intval(round($this->y1 * $scale));
+		$this->x2 = intval(round($this->x2 * $scale));
+		$this->y2 = intval(round($this->y2 * $scale));
+		$this->xBound = intval(round($this->xBound * $scale));
+		$this->yBound = intval(round($this->yBound * $scale));
+	}
 	public function hclone() {
 		$rectangle = new geometrize_shape_RotatedRectangle($this->xBound, $this->yBound);
 		$rectangle->x1 = $this->x1;

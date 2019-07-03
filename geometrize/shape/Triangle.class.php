@@ -172,6 +172,16 @@ class geometrize_shape_Triangle implements geometrize_shape_Shape{
 		}break;
 		}
 	}
+	public function rescale($scale) {
+		$this->x1 = intval(round($this->x1 * $scale));
+		$this->y1 = intval(round($this->y1 * $scale));
+		$this->x2 = intval(round($this->x2 * $scale));
+		$this->y2 = intval(round($this->y2 * $scale));
+		$this->x3 = intval(round($this->x3 * $scale));
+		$this->y3 = intval(round($this->y3 * $scale));
+		$this->xBound = intval(round($this->xBound * $scale));
+		$this->yBound = intval(round($this->yBound * $scale));
+	}
 	public function hclone() {
 		$triangle = new geometrize_shape_Triangle($this->xBound, $this->yBound);
 		$triangle->x1 = $this->x1;
