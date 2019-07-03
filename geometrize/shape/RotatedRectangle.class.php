@@ -4,10 +4,10 @@
 class geometrize_shape_RotatedRectangle implements geometrize_shape_Shape{
 	public function __construct($xBound, $yBound) {
 		if(!php_Boot::$skip_constructor) {
-		$this->x1 = Std::random($xBound);
-		$this->y1 = Std::random($yBound);
+		$this->x1 = mt_rand(0,$xBound-1);
+		$this->y1 = mt_rand(0,$yBound-1);
 		$value = $this->x1;
-		$value1 = $value + Std::random(32) + 1;
+		$value1 = $value + mt_rand(1,32);
 		if(!(0 <= $xBound)) {
 			throw new HException("FAIL: min <= max");
 		}
@@ -23,7 +23,7 @@ class geometrize_shape_RotatedRectangle implements geometrize_shape_Shape{
 		}
 		$this->x2 = $tmp;
 		$value2 = $this->y1;
-		$value3 = $value2 + Std::random(32) + 1;
+		$value3 = $value2 + mt_rand(1,32);
 		if(!(0 <= $yBound)) {
 			throw new HException("FAIL: min <= max");
 		}
@@ -106,7 +106,7 @@ class geometrize_shape_RotatedRectangle implements geometrize_shape_Shape{
 		return geometrize_rasterizer_Scanline::trim($tmp, $this->xBound, $this->yBound);
 	}
 	public function mutate() {
-		$r = Std::random(3);
+		$r = mt_rand(0,2);
 		switch($r) {
 		case 0:{
 			$value = $this->x1;

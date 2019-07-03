@@ -4,8 +4,8 @@
 class geometrize_shape_Triangle implements geometrize_shape_Shape{
 	public function __construct($xBound, $yBound) {
 		if(!php_Boot::$skip_constructor) {
-		$this->x1 = Std::random($xBound);
-		$this->y1 = Std::random($yBound);
+		$this->x1 = mt_rand(0,$xBound-1);
+		$this->y1 = mt_rand(0,$yBound-1);
 		$tmp = $this->x1;
 		if(!true) {
 			throw new HException("FAIL: lower <= upper");

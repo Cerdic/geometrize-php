@@ -4,11 +4,11 @@
 class geometrize_shape_RotatedEllipse implements geometrize_shape_Shape{
 	public function __construct($xBound, $yBound) {
 		if(!php_Boot::$skip_constructor) {
-		$this->x = Std::random($xBound);
-		$this->y = Std::random($yBound);
-		$this->rx = Std::random(32) + 1;
-		$this->ry = Std::random(32) + 1;
-		$this->angle = Std::random(360);
+		$this->x = mt_rand(0,$xBound-1);
+		$this->y = mt_rand(0,$yBound-1);
+		$this->rx = mt_rand(1,32);
+		$this->ry = mt_rand(1,32);
+		$this->angle = mt_rand(0,359);
 		$this->xBound = $xBound;
 		$this->yBound = $yBound;
 	}}
@@ -46,7 +46,7 @@ class geometrize_shape_RotatedEllipse implements geometrize_shape_Shape{
 		return geometrize_rasterizer_Scanline::trim($tmp, $this->xBound, $this->yBound);
 	}
 	public function mutate() {
-		$r = Std::random(4);
+		$r = mt_rand(0,3);
 		switch($r) {
 		case 0:{
 			$value = $this->x;

@@ -4,11 +4,11 @@
 class geometrize_shape_Circle extends geometrize_shape_Ellipse {
 	public function __construct($xBound, $yBound) { if(!php_Boot::$skip_constructor) {
 		parent::__construct($xBound,$yBound);
-		$this->rx = Std::random(32) + 1;
+		$this->rx = mt_rand(1, 32);
 		$this->ry = $this->rx;
 	}}
 	public function mutate() {
-		$r = Std::random(2);
+		$r = mt_rand(0, 1);
 		switch($r) {
 		case 0:{
 			$value = $this->x;

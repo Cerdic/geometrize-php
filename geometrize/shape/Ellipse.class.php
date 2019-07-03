@@ -4,10 +4,10 @@
 class geometrize_shape_Ellipse implements geometrize_shape_Shape{
 	public function __construct($xBound, $yBound) {
 		if(!php_Boot::$skip_constructor) {
-		$this->x = Std::random($xBound);
-		$this->y = Std::random($yBound);
-		$this->rx = Std::random(32) + 1;
-		$this->ry = Std::random(32) + 1;
+		$this->x = mt_rand(0, $xBound-1);
+		$this->y = mt_rand(0, $yBound-1);
+		$this->rx = mt_rand(1, 32);
+		$this->ry = mt_rand(1, 32);
 		$this->xBound = $xBound;
 		$this->yBound = $yBound;
 	}}
@@ -88,7 +88,7 @@ class geometrize_shape_Ellipse implements geometrize_shape_Shape{
 		return $lines;
 	}
 	public function mutate() {
-		$r = Std::random(3);
+		$r = mt_rand(0, 2);
 		switch($r) {
 		case 0:{
 			$value = $this->x;
