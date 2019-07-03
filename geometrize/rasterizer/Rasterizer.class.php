@@ -13,15 +13,15 @@ class geometrize_rasterizer_Rasterizer {
 		$sr = $c >> 24 & 255;
 		$sr = $sr | $sr << 8;
 		$sr = $sr * ($c & 255);
-		$sr = Std::int($sr / 255);
+		$sr = intval($sr / 255);
 		$sg = $c >> 16 & 255;
 		$sg = $sg | $sg << 8;
 		$sg = $sg * ($c & 255);
-		$sg = Std::int($sg / 255);
+		$sg = intval($sg / 255);
 		$sb = $c >> 8 & 255;
 		$sb = $sb | $sb << 8;
 		$sb = $sb * ($c & 255);
-		$sb = Std::int($sb / 255);
+		$sb = intval($sb / 255);
 		$sa = $c & 255;
 		$sa = $sa | $sa << 8;
 		{
@@ -33,7 +33,7 @@ class geometrize_rasterizer_Rasterizer {
 				$ma = 65535;
 				$m = 65535;
 				$as = ($m - $sa * ($ma / $m)) * 257;
-				$a = Std::int($as);
+				$a = intval($as);
 				{
 					$_g2 = $line->x1;
 					$_g1 = $line->x2 + 1;
@@ -59,7 +59,7 @@ class geometrize_rasterizer_Rasterizer {
 						} else {
 							$r1 = $int1 + 0.0;
 						}
-						$r2 = Std::int($r / $r1) >> 8;
+						$r2 = intval($r / $r1) >> 8;
 						$int2 = $dg * $a + $sg * $ma;
 						$g = null;
 						if($int2 < 0) {
@@ -74,7 +74,7 @@ class geometrize_rasterizer_Rasterizer {
 						} else {
 							$g1 = $int3 + 0.0;
 						}
-						$g2 = Std::int($g / $g1) >> 8;
+						$g2 = intval($g / $g1) >> 8;
 						$int4 = $db * $a + $sb * $ma;
 						$b = null;
 						if($int4 < 0) {
@@ -89,7 +89,7 @@ class geometrize_rasterizer_Rasterizer {
 						} else {
 							$b1 = $int5 + 0.0;
 						}
-						$b2 = Std::int($b / $b1) >> 8;
+						$b2 = intval($b / $b1) >> 8;
 						$int6 = $da * $a + $sa * $ma;
 						$a1 = null;
 						if($int6 < 0) {
@@ -104,7 +104,7 @@ class geometrize_rasterizer_Rasterizer {
 						} else {
 							$a2 = $int7 + 0.0;
 						}
-						$a3 = Std::int($a1 / $a2) >> 8;
+						$a3 = intval($a1 / $a2) >> 8;
 						{
 							if(!true) {
 								throw new HException("FAIL: min <= max");

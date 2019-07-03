@@ -36,8 +36,8 @@ class geometrize_shape_RotatedEllipse implements geometrize_shape_Shape{
 				$crx1 = $crx * Math::cos($rot);
 				$cry = $this->ry;
 				$cry1 = $cry * Math::sin($rot);
-				$tx = Std::int($crx1 * $c - $cry1 * $s + $this->x);
-				$ty = Std::int($crx1 * $s + $cry1 * $c + $this->y);
+				$tx = intval($crx1 * $c - $cry1 * $s + $this->x);
+				$ty = intval($crx1 * $s + $cry1 * $c + $this->y);
 				$points->push(_hx_anonymous(array("x" => $tx, "y" => $ty)));
 				unset($ty,$tx,$rot,$i,$cry1,$cry,$crx1,$crx);
 			}

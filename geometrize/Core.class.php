@@ -21,7 +21,7 @@ class geometrize_Core {
 		$totalBlue = 0;
 		$count = 0;
 		$f = 65535 / $alpha;
-		$a = Std::int($f);
+		$a = intval($f);
 		{
 			$_g = 0;
 			while($_g < $lines->length) {
@@ -50,7 +50,7 @@ class geometrize_Core {
 		if($count === 0) {
 			return 0;
 		}
-		$value = Std::int($totalRed / $count) >> 8;
+		$value = intval($totalRed / $count) >> 8;
 		if(!true) {
 			throw new HException("FAIL: min <= max");
 		}
@@ -64,7 +64,7 @@ class geometrize_Core {
 				$r = $value;
 			}
 		}
-		$value1 = Std::int($totalGreen / $count) >> 8;
+		$value1 = intval($totalGreen / $count) >> 8;
 		if(!true) {
 			throw new HException("FAIL: min <= max");
 		}
@@ -78,7 +78,7 @@ class geometrize_Core {
 				$g = $value1;
 			}
 		}
-		$value2 = Std::int($totalBlue / $count) >> 8;
+		$value2 = intval($totalBlue / $count) >> 8;
 		if(!true) {
 			throw new HException("FAIL: min <= max");
 		}

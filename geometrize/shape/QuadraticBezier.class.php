@@ -57,8 +57,8 @@ class geometrize_shape_QuadraticBezier implements geometrize_shape_Shape{
 				$i = $_g1 - 1;
 				$t = $i / $pointCount;
 				$tp = 1 - $t;
-				$x = Std::int($tp * ($tp * $this->x1 + $t * $this->cx) + $t * ($tp * $this->cx + $t * $this->x2));
-				$y = Std::int($tp * ($tp * $this->y1 + $t * $this->cy) + $t * ($tp * $this->cy + $t * $this->y2));
+				$x = intval($tp * ($tp * $this->x1 + $t * $this->cx) + $t * ($tp * $this->cx + $t * $this->x2));
+				$y = intval($tp * ($tp * $this->y1 + $t * $this->cy) + $t * ($tp * $this->cy + $t * $this->y2));
 				$points->push(_hx_anonymous(array("x" => $x, "y" => $y)));
 				unset($y,$x,$tp,$t,$i);
 			}

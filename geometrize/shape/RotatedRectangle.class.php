@@ -85,8 +85,8 @@ class geometrize_shape_RotatedRectangle implements geometrize_shape_Shape{
 		} else {
 			$ym2 = $second3;
 		}
-		$cx = Std::int(($xm1 + $xm2) / 2);
-		$cy = Std::int(($ym1 + $ym2) / 2);
+		$cx = intval(($xm1 + $xm2) / 2);
+		$cy = intval(($ym1 + $ym2) / 2);
 		$ox1 = $xm1 - $cx;
 		$ox2 = $xm2 - $cx;
 		$oy1 = $ym1 - $cy;
@@ -94,14 +94,14 @@ class geometrize_shape_RotatedRectangle implements geometrize_shape_Shape{
 		$rads = $this->angle * Math::$PI / 180.0;
 		$c = Math::cos($rads);
 		$s = Math::sin($rads);
-		$ulx = Std::int($ox1 * $c - $oy1 * $s + $cx);
-		$uly = Std::int($ox1 * $s + $oy1 * $c + $cy);
-		$blx = Std::int($ox1 * $c - $oy2 * $s + $cx);
-		$bly = Std::int($ox1 * $s + $oy2 * $c + $cy);
-		$urx = Std::int($ox2 * $c - $oy1 * $s + $cx);
-		$ury = Std::int($ox2 * $s + $oy1 * $c + $cy);
-		$brx = Std::int($ox2 * $c - $oy2 * $s + $cx);
-		$bry = Std::int($ox2 * $s + $oy2 * $c + $cy);
+		$ulx = intval($ox1 * $c - $oy1 * $s + $cx);
+		$uly = intval($ox1 * $s + $oy1 * $c + $cy);
+		$blx = intval($ox1 * $c - $oy2 * $s + $cx);
+		$bly = intval($ox1 * $s + $oy2 * $c + $cy);
+		$urx = intval($ox2 * $c - $oy1 * $s + $cx);
+		$ury = intval($ox2 * $s + $oy1 * $c + $cy);
+		$brx = intval($ox2 * $c - $oy2 * $s + $cx);
+		$bry = intval($ox2 * $s + $oy2 * $c + $cy);
 		$tmp = geometrize_rasterizer_Rasterizer::scanlinesForPolygon((new _hx_array(array(_hx_anonymous(array("x" => $ulx, "y" => $uly)), _hx_anonymous(array("x" => $urx, "y" => $ury)), _hx_anonymous(array("x" => $brx, "y" => $bry)), _hx_anonymous(array("x" => $blx, "y" => $bly))))));
 		return geometrize_rasterizer_Scanline::trim($tmp, $this->xBound, $this->yBound);
 	}
@@ -298,8 +298,8 @@ class geometrize_shape_RotatedRectangle implements geometrize_shape_Shape{
 		} else {
 			$ym2 = $second3;
 		}
-		$cx = Std::int(($xm1 + $xm2) / 2);
-		$cy = Std::int(($ym1 + $ym2) / 2);
+		$cx = intval(($xm1 + $xm2) / 2);
+		$cy = intval(($ym1 + $ym2) / 2);
 		$ox1 = $xm1 - $cx;
 		$ox2 = $xm2 - $cx;
 		$oy1 = $ym1 - $cy;
@@ -307,14 +307,14 @@ class geometrize_shape_RotatedRectangle implements geometrize_shape_Shape{
 		$rads = $this->angle * Math::$PI / 180.0;
 		$c = Math::cos($rads);
 		$s = Math::sin($rads);
-		$ulx = Std::int($ox1 * $c - $oy1 * $s + $cx);
-		$uly = Std::int($ox1 * $s + $oy1 * $c + $cy);
-		$blx = Std::int($ox1 * $c - $oy2 * $s + $cx);
-		$bly = Std::int($ox1 * $s + $oy2 * $c + $cy);
-		$urx = Std::int($ox2 * $c - $oy1 * $s + $cx);
-		$ury = Std::int($ox2 * $s + $oy1 * $c + $cy);
-		$brx = Std::int($ox2 * $c - $oy2 * $s + $cx);
-		$bry = Std::int($ox2 * $s + $oy2 * $c + $cy);
+		$ulx = intval($ox1 * $c - $oy1 * $s + $cx);
+		$uly = intval($ox1 * $s + $oy1 * $c + $cy);
+		$blx = intval($ox1 * $c - $oy2 * $s + $cx);
+		$bly = intval($ox1 * $s + $oy2 * $c + $cy);
+		$urx = intval($ox2 * $c - $oy1 * $s + $cx);
+		$ury = intval($ox2 * $s + $oy1 * $c + $cy);
+		$brx = intval($ox2 * $c - $oy2 * $s + $cx);
+		$bry = intval($ox2 * $s + $oy2 * $c + $cy);
 		$points = (new _hx_array(array(_hx_anonymous(array("x" => $ulx, "y" => $uly)), _hx_anonymous(array("x" => $urx, "y" => $ury)), _hx_anonymous(array("x" => $brx, "y" => $bry)), _hx_anonymous(array("x" => $blx, "y" => $bly)))));
 		$s1 = "<polygon points=\"";
 		{
@@ -366,8 +366,8 @@ class geometrize_shape_RotatedRectangle implements geometrize_shape_Shape{
 		} else {
 			$ym2 = $second3;
 		}
-		$cx = Std::int(($xm1 + $xm2) / 2);
-		$cy = Std::int(($ym1 + $ym2) / 2);
+		$cx = intval(($xm1 + $xm2) / 2);
+		$cy = intval(($ym1 + $ym2) / 2);
 		$ox1 = $xm1 - $cx;
 		$ox2 = $xm2 - $cx;
 		$oy1 = $ym1 - $cy;
@@ -375,14 +375,14 @@ class geometrize_shape_RotatedRectangle implements geometrize_shape_Shape{
 		$rads = $this->angle * Math::$PI / 180.0;
 		$c = Math::cos($rads);
 		$s = Math::sin($rads);
-		$ulx = Std::int($ox1 * $c - $oy1 * $s + $cx);
-		$uly = Std::int($ox1 * $s + $oy1 * $c + $cy);
-		$blx = Std::int($ox1 * $c - $oy2 * $s + $cx);
-		$bly = Std::int($ox1 * $s + $oy2 * $c + $cy);
-		$urx = Std::int($ox2 * $c - $oy1 * $s + $cx);
-		$ury = Std::int($ox2 * $s + $oy1 * $c + $cy);
-		$brx = Std::int($ox2 * $c - $oy2 * $s + $cx);
-		$bry = Std::int($ox2 * $s + $oy2 * $c + $cy);
+		$ulx = intval($ox1 * $c - $oy1 * $s + $cx);
+		$uly = intval($ox1 * $s + $oy1 * $c + $cy);
+		$blx = intval($ox1 * $c - $oy2 * $s + $cx);
+		$bly = intval($ox1 * $s + $oy2 * $c + $cy);
+		$urx = intval($ox2 * $c - $oy1 * $s + $cx);
+		$ury = intval($ox2 * $s + $oy1 * $c + $cy);
+		$brx = intval($ox2 * $c - $oy2 * $s + $cx);
+		$bry = intval($ox2 * $s + $oy2 * $c + $cy);
 		return (new _hx_array(array(_hx_anonymous(array("x" => $ulx, "y" => $uly)), _hx_anonymous(array("x" => $urx, "y" => $ury)), _hx_anonymous(array("x" => $brx, "y" => $bry)), _hx_anonymous(array("x" => $blx, "y" => $bly)))));
 	}
 	public function __call($m, $a) {
