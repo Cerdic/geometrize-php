@@ -128,7 +128,7 @@ class geometrize_bitmap_Bitmap {
 		$bitmap->width = $w;
 		$bitmap->height = $h;
 		$this1 = (new _hx_array(array()));
-		$this1->length = Std::int($bytes->length / 4);
+		$this1->length = intval($bytes->length / 4);
 		$bitmap->data = $this1;
 		$i = 0;
 		$x = 0;
@@ -228,7 +228,7 @@ class geometrize_bitmap_Bitmap {
 		$bitmap->width = $w;
 		$bitmap->height = $h;
 		$this2 = (new _hx_array(array()));
-		$this2->length = Std::int($data->length / 4);
+		$this2->length = intval($data->length / 4);
 		$bitmap->data = $this2;
 		$i1 = 0;
 		$x = 0;

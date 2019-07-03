@@ -37,9 +37,9 @@ class geometrize_Util {
 			}
 		}
 		$size = $image->width * $image->height;
-		$red = Std::int($totalRed / $size);
-		$green = Std::int($totalGreen / $size);
-		$blue = Std::int($totalBlue / $size);
+		$red = intval($totalRed / $size);
+		$green = intval($totalGreen / $size);
+		$blue = intval($totalBlue / $size);
 		if(!true) {
 			throw new HException("FAIL: min <= max");
 		}
