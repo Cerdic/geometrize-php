@@ -52,7 +52,7 @@ class geometrize_shape_Ellipse implements geometrize_shape_Shape {
 				if ($tmp){
 					continue;
 				}
-				$s = intval(Math::sqrt($this->ry*$this->ry-$dy*$dy)*$aspect);
+				$s = intval(sqrt($this->ry*$this->ry-$dy*$dy)*$aspect);
 				$x1 = $this->x-$s;
 				$x2 = $this->x+$s;
 				if ($x1<0){

@@ -129,11 +129,11 @@ class geometrize_Util {
 	}
 
 	static function toRadians($degrees){
-		return $degrees*Math::$PI/180;
+		return $degrees*M_PI/180;
 	}
 
 	static function toDegrees($radians){
-		return $radians*180/Math::$PI;
+		return $radians*180/M_PI;
 	}
 
 	static function random($lower, $upper){
