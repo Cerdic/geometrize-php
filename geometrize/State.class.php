@@ -20,9 +20,9 @@ class geometrize_State {
 	public $target;
 	public $current;
 	public $buffer;
-	public function energy($lastScore) {
+	public function energy($lastScore, $bestScore=null) {
 		if($this->score < 0) {
-			$this->score = geometrize_Core::energy($this->shape, $this->alpha, $this->target, $this->current, $this->buffer, $lastScore);
+			$this->score = geometrize_Core::energy($this->shape, $this->alpha, $this->target, $this->current, $this->buffer, $lastScore, $bestScore);
 		}
 		return $this->score;
 	}

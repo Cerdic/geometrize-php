@@ -184,25 +184,19 @@ class geometrize_Core {
 		}
 		return $total;
 	}
-	static function differencePartial($target, $before, $after, $score, $lines) {
+	static function differencePartial($target, $before, $after, $score, $lines, $bestScore = null) {
 
 		if (!isset($before->errorCache)) {
 			$before->errorCache = [];
 		}
 
 		$total = $score;
-		$_g = 0;
-		while($_g < $lines->length) {
-			$line = &$lines[$_g];
-			$_g = $_g + 1;
-			$_g1 = $line->x2 + 1;
+		for ($i=0; $i<$lines->length; $i++) {
+			$line = &$lines[$i];
 			$o1 = $target->width * $line->y;
 			$o2 = $before->width * $line->y;
-			$o3 = $after->width * $line->y;
-			for($x=$line->x1;$x<$_g1;$x++) {
+			for($x=$line->x1;$x<=$line->x2;$x++) {
 				$t = $target->data[$o1 + $x];
-				$a = $after->data[$o3 + $x];
-
 				if (!isset($before->errorCache[$o2 + $x])) {
 					$b = $before->data[$o2 + $x];
 					$dtbr = ($t >> 24 & 255) - ($b >> 24 & 255);
@@ -216,6 +210,19 @@ class geometrize_Core {
 					$before->errorCache[$o2 + $x] = $dtbr + $dtbg + $dtbb + $dtba;
 				}
 				$total = $total - $before->errorCache[$o2 + $x];
+			}
+		}
+		if (!is_null($bestScore) && $total > $bestScore) {
+			return $total;
+		}
+
+		for ($i=0; $i<$lines->length; $i++) {
+			$line = &$lines[$i];
+			$o1 = $target->width * $line->y;
+			$o3 = $after->width * $line->y;
+			for($x=$line->x1;$x<=$line->x2;$x++) {
+				$t = $target->data[$o1 + $x];
+				$a = $after->data[$o3 + $x];
 
 				$dtar = ($t >> 24 & 255) - ($a >> 24 & 255);
 				if ($dtar<0) $dtar*=-1;
@@ -227,17 +234,21 @@ class geometrize_Core {
 				if ($dtaa<0) $dtaa*=-1;
 				$total = $total + ($dtar + $dtag + $dtab + $dtaa );
 			}
+			if (!is_null($bestScore) && $total > $bestScore) {
+				return $total;
+			}
 		}
+
 		return $total;
 	}
 	static function bestRandomState($shapes, $alpha, $n, $target, $current, $buffer, $lastScore) {
-		$bestEnergy = 0;
+		$bestEnergy = null;
 		$bestState = null;
 
 		for ($i=0; $i<$n; $i++) {
 			$state = new geometrize_State(geometrize_shape_ShapeFactory::randomShapeOf($shapes, $current->width, $current->height), $alpha, $target, $current, $buffer);
-			$energy = $state->energy($lastScore);
-			if (is_null($bestState) || $energy < $bestEnergy) {
+			$energy = $state->energy($lastScore, $bestEnergy);
+			if (is_null($bestEnergy) || $energy < $bestEnergy) {
 				$bestEnergy = $energy;
 				$bestState = $state;
 			}
@@ -263,7 +274,7 @@ class geometrize_Core {
 		$age = 0;
 		while($age < $maxAge) {
 			$undo = $state1->mutate();
-			$energy = $state1->energy($lastScore);
+			$energy = $state1->energy($lastScore, $bestEnergy);
 			if($energy >= $bestEnergy) {
 				$state1 = $undo;
 			} else {
@@ -276,7 +287,7 @@ class geometrize_Core {
 		}
 		return $bestState;
 	}
-	static function energy(&$shape, $alpha, $target, $current, $buffer, $score) {
+	static function energy(&$shape, $alpha, $target, $current, $buffer, $score, $bestScore=null) {
 		if(!($shape !== null)) {
 			throw new HException("FAIL: shape != null");
 		}
@@ -298,7 +309,7 @@ class geometrize_Core {
 			geometrize_rasterizer_Rasterizer::copyLines($buffer, $current, $lines);
 		}
 		geometrize_rasterizer_Rasterizer::drawLines($buffer, $shape->color, $lines);
-		return geometrize_Core::differencePartial($target, $current, $buffer, $score, $lines);
+		return geometrize_Core::differencePartial($target, $current, $buffer, $score, $lines, $bestScore);
 	}
 	function __toString() { return 'geometrize.Core'; }
 }
