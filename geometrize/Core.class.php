@@ -306,7 +306,7 @@ class geometrize_Core {
 		}
 		return $bestState;
 	}
-	static function energy($shape, $alpha, $target, $current, $buffer, $score) {
+	static function energy(&$shape, $alpha, $target, $current, $buffer, $score) {
 		if(!($shape !== null)) {
 			throw new HException("FAIL: shape != null");
 		}
@@ -323,7 +323,10 @@ class geometrize_Core {
 		if (!isset($shape->color)) {
 			$shape->color = geometrize_Core::computeColor($target, $current, $lines, $alpha);
 		}
-		geometrize_rasterizer_Rasterizer::copyLines($buffer, $current, $lines);
+		// copyLines only if opacity!=1 (speed issue with no opacity in shapes)
+		if ($shape->color & 255 !== 255) {
+			geometrize_rasterizer_Rasterizer::copyLines($buffer, $current, $lines);
+		}
 		geometrize_rasterizer_Rasterizer::drawLines($buffer, $shape->color, $lines);
 		return geometrize_Core::differencePartial($target, $current, $buffer, $score, $lines);
 	}

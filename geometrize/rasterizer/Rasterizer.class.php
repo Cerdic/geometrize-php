@@ -4,168 +4,176 @@
 class geometrize_rasterizer_Rasterizer {
 	public function __construct(){}
 	static function drawLines($image, $c, $lines) {
-		if(!($image !== null)) {
-			throw new HException("FAIL: image != null");
-		}
-		if(!($lines !== null)) {
-			throw new HException("FAIL: lines != null");
-		}
-		$sr = $c >> 24 & 255;
-		$sr = $sr | $sr << 8;
-		$sr = $sr * ($c & 255);
-		$sr = intval($sr / 255);
-		$sg = $c >> 16 & 255;
-		$sg = $sg | $sg << 8;
-		$sg = $sg * ($c & 255);
-		$sg = intval($sg / 255);
-		$sb = $c >> 8 & 255;
-		$sb = $sb | $sb << 8;
-		$sb = $sb * ($c & 255);
-		$sb = intval($sb / 255);
-		$sa = $c & 255;
-		$sa = $sa | $sa << 8;
-		{
-			$_g = 0;
-			while($_g < $lines->length) {
-				$line = $lines[$_g];
-				$_g = $_g + 1;
-				$y = $line->y;
-				$ma = 65535;
-				$m = 65535;
-				$as = ($m - $sa * ($ma / $m)) * 257;
-				$a = intval($as);
-				{
-					$_g2 = $line->x1;
-					$_g1 = $line->x2 + 1;
-					while($_g2 < $_g1) {
-						$_g2 = $_g2 + 1;
-						$x = $_g2 - 1;
-						$d = $image->data[$image->width * $y + $x];
-						$dr = $d >> 24 & 255;
-						$dg = $d >> 16 & 255;
-						$db = $d >> 8 & 255;
-						$da = $d & 255;
-						$int = $dr * $a + $sr * $ma;
-						$r = null;
-						if($int < 0) {
-							$r = 4294967296.0 + $int;
-						} else {
-							$r = $int + 0.0;
-						}
-						$int1 = $m;
-						$r1 = null;
-						if($int1 < 0) {
-							$r1 = 4294967296.0 + $int1;
-						} else {
-							$r1 = $int1 + 0.0;
-						}
-						$r2 = intval($r / $r1) >> 8;
-						$int2 = $dg * $a + $sg * $ma;
-						$g = null;
-						if($int2 < 0) {
-							$g = 4294967296.0 + $int2;
-						} else {
-							$g = $int2 + 0.0;
-						}
-						$int3 = $m;
-						$g1 = null;
-						if($int3 < 0) {
-							$g1 = 4294967296.0 + $int3;
-						} else {
-							$g1 = $int3 + 0.0;
-						}
-						$g2 = intval($g / $g1) >> 8;
-						$int4 = $db * $a + $sb * $ma;
-						$b = null;
-						if($int4 < 0) {
-							$b = 4294967296.0 + $int4;
-						} else {
-							$b = $int4 + 0.0;
-						}
-						$int5 = $m;
-						$b1 = null;
-						if($int5 < 0) {
-							$b1 = 4294967296.0 + $int5;
-						} else {
-							$b1 = $int5 + 0.0;
-						}
-						$b2 = intval($b / $b1) >> 8;
-						$int6 = $da * $a + $sa * $ma;
-						$a1 = null;
-						if($int6 < 0) {
-							$a1 = 4294967296.0 + $int6;
-						} else {
-							$a1 = $int6 + 0.0;
-						}
-						$int7 = $m;
-						$a2 = null;
-						if($int7 < 0) {
-							$a2 = 4294967296.0 + $int7;
-						} else {
-							$a2 = $int7 + 0.0;
-						}
-						$a3 = intval($a1 / $a2) >> 8;
-						{
-							if(!true) {
-								throw new HException("FAIL: min <= max");
-							}
-							$color = null;
-							if($r2 < 0) {
-								$color = 0;
-							} else {
-								if($r2 > 255) {
-									$color = 255;
-								} else {
-									$color = $r2;
-								}
-							}
-							if(!true) {
-								throw new HException("FAIL: min <= max");
-							}
-							$color1 = null;
-							if($g2 < 0) {
-								$color1 = 0;
-							} else {
-								if($g2 > 255) {
-									$color1 = 255;
-								} else {
-									$color1 = $g2;
-								}
-							}
-							if(!true) {
-								throw new HException("FAIL: min <= max");
-							}
-							$color2 = null;
-							if($b2 < 0) {
-								$color2 = 0;
-							} else {
-								if($b2 > 255) {
-									$color2 = 255;
-								} else {
-									$color2 = $b2;
-								}
-							}
-							if(!true) {
-								throw new HException("FAIL: min <= max");
-							}
-							$color3 = null;
-							if($a3 < 0) {
-								$color3 = 0;
-							} else {
-								if($a3 > 255) {
-									$color3 = 255;
-								} else {
-									$color3 = $a3;
-								}
-							}
-							$image->data[$image->width * $y + $x] = ($color << 24) + ($color1 << 16) + ($color2 << 8) + $color3;
-							unset($color3,$color2,$color1,$color);
-						}
-						unset($x,$r2,$r1,$r,$int7,$int6,$int5,$int4,$int3,$int2,$int1,$int,$g2,$g1,$g,$dr,$dg,$db,$da,$d,$b2,$b1,$b,$a3,$a2,$a1);
-					}
-					unset($_g2,$_g1);
+
+		// easy case: opacity=1, just a copy of the color $c, much faster
+		if ($c & 255 === 255) {
+			for($_g=0;$_g < $lines->length;$_g++) {
+				$line = &$lines[$_g];
+				$_g1 = $line->x2 + 1;
+				$o = $image->width * $line->y;
+				for ($x = $line->x1;$x<$_g1;$x++) {
+					$image->data[$o + $x] = $c;
 				}
-				unset($y,$ma,$m,$line,$as,$a);
+			}
+		}
+		else {
+			$sr = $c >> 24 & 255;
+			$sr = $sr | $sr << 8;
+			$sr = $sr * ($c & 255);
+			$sr = intval($sr / 255);
+			$sg = $c >> 16 & 255;
+			$sg = $sg | $sg << 8;
+			$sg = $sg * ($c & 255);
+			$sg = intval($sg / 255);
+			$sb = $c >> 8 & 255;
+			$sb = $sb | $sb << 8;
+			$sb = $sb * ($c & 255);
+			$sb = intval($sb / 255);
+			$sa = $c & 255;
+			$sa = $sa | $sa << 8;
+			{
+				$_g = 0;
+				while($_g < $lines->length) {
+					$line = $lines[$_g];
+					$_g = $_g + 1;
+					$y = $line->y;
+					$ma = 65535;
+					$m = 65535;
+					$as = ($m - $sa * ($ma / $m)) * 257;
+					$a = intval($as);
+					{
+						$_g2 = $line->x1;
+						$_g1 = $line->x2 + 1;
+						while($_g2 < $_g1) {
+							$_g2 = $_g2 + 1;
+							$x = $_g2 - 1;
+							$d = $image->data[$image->width * $y + $x];
+							$dr = $d >> 24 & 255;
+							$dg = $d >> 16 & 255;
+							$db = $d >> 8 & 255;
+							$da = $d & 255;
+							$int = $dr * $a + $sr * $ma;
+							$r = null;
+							if($int < 0) {
+								$r = 4294967296.0 + $int;
+							} else {
+								$r = $int + 0.0;
+							}
+							$int1 = $m;
+							$r1 = null;
+							if($int1 < 0) {
+								$r1 = 4294967296.0 + $int1;
+							} else {
+								$r1 = $int1 + 0.0;
+							}
+							$r2 = intval($r / $r1) >> 8;
+							$int2 = $dg * $a + $sg * $ma;
+							$g = null;
+							if($int2 < 0) {
+								$g = 4294967296.0 + $int2;
+							} else {
+								$g = $int2 + 0.0;
+							}
+							$int3 = $m;
+							$g1 = null;
+							if($int3 < 0) {
+								$g1 = 4294967296.0 + $int3;
+							} else {
+								$g1 = $int3 + 0.0;
+							}
+							$g2 = intval($g / $g1) >> 8;
+							$int4 = $db * $a + $sb * $ma;
+							$b = null;
+							if($int4 < 0) {
+								$b = 4294967296.0 + $int4;
+							} else {
+								$b = $int4 + 0.0;
+							}
+							$int5 = $m;
+							$b1 = null;
+							if($int5 < 0) {
+								$b1 = 4294967296.0 + $int5;
+							} else {
+								$b1 = $int5 + 0.0;
+							}
+							$b2 = intval($b / $b1) >> 8;
+							$int6 = $da * $a + $sa * $ma;
+							$a1 = null;
+							if($int6 < 0) {
+								$a1 = 4294967296.0 + $int6;
+							} else {
+								$a1 = $int6 + 0.0;
+							}
+							$int7 = $m;
+							$a2 = null;
+							if($int7 < 0) {
+								$a2 = 4294967296.0 + $int7;
+							} else {
+								$a2 = $int7 + 0.0;
+							}
+							$a3 = intval($a1 / $a2) >> 8;
+							{
+								if(!true) {
+									throw new HException("FAIL: min <= max");
+								}
+								$color = null;
+								if($r2 < 0) {
+									$color = 0;
+								} else {
+									if($r2 > 255) {
+										$color = 255;
+									} else {
+										$color = $r2;
+									}
+								}
+								if(!true) {
+									throw new HException("FAIL: min <= max");
+								}
+								$color1 = null;
+								if($g2 < 0) {
+									$color1 = 0;
+								} else {
+									if($g2 > 255) {
+										$color1 = 255;
+									} else {
+										$color1 = $g2;
+									}
+								}
+								if(!true) {
+									throw new HException("FAIL: min <= max");
+								}
+								$color2 = null;
+								if($b2 < 0) {
+									$color2 = 0;
+								} else {
+									if($b2 > 255) {
+										$color2 = 255;
+									} else {
+										$color2 = $b2;
+									}
+								}
+								if(!true) {
+									throw new HException("FAIL: min <= max");
+								}
+								$color3 = null;
+								if($a3 < 0) {
+									$color3 = 0;
+								} else {
+									if($a3 > 255) {
+										$color3 = 255;
+									} else {
+										$color3 = $a3;
+									}
+								}
+								$image->data[$image->width * $y + $x] = ($color << 24) + ($color1 << 16) + ($color2 << 8) + $color3;
+								unset($color3,$color2,$color1,$color);
+							}
+							unset($x,$r2,$r1,$r,$int7,$int6,$int5,$int4,$int3,$int2,$int1,$int,$g2,$g1,$g,$dr,$dg,$db,$da,$d,$b2,$b1,$b,$a3,$a2,$a1);
+						}
+						unset($_g2,$_g1);
+					}
+					unset($y,$ma,$m,$line,$as,$a);
+				}
 			}
 		}
 	}
