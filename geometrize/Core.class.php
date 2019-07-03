@@ -320,9 +320,11 @@ class geometrize_Core {
 			throw new HException("FAIL: buffer != null");
 		}
 		$lines = $shape->rasterize();
-		$color = geometrize_Core::computeColor($target, $current, $lines, $alpha);
+		if (!isset($shape->color)) {
+			$shape->color = geometrize_Core::computeColor($target, $current, $lines, $alpha);
+		}
 		geometrize_rasterizer_Rasterizer::copyLines($buffer, $current, $lines);
-		geometrize_rasterizer_Rasterizer::drawLines($buffer, $color, $lines);
+		geometrize_rasterizer_Rasterizer::drawLines($buffer, $shape->color, $lines);
 		return geometrize_Core::differencePartial($target, $current, $buffer, $score, $lines);
 	}
 	function __toString() { return 'geometrize.Core'; }

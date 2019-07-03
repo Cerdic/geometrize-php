@@ -74,10 +74,12 @@ class geometrize_Model {
 		}
 		$before = $bitmap;
 		$lines = $shape->rasterize();
-		$color = geometrize_Core::computeColor($this->target, $this->current, $lines, $alpha);
-		geometrize_rasterizer_Rasterizer::drawLines($this->current, $color, $lines);
+		if (!isset($shape->color)) {
+			$shape->color = geometrize_Core::computeColor($this->target, $this->current, $lines, $alpha);
+		}
+		geometrize_rasterizer_Rasterizer::drawLines($this->current, $shape->color, $lines);
 		$this->score = geometrize_Core::differencePartial($this->target, $before, $this->current, $this->score, $lines);
-		$result = _hx_anonymous(array("score" => $this->score, "color" => $color, "shape" => $shape));
+		$result = _hx_anonymous(array("score" => $this->score, "color" => $shape->color, "shape" => $shape));
 		return $result;
 	}
 	public function __call($m, $a) {

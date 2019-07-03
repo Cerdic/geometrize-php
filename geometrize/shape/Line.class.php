@@ -156,6 +156,9 @@ class geometrize_shape_Line implements geometrize_shape_Shape{
 		$line->y1 = $this->y1;
 		$line->x2 = $this->x2;
 		$line->y2 = $this->y2;
+		if (isset($this->color)) {
+			$line->color = $this->color;
+		}
 		return $line;
 	}
 	public function getType() {

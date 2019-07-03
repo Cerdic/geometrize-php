@@ -229,6 +229,9 @@ class geometrize_shape_QuadraticBezier implements geometrize_shape_Shape{
 		$bezier->y1 = $this->y1;
 		$bezier->x2 = $this->x2;
 		$bezier->y2 = $this->y2;
+		if (isset($this->color)) {
+			$bezier->color = $this->color;
+		}
 		return $bezier;
 	}
 	public function getType() {

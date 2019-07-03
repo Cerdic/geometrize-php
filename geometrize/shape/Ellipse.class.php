@@ -184,6 +184,9 @@ class geometrize_shape_Ellipse implements geometrize_shape_Shape{
 		$ellipse->y = $this->y;
 		$ellipse->rx = $this->rx;
 		$ellipse->ry = $this->ry;
+		if (isset($this->color)) {
+			$ellipse->color = $this->color;
+		}
 		return $ellipse;
 	}
 	public function getType() {

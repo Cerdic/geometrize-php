@@ -222,6 +222,9 @@ class geometrize_shape_RotatedRectangle implements geometrize_shape_Shape{
 		$rectangle->x2 = $this->x2;
 		$rectangle->y2 = $this->y2;
 		$rectangle->angle = $this->angle;
+		if (isset($this->color)) {
+			$rectangle->color = $this->color;
+		}
 		return $rectangle;
 	}
 	public function getType() {

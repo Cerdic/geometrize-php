@@ -180,6 +180,9 @@ class geometrize_shape_Triangle implements geometrize_shape_Shape{
 		$triangle->y2 = $this->y2;
 		$triangle->x3 = $this->x3;
 		$triangle->y3 = $this->y3;
+		if (isset($this->color)) {
+			$triangle->color = $this->color;
+		}
 		return $triangle;
 	}
 	public function getType() {

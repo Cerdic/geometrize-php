@@ -164,6 +164,9 @@ class geometrize_shape_RotatedEllipse implements geometrize_shape_Shape{
 		$ellipse->rx = $this->rx;
 		$ellipse->ry = $this->ry;
 		$ellipse->angle = $this->angle;
+		if (isset($this->color)) {
+			$ellipse->color = $this->color;
+		}
 		return $ellipse;
 	}
 	public function getType() {
