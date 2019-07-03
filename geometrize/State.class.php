@@ -29,11 +29,15 @@ class geometrize_State {
 	public function mutate() {
 		$oldState = $this->hclone();
 		$this->shape->mutate();
+		// force score recomputing as we mutated
+		$this->score = -1;
 		return $oldState;
 	}
 	public function hclone() {
 		$tmp = $this->shape->hclone();
-		return new geometrize_State($tmp, $this->alpha, $this->target, $this->current, $this->buffer);
+		$newState = new geometrize_State($tmp, $this->alpha, $this->target, $this->current, $this->buffer);
+		$newState->score = $this->score;
+		return $newState;
 	}
 	public function __call($m, $a) {
 		if(isset($this->$m) && is_callable($this->$m))
