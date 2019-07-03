@@ -16,3 +16,33 @@ if(version_compare(PHP_VERSION, '5.1.0', '<')) {
 
 
 require_once dirname(__FILE__).'/php/Boot.class.php';
+
+_hx_register_type(new _hx_interface('haxe_IMap', 'haxe.IMap', '/Users/cedric/Sites/fo/plugins/dist/plugins/adaptive_images/lib/geometrize/php/../haxe/IMap.interface.php'));
+_hx_register_type(new _hx_class('haxe_ds_IntMap', 'haxe.ds.IntMap', '/Users/cedric/Sites/fo/plugins/dist/plugins/adaptive_images/lib/geometrize/php/../haxe/ds/IntMap.class.php'));
+_hx_register_type(new _hx_class('haxe_ds_StringMap', 'haxe.ds.StringMap', '/Users/cedric/Sites/fo/plugins/dist/plugins/adaptive_images/lib/geometrize/php/../haxe/ds/StringMap.class.php'));
+_hx_register_type(new _hx_class('haxe_io_Bytes', 'haxe.io.Bytes', '/Users/cedric/Sites/fo/plugins/dist/plugins/adaptive_images/lib/geometrize/php/../haxe/io/Bytes.class.php'));
+_hx_register_type(new _hx_class('haxe_io_Eof', 'haxe.io.Eof', '/Users/cedric/Sites/fo/plugins/dist/plugins/adaptive_images/lib/geometrize/php/../haxe/io/Eof.class.php'));
+_hx_register_type(new _hx_class('geometrize__ArraySet_ArraySet_Impl_', 'geometrize._ArraySet.ArraySet_Impl_', '/Users/cedric/Sites/fo/plugins/dist/plugins/adaptive_images/lib/geometrize/php/../geometrize/_ArraySet/ArraySet_Impl_.class.php'));
+_hx_register_type(new _hx_class('geometrize_rasterizer_Scanline', 'geometrize.rasterizer.Scanline', '/Users/cedric/Sites/fo/plugins/dist/plugins/adaptive_images/lib/geometrize/php/../geometrize/rasterizer/Scanline.class.php'));
+_hx_register_type(new _hx_class('geometrize_rasterizer_Rasterizer', 'geometrize.rasterizer.Rasterizer', '/Users/cedric/Sites/fo/plugins/dist/plugins/adaptive_images/lib/geometrize/php/../geometrize/rasterizer/Rasterizer.class.php'));
+_hx_register_type(new _hx_class('geometrize_State', 'geometrize.State', '/Users/cedric/Sites/fo/plugins/dist/plugins/adaptive_images/lib/geometrize/php/../geometrize/State.class.php'));
+_hx_register_type(new _hx_class('geometrize_shape_RotatedRectangle', 'geometrize.shape.RotatedRectangle', '/Users/cedric/Sites/fo/plugins/dist/plugins/adaptive_images/lib/geometrize/php/../geometrize/shape/RotatedRectangle.class.php'));
+_hx_register_type(new _hx_class('geometrize_shape_ShapeTypes', 'geometrize.shape.ShapeTypes', '/Users/cedric/Sites/fo/plugins/dist/plugins/adaptive_images/lib/geometrize/php/../geometrize/shape/ShapeTypes.class.php'));
+_hx_register_type(new _hx_class('geometrize_shape_RotatedEllipse', 'geometrize.shape.RotatedEllipse', '/Users/cedric/Sites/fo/plugins/dist/plugins/adaptive_images/lib/geometrize/php/../geometrize/shape/RotatedEllipse.class.php'));
+_hx_register_type(new _hx_interface('geometrize_shape_Shape', 'geometrize.shape.Shape', '/Users/cedric/Sites/fo/plugins/dist/plugins/adaptive_images/lib/geometrize/php/../geometrize/shape/Shape.interface.php'));
+_hx_register_type(new _hx_class('geometrize_shape_Line', 'geometrize.shape.Line', '/Users/cedric/Sites/fo/plugins/dist/plugins/adaptive_images/lib/geometrize/php/../geometrize/shape/Line.class.php'));
+_hx_register_type(new _hx_class('geometrize_shape_Ellipse', 'geometrize.shape.Ellipse', '/Users/cedric/Sites/fo/plugins/dist/plugins/adaptive_images/lib/geometrize/php/../geometrize/shape/Ellipse.class.php'));
+_hx_register_type(new _hx_class('geometrize_shape_Triangle', 'geometrize.shape.Triangle', '/Users/cedric/Sites/fo/plugins/dist/plugins/adaptive_images/lib/geometrize/php/../geometrize/shape/Triangle.class.php'));
+_hx_register_type(new _hx_class('geometrize_shape_Rectangle', 'geometrize.shape.Rectangle', '/Users/cedric/Sites/fo/plugins/dist/plugins/adaptive_images/lib/geometrize/php/../geometrize/shape/Rectangle.class.php'));
+_hx_register_type(new _hx_class('geometrize_shape_Circle', 'geometrize.shape.Circle', '/Users/cedric/Sites/fo/plugins/dist/plugins/adaptive_images/lib/geometrize/php/../geometrize/shape/Circle.class.php'));
+_hx_register_type(new _hx_class('geometrize_shape_QuadraticBezier', 'geometrize.shape.QuadraticBezier', '/Users/cedric/Sites/fo/plugins/dist/plugins/adaptive_images/lib/geometrize/php/../geometrize/shape/QuadraticBezier.class.php'));
+_hx_register_type(new _hx_class('geometrize_shape_ShapeFactory', 'geometrize.shape.ShapeFactory', '/Users/cedric/Sites/fo/plugins/dist/plugins/adaptive_images/lib/geometrize/php/../geometrize/shape/ShapeFactory.class.php'));
+_hx_register_type(new _hx_class('geometrize_bitmap__Rgba_Rgba_Impl_', 'geometrize.bitmap._Rgba.Rgba_Impl_', '/Users/cedric/Sites/fo/plugins/dist/plugins/adaptive_images/lib/geometrize/php/../geometrize/bitmap/_Rgba/Rgba_Impl_.class.php'));
+_hx_register_type(new _hx_class('geometrize_bitmap_Bitmap', 'geometrize.bitmap.Bitmap', '/Users/cedric/Sites/fo/plugins/dist/plugins/adaptive_images/lib/geometrize/php/../geometrize/bitmap/Bitmap.class.php'));
+_hx_register_type(new _hx_class('geometrize_runner_ImageRunner', 'geometrize.runner.ImageRunner', '/Users/cedric/Sites/fo/plugins/dist/plugins/adaptive_images/lib/geometrize/php/../geometrize/runner/ImageRunner.class.php'));
+_hx_register_type(new _hx_class('geometrize_Model', 'geometrize.Model', '/Users/cedric/Sites/fo/plugins/dist/plugins/adaptive_images/lib/geometrize/php/../geometrize/Model.class.php'));
+_hx_register_type(new _hx_class('geometrize_AbstractEnumTools', 'geometrize.AbstractEnumTools', '/Users/cedric/Sites/fo/plugins/dist/plugins/adaptive_images/lib/geometrize/php/../geometrize/AbstractEnumTools.class.php'));
+_hx_register_type(new _hx_class('geometrize_exporter_SvgExporter', 'geometrize.exporter.SvgExporter', '/Users/cedric/Sites/fo/plugins/dist/plugins/adaptive_images/lib/geometrize/php/../geometrize/exporter/SvgExporter.class.php'));
+_hx_register_type(new _hx_class('geometrize_Core', 'geometrize.Core', '/Users/cedric/Sites/fo/plugins/dist/plugins/adaptive_images/lib/geometrize/php/../geometrize/Core.class.php'));
+_hx_register_type(new _hx_class('php_Boot', 'php.Boot', '/Users/cedric/Sites/fo/plugins/dist/plugins/adaptive_images/lib/geometrize/php/../php/Boot.class.php'));
+_hx_register_type(new _hx_class('php__BytesData_Wrapper', 'php._BytesData.Wrapper', '/Users/cedric/Sites/fo/plugins/dist/plugins/adaptive_images/lib/geometrize/php/../php/_BytesData/Wrapper.class.php'));
