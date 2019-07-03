@@ -1,11 +1,13 @@
 <?php
 
+_hx_register_type(new _hx_class('php__BytesData_Wrapper', 'php._BytesData.Wrapper', __DIR__ . '/php/_BytesData/Wrapper.class.php'));
 _hx_register_type(new _hx_interface('haxe_IMap', 'haxe.IMap', __DIR__ . '/haxe/IMap.interface.php'));
-_hx_register_type(new _hx_class('haxe_ds_IntMap', 'haxe.ds.IntMap', __DIR__ . '/haxe/ds/IntMap.class.php'));
-_hx_register_type(new _hx_class('haxe_ds_StringMap', 'haxe.ds.StringMap', __DIR__ . '/haxe/ds/StringMap.class.php'));
+#_hx_register_type(new _hx_class('haxe_ds_IntMap', 'haxe.ds.IntMap', __DIR__ . '/haxe/ds/IntMap.class.php'));
+#_hx_register_type(new _hx_class('haxe_ds_StringMap', 'haxe.ds.StringMap', __DIR__ . '/haxe/ds/StringMap.class.php'));
 _hx_register_type(new _hx_class('haxe_io_Bytes', 'haxe.io.Bytes', __DIR__ . '/haxe/io/Bytes.class.php'));
-_hx_register_type(new _hx_class('haxe_io_Eof', 'haxe.io.Eof', __DIR__ . '/haxe/io/Eof.class.php'));
-_hx_register_type(new _hx_class('geometrize__ArraySet_ArraySet_Impl_', 'geometrize._ArraySet.ArraySet_Impl_', __DIR__ . '/geometrize/_ArraySet/ArraySet_Impl_.class.php'));
+#_hx_register_type(new _hx_class('haxe_io_Eof', 'haxe.io.Eof', __DIR__ . '/haxe/io/Eof.class.php'));
+#_hx_register_type(new _hx_class('geometrize__ArraySet_ArraySet_Impl_', 'geometrize._ArraySet.ArraySet_Impl_', __DIR__ . '/geometrize/_ArraySet/ArraySet_Impl_.class.php'));
+
 _hx_register_type(new _hx_class('geometrize_rasterizer_Scanline', 'geometrize.rasterizer.Scanline', __DIR__ . '/geometrize/rasterizer/Scanline.class.php'));
 _hx_register_type(new _hx_class('geometrize_rasterizer_Rasterizer', 'geometrize.rasterizer.Rasterizer', __DIR__ . '/geometrize/rasterizer/Rasterizer.class.php'));
 _hx_register_type(new _hx_class('geometrize_State', 'geometrize.State', __DIR__ . '/geometrize/State.class.php'));
@@ -27,4 +29,3 @@ _hx_register_type(new _hx_class('geometrize_Model', 'geometrize.Model', __DIR__ 
 _hx_register_type(new _hx_class('geometrize_AbstractEnumTools', 'geometrize.AbstractEnumTools', __DIR__ . '/geometrize/AbstractEnumTools.class.php'));
 _hx_register_type(new _hx_class('geometrize_exporter_SvgExporter', 'geometrize.exporter.SvgExporter', __DIR__ . '/geometrize/exporter/SvgExporter.class.php'));
 _hx_register_type(new _hx_class('geometrize_Core', 'geometrize.Core', __DIR__ . '/geometrize/Core.class.php'));
-_hx_register_type(new _hx_class('php__BytesData_Wrapper', 'php._BytesData.Wrapper', __DIR__ . '/php/_BytesData/Wrapper.class.php'));
