@@ -187,24 +187,14 @@ class geometrize_rasterizer_Rasterizer {
 		if(!($lines !== null)) {
 			throw new HException("FAIL: lines != null");
 		}
-		{
-			$_g = 0;
-			while($_g < $lines->length) {
-				$line = $lines[$_g];
-				$_g = $_g + 1;
-				$y = $line->y;
-				{
-					$_g2 = $line->x1;
-					$_g1 = $line->x2 + 1;
-					while($_g2 < $_g1) {
-						$_g2 = $_g2 + 1;
-						$x = $_g2 - 1;
-						$destination->data[$destination->width * $y + $x] = $source->data[$source->width * $y + $x];
-						unset($x);
-					}
-					unset($_g2,$_g1);
-				}
-				unset($y,$line);
+
+		for($_g=0;$_g < $lines->length;$_g++) {
+			$line = &$lines[$_g];
+			$_g1 = $line->x2 + 1;
+			$o1 = $source->width * $line->y;
+			$o2 = $destination->width * $line->y;
+			for ($x = $line->x1;$x<$_g1;$x++) {
+				$destination->data[$o2 + $x] = $source->data[$o1 + $x];
 			}
 		}
 	}
@@ -321,62 +311,21 @@ class geometrize_rasterizer_Rasterizer {
 				unset($p2,$p1p2,$p1,$i);
 			}
 		}
-		$yToXs = new haxe_ds_IntMap();
-		{
-			$_g2 = 0;
-			while($_g2 < $edges->length) {
-				$point = $edges[$_g2];
-				$_g2 = $_g2 + 1;
-				$s = $yToXs->get($point->y);
-				if($s !== null) {
-					geometrize__ArraySet_ArraySet_Impl_::add($s, $point->x);
-				} else {
-					$s = geometrize__ArraySet_ArraySet_Impl_::create(null);
-					geometrize__ArraySet_ArraySet_Impl_::add($s, $point->x);
-					$yToXs->set($point->y, $s);
-				}
-				unset($s,$point);
+		$yToXs = [];
+		for ($_g2 = 0;$_g2 < $edges->length;$_g2++) {
+			$point = $edges[$_g2];
+			if (!isset($yToXs[$point->y])) {
+				$yToXs[$point->y] = [];
 			}
+			$yToXs[$point->y][] = $point->x;
 		}
-		{
-			$key = $yToXs->keys();
-			while($key->hasNext()) {
-				$key1 = $key->next();
-				$a = geometrize__ArraySet_ArraySet_Impl_::toArray($yToXs->get($key1));
-				$minMaxElements = null;
-				$minMaxElements1 = null;
-				if($a !== null) {
-					$minMaxElements1 = $a->length === 0;
-				} else {
-					$minMaxElements1 = true;
-				}
-				if($minMaxElements1) {
-					$minMaxElements = _hx_anonymous(array("x" => 0, "y" => 0));
-				} else {
-					$min = $a[0];
-					$max = $a[0];
-					{
-						$_g3 = 0;
-						while($_g3 < $a->length) {
-							$value = $a[$_g3];
-							$_g3 = $_g3 + 1;
-							if($min > $value) {
-								$min = $value;
-							}
-							if($max < $value) {
-								$max = $value;
-							}
-							unset($value);
-						}
-						unset($_g3);
-					}
-					$minMaxElements = _hx_anonymous(array("x" => $min, "y" => $max));
-					unset($min,$max);
-				}
-				$lines->push(new geometrize_rasterizer_Scanline($key1, $minMaxElements->x, $minMaxElements->y));
-				unset($minMaxElements1,$minMaxElements,$key1,$a);
-			}
+		ksort($yToXs);
+		foreach ($yToXs as $y => $xs) {
+			$minx = min($xs);
+			$maxx = max($xs);
+			$lines->push(new geometrize_rasterizer_Scanline($y, $minx, $maxx));
 		}
+
 		return $lines;
 	}
 	function __toString() { return 'geometrize.rasterizer.Rasterizer'; }
