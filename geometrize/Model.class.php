@@ -82,7 +82,8 @@ class geometrize_Model {
 		}
 		geometrize_rasterizer_Rasterizer::drawLines($this->current, $shape->color, $lines);
 		$this->score = geometrize_Core::differencePartial($this->target, $before, $this->current, $this->score, $lines);
-		$result = _hx_anonymous(array("score" => $this->score, "color" => $shape->color, "shape" => $shape));
+		$score_normalization = $_this->width * $_this->height * 4 * 255;
+		$result = _hx_anonymous(array("score" => $this->score / $score_normalization, "color" => $shape->color, "shape" => $shape));
 		return $result;
 	}
 	public function __call($m, $a) {

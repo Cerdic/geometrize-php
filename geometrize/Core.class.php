@@ -182,7 +182,7 @@ class geometrize_Core {
 				$total += ($current->errorCache[$o + $x] = $dr + $dg + $db + $da);
 			}
 		}
-		return $total / ($width * $height * 4.0) / 255;
+		return $total;
 	}
 	static function differencePartial($target, $before, $after, $score, $lines) {
 
@@ -190,10 +190,7 @@ class geometrize_Core {
 			$before->errorCache = [];
 		}
 
-		$width = $target->width;
-		$height = $target->height;
-		$rgbaCount = $width * $height * 4 * 255;
-		$total = $score * $rgbaCount;
+		$total = $score;
 		$_g = 0;
 		while($_g < $lines->length) {
 			$line = &$lines[$_g];
@@ -231,32 +228,21 @@ class geometrize_Core {
 				$total = $total + ($dtar + $dtag + $dtab + $dtaa );
 			}
 		}
-		return $total / $rgbaCount;
+		return $total;
 	}
 	static function bestRandomState($shapes, $alpha, $n, $target, $current, $buffer, $lastScore) {
 		$bestEnergy = 0;
 		$bestState = null;
-		{
-			$_g1 = 0;
-			$_g = $n;
-			while($_g1 < $_g) {
-				$_g1 = $_g1 + 1;
-				$i = $_g1 - 1;
-				$state = new geometrize_State(geometrize_shape_ShapeFactory::randomShapeOf($shapes, $current->width, $current->height), $alpha, $target, $current, $buffer);
-				$energy = $state->energy($lastScore);
-				$tmp = null;
-				if($i !== 0) {
-					$tmp = $energy < $bestEnergy;
-				} else {
-					$tmp = true;
-				}
-				if($tmp) {
-					$bestEnergy = $energy;
-					$bestState = $state;
-				}
-				unset($tmp,$state,$i,$energy);
+
+		for ($i=0; $i<$n; $i++) {
+			$state = new geometrize_State(geometrize_shape_ShapeFactory::randomShapeOf($shapes, $current->width, $current->height), $alpha, $target, $current, $buffer);
+			$energy = $state->energy($lastScore);
+			if (is_null($bestState) || $energy < $bestEnergy) {
+				$bestEnergy = $energy;
+				$bestState = $state;
 			}
 		}
+
 		return $bestState;
 	}
 	static function bestHillClimbState($shapes, $alpha, $n, $age, $target, $current, $buffer, $lastScore) {
