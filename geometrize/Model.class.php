@@ -73,6 +73,9 @@ class geometrize_Model {
 			}
 		}
 		$before = $bitmap;
+		if (isset($this->current->errorCache)) {
+			$before->errorCache = $this->current->errorCache;
+		}
 		$lines = $shape->rasterize();
 		if (!isset($shape->color)) {
 			$shape->color = geometrize_Core::computeColor($this->target, $this->current, $lines, $alpha);

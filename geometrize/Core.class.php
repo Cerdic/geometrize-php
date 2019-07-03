@@ -146,26 +146,31 @@ class geometrize_Core {
 		}
 		return ($tmp << 24) + ($tmp1 << 16) + ($tmp2 << 8) + $tmp3;
 	}
-	static function differenceFull($first, $second) {
-		$actual = $first->width;
-		$expected = $second->width;
+	static function differenceFull($target, $current) {
+
+		if (!isset($before->errorCache)) {
+			$current->errorCache = [];
+		}
+
+		$actual = $target->width;
+		$expected = $current->width;
 		if($actual !== $expected) {
 			throw new HException("FAIL: values are not equal (expected: " . _hx_string_rec($expected, "") . ", actual: " . _hx_string_rec($actual, "") . ")");
 		}
-		$actual1 = $first->height;
-		$expected1 = $second->height;
+		$actual1 = $target->height;
+		$expected1 = $current->height;
 		if($actual1 !== $expected1) {
 			throw new HException("FAIL: values are not equal (expected: " . _hx_string_rec($expected1, "") . ", actual: " . _hx_string_rec($actual1, "") . ")");
 		}
 
 		$total = 0;
-		$width = $first->width;
-		$height = $first->height;
+		$width = $target->width;
+		$height = $target->height;
 		for($y=0;$y<$height;$y++) {
-			$o = $first->width * $y;
+			$o = $target->width * $y;
 			for ($x=0;$x<$width;$x++) {
-				$f = $first->data[$o + $x];
-				$s = $second->data[$o + $x];
+				$f = $target->data[$o + $x];
+				$s = $current->data[$o + $x];
 				$dr = ($f >> 24 & 255) - ($s >> 24 & 255);
 				if ($dr<0) $dr*=-1;
 				$dg = ($f >> 16 & 255) - ($s >> 16 & 255);
@@ -174,12 +179,16 @@ class geometrize_Core {
 				if ($db<0) $db*=-1;
 				$da = ($f & 255) - ($s & 255);
 				if ($da<0) $da*=-1;
-				$total = $total + ($dr + $dg + $db + $da );
+				$total += ($current->errorCache[$o + $x] = $dr + $dg + $db + $da);
 			}
 		}
 		return $total / ($width * $height * 4.0) / 255;
 	}
 	static function differencePartial($target, $before, $after, $score, $lines) {
+
+		if (!isset($before->errorCache)) {
+			$before->errorCache = [];
+		}
 
 		$width = $target->width;
 		$height = $target->height;
@@ -197,16 +206,19 @@ class geometrize_Core {
 				$t = $target->data[$o1 + $x];
 				$a = $after->data[$o3 + $x];
 
-				$b = $before->data[$o2 + $x];
-				$dtbr = ($t >> 24 & 255) - ($b >> 24 & 255);
-				if ($dtbr<0) $dtbr*=-1;
-				$dtbg = ($t >> 16 & 255) - ($b >> 16 & 255);
-				if ($dtbg<0) $dtbg*=-1;
-				$dtbb = ($t >> 8 & 255) - ($b >> 8 & 255);
-				if ($dtbb<0) $dtbb*=-1;
-				$dtba = ($t & 255) - ($b & 255);
-				if ($dtba<0) $dtba*=-1;
-				$beforeError = $dtbr + $dtbg + $dtbb + $dtba;
+				if (!isset($before->errorCache[$o2 + $x])) {
+					$b = $before->data[$o2 + $x];
+					$dtbr = ($t >> 24 & 255) - ($b >> 24 & 255);
+					if ($dtbr<0) $dtbr*=-1;
+					$dtbg = ($t >> 16 & 255) - ($b >> 16 & 255);
+					if ($dtbg<0) $dtbg*=-1;
+					$dtbb = ($t >> 8 & 255) - ($b >> 8 & 255);
+					if ($dtbb<0) $dtbb*=-1;
+					$dtba = ($t & 255) - ($b & 255);
+					if ($dtba<0) $dtba*=-1;
+					$before->errorCache[$o2 + $x] = $dtbr + $dtbg + $dtbb + $dtba;
+				}
+				$total = $total - $before->errorCache[$o2 + $x];
 
 				$dtar = ($t >> 24 & 255) - ($a >> 24 & 255);
 				if ($dtar<0) $dtar*=-1;
@@ -216,7 +228,6 @@ class geometrize_Core {
 				if ($dtab<0) $dtab*=-1;
 				$dtaa = ($t & 255) - ($a & 255);
 				if ($dtaa<0) $dtaa*=-1;
-				$total = $total - $beforeError;
 				$total = $total + ($dtar + $dtag + $dtab + $dtaa );
 			}
 		}

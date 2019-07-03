@@ -13,6 +13,9 @@ class geometrize_rasterizer_Rasterizer {
 				$o = $image->width * $line->y;
 				for ($x = $line->x1;$x<$_g1;$x++) {
 					$image->data[$o + $x] = $c;
+					if (isset($image->errorCache) && isset($image->errorCache[$o + $x])) {
+						unset($image->errorCache[$o + $x]);
+					}
 				}
 			}
 		}
@@ -166,6 +169,9 @@ class geometrize_rasterizer_Rasterizer {
 									}
 								}
 								$image->data[$image->width * $y + $x] = ($color << 24) + ($color1 << 16) + ($color2 << 8) + $color3;
+								if (isset($image->errorCache) && isset($image->errorCache[$image->width * $y + $x])) {
+									unset($image->errorCache[$image->width * $y + $x]);
+								}
 								unset($color3,$color2,$color1,$color);
 							}
 							unset($x,$r2,$r1,$r,$int7,$int6,$int5,$int4,$int3,$int2,$int1,$int,$g2,$g1,$g,$dr,$dg,$db,$da,$d,$b2,$b1,$b,$a3,$a2,$a1);
