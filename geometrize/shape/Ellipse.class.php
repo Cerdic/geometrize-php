@@ -189,13 +189,15 @@ class geometrize_shape_Ellipse implements geometrize_shape_Shape {
 		}
 	}
 
-	public function rescale($scale){
-		$this->x = intval(round($this->x*$scale));
-		$this->y = intval(round($this->y*$scale));
-		$this->rx = intval(round($this->rx*$scale));
-		$this->ry = intval(round($this->ry*$scale));
-		$this->xBound = intval(round($this->xBound*$scale));
-		$this->yBound = intval(round($this->yBound*$scale));
+	public function rescale($xBound, $yBound){
+		$xScale = ($xBound-1) / ($this->xBound-1);
+		$yScale = ($yBound-1) / ($this->yBound-1);
+		$this->xBound = $xBound;
+		$this->yBound = $yBound;
+		$this->x = intval(round($this->x*$xScale));
+		$this->y = intval(round($this->y*$yScale));
+		$this->rx = intval(round($this->rx*$xScale));
+		$this->ry = intval(round($this->ry*$yScale));
 	}
 
 	public function hclone(){

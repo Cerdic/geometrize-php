@@ -6,7 +6,7 @@ interface geometrize_shape_Shape {
 
 	function mutate();
 
-	function rescale($scale);
+	function rescale($xBound, $yBound);
 
 	function hclone();
 

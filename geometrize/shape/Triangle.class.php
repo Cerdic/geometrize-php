@@ -183,15 +183,17 @@ class geometrize_shape_Triangle implements geometrize_shape_Shape {
 		}
 	}
 
-	public function rescale($scale){
-		$this->x1 = intval(round($this->x1*$scale));
-		$this->y1 = intval(round($this->y1*$scale));
-		$this->x2 = intval(round($this->x2*$scale));
-		$this->y2 = intval(round($this->y2*$scale));
-		$this->x3 = intval(round($this->x3*$scale));
-		$this->y3 = intval(round($this->y3*$scale));
-		$this->xBound = intval(round($this->xBound*$scale));
-		$this->yBound = intval(round($this->yBound*$scale));
+	public function rescale($xBound, $yBound){
+		$xScale = ($xBound-1) / ($this->xBound-1);
+		$yScale = ($yBound-1) / ($this->yBound-1);
+		$this->xBound = $xBound;
+		$this->yBound = $yBound;
+		$this->x1 = intval(round($this->x1*$xScale));
+		$this->y1 = intval(round($this->y1*$yScale));
+		$this->x2 = intval(round($this->x2*$xScale));
+		$this->y2 = intval(round($this->y2*$yScale));
+		$this->x3 = intval(round($this->x3*$xScale));
+		$this->y3 = intval(round($this->y3*$yScale));
 	}
 
 	public function hclone(){
