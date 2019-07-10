@@ -5,9 +5,10 @@ class geometrize_bitmap_Bitmap {
 	public $width;
 	public $height;
 	public $data;
+	public $errorCache;
 
 	public function __construct(){
-		$this->data = new _hx_array(array());
+		$this->data = [];
 	}
 
 	public function getPixel($x, $y){
@@ -18,29 +19,25 @@ class geometrize_bitmap_Bitmap {
 		$this->data[$this->width*$y+$x] = $color;
 	}
 
+	public function length() {
+		return $this->width * $this->height;
+	}
+
 	public function hclone(){
 		$bitmap = new geometrize_bitmap_Bitmap();
 		$bitmap->width = $this->width;
 		$bitmap->height = $this->height;
-		$this1 = (new _hx_array(array()));
-		$this1->length = $this->data->length;
-		$bitmap->data = $this1;
-		{
-			$_g1 = 0;
-			$_g = $this->data->length;
-			while ($_g1<$_g){
-				$_g1 = $_g1+1;
-				$i = $_g1-1;
-				$bitmap->data[$i] = $this->data[$i];
-				unset($i);
-			}
+		$bitmap->data = $this->data;
+		if (isset($this->errorCache)) {
+			$bitmap->errorCache = $this->errorCache;
 		}
 		return $bitmap;
 	}
 
 	public function fill($color){
 		$idx = 0;
-		while ($idx<$this->data->length){
+		$n = $this->width * $this->height;
+		while ($idx<$n){
 			$this->data[$idx] = $color;
 			$idx++;
 		}
@@ -67,14 +64,7 @@ class geometrize_bitmap_Bitmap {
 		$bitmap = new geometrize_bitmap_Bitmap();
 		$bitmap->width = $w;
 		$bitmap->height = $h;
-		$this1 = (new _hx_array(array()));
-		$this1->length = $w*$h;
-		$bitmap->data = $this1;
-		$i = 0;
-		while ($i<$bitmap->data->length){
-			$bitmap->data[$i] = $color;
-			$i = $i+1;
-		}
+		$bitmap->fill($color);
 		return $bitmap;
 	}
 
@@ -85,11 +75,10 @@ class geometrize_bitmap_Bitmap {
 		$bitmap = new geometrize_bitmap_Bitmap();
 		$bitmap->width = $w;
 		$bitmap->height = $h;
-		$bitmap->data->length = $w*$h;
 
-		for ($x = 0; $x<$w; $x++){
-			$l = $w * $h;
-			for ($y = 0; $y<$h; $y++){
+		for ($y = 0; $y<$h; $y++){
+			$l = $w * $y;
+			for ($x = 0; $x<$w; $x++){
 				// get a color
 				$color_index = imagecolorat($image, $x, $y);
 				// make it human readable
