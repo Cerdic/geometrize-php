@@ -41,11 +41,8 @@ class geometrize_bitmap_Bitmap {
 	public function fill($color){
 		$idx = 0;
 		while ($idx<$this->data->length){
-			$this->data[$idx] = $color >> 24 & 255;
-			$this->data[$idx+1] = $color >> 16 & 255;
-			$this->data[$idx+2] = $color >> 8 & 255;
-			$this->data[$idx+3] = $color & 255;
-			$idx = $idx+4;
+			$this->data[$idx] = $color;
+			$idx++;
 		}
 	}
 
