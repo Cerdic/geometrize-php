@@ -7,7 +7,7 @@ class geometrize_bitmap_Bitmap {
 	public $data;
 
 	public function __construct(){
-		;
+		$this->data = new _hx_array(array());
 	}
 
 	public function getPixel($x, $y){
@@ -46,53 +46,6 @@ class geometrize_bitmap_Bitmap {
 		}
 	}
 
-	public function getBytes(){
-		$bytes = haxe_io_Bytes::alloc($this->data->length*4);
-		$i = 0;
-		while ($i<$this->data->length){
-			$idx = $i*4;
-			{
-				$v = $this->data[$i] >> 24 & 255;
-				{
-					$this1 = $bytes->b;
-					$this1->s[$idx] = chr($v);
-					unset($this1);
-				}
-				unset($v);
-			}
-			{
-				$v1 = $this->data[$i] >> 16 & 255;
-				{
-					$this2 = $bytes->b;
-					$this2->s[$idx+1] = chr($v1);
-					unset($this2);
-				}
-				unset($v1);
-			}
-			{
-				$v2 = $this->data[$i] >> 8 & 255;
-				{
-					$this3 = $bytes->b;
-					$this3->s[$idx+2] = chr($v2);
-					unset($this3);
-				}
-				unset($v2);
-			}
-			{
-				$v3 = $this->data[$i] & 255;
-				{
-					$this4 = $bytes->b;
-					$this4->s[$idx+3] = chr($v3);
-					unset($this4);
-				}
-				unset($v3);
-			}
-			$i = $i+1;
-			unset($idx);
-		}
-		return $bytes;
-	}
-
 	public function __call($m, $a){
 		if (isset($this->$m) && is_callable($this->$m)){
 			return call_user_func_array($this->$m, $a);
@@ -109,7 +62,8 @@ class geometrize_bitmap_Bitmap {
 		}
 	}
 
-	static function create($w, $h, $color){
+
+	public static function create($w, $h, $color){
 		$bitmap = new geometrize_bitmap_Bitmap();
 		$bitmap->width = $w;
 		$bitmap->height = $h;
@@ -124,197 +78,41 @@ class geometrize_bitmap_Bitmap {
 		return $bitmap;
 	}
 
-	static function createFromBytes($w, $h, $bytes){
+	public static function createFromImageFile($file){
+		list($w, $h) = getimagesize($file);
+		$image = imagecreatefromstring(file_get_contents($file));
+
 		$bitmap = new geometrize_bitmap_Bitmap();
-		if (!($bytes!==null)){
-			throw new HException("FAIL: bytes != null");
-		}
-		{
-			$actual = $bytes->length;
-			$expected = $w*$h*4;
-			if ($actual!==$expected){
-				throw new HException("FAIL: values are not equal (expected: " . _hx_string_rec($expected, "") . ", actual: " . _hx_string_rec($actual, "") . ")");
-			}
-		}
 		$bitmap->width = $w;
 		$bitmap->height = $h;
-		$this1 = (new _hx_array(array()));
-		$this1->length = intval($bytes->length/4);
-		$bitmap->data = $this1;
-		$i = 0;
-		$x = 0;
-		while ($i<$bytes->length){
-			{
-				$this2 = $bitmap->data;
-				$this3 = $bytes->b;
-				$red = ord($this3->s[$i]);
-				$this4 = $bytes->b;
-				$green = ord($this4->s[$i+1]);
-				$this5 = $bytes->b;
-				$blue = ord($this5->s[$i+2]);
-				$this6 = $bytes->b;
-				$alpha = ord($this6->s[$i+3]);
-				if (!true){
-					throw new HException("FAIL: min <= max");
-				}
-				$val = null;
-				if ($red<0){
-					$val = 0;
-				} else {
-					if ($red>255){
-						$val = 255;
-					} else {
-						$val = $red;
-					}
-				}
-				if (!true){
-					throw new HException("FAIL: min <= max");
-				}
-				$val1 = null;
-				if ($green<0){
-					$val1 = 0;
-				} else {
-					if ($green>255){
-						$val1 = 255;
-					} else {
-						$val1 = $green;
-					}
-				}
-				if (!true){
-					throw new HException("FAIL: min <= max");
-				}
-				$val2 = null;
-				if ($blue<0){
-					$val2 = 0;
-				} else {
-					if ($blue>255){
-						$val2 = 255;
-					} else {
-						$val2 = $blue;
-					}
-				}
-				if (!true){
-					throw new HException("FAIL: min <= max");
-				}
-				$val3 = null;
-				if ($alpha<0){
-					$val3 = 0;
-				} else {
-					if ($alpha>255){
-						$val3 = 255;
-					} else {
-						$val3 = $alpha;
-					}
-				}
-				$this2[$x] = ($val << 24)+($val1 << 16)+($val2 << 8)+$val3;
-				unset($val3, $val2, $val1, $val, $this6, $this5, $this4, $this3, $this2, $red, $green, $blue, $alpha);
+		$bitmap->data->length = $w*$h;
+
+		for ($x = 0; $x<$w; $x++){
+			$l = $w * $h;
+			for ($y = 0; $y<$h; $y++){
+				// get a color
+				$color_index = imagecolorat($image, $x, $y);
+				// make it human readable
+				$c = imagecolorsforindex($image, $color_index);
+				$bitmap->data[$l+$x] = geometrize_bitmap_Bitmap::colorFromRGBAArray($c);
 			}
-			$i = $i+4;
-			$x = $x+1;
 		}
+
 		return $bitmap;
 	}
 
-	static function createFromByteArray($w, $h, $bytes){
-		$data = haxe_io_Bytes::alloc($bytes->length);
-		$i = 0;
-		while ($i<$bytes->length){
-			{
-				$this1 = $data->b;
-				$this1->s[$i] = chr($bytes[$i]);
-				unset($this1);
-			}
-			$i = $i+1;
+	public static function colorFromRGBAArray($c){
+		if (isset($c['alpha'])){
+			// in RGBA 0 = opaque, 127 = transparent
+			// in geometrize 0 = transparent, 255 = opaque
+			$c['alpha'] = round((127-$c['alpha'])*255/127);
+		} else {
+			$c['alpha'] = 255;
 		}
-		$bitmap = new geometrize_bitmap_Bitmap();
-		if (!($data!==null)){
-			throw new HException("FAIL: bytes != null");
-		}
-		{
-			$actual = $data->length;
-			$expected = $w*$h*4;
-			if ($actual!==$expected){
-				throw new HException("FAIL: values are not equal (expected: " . _hx_string_rec($expected, "") . ", actual: " . _hx_string_rec($actual, "") . ")");
-			}
-		}
-		$bitmap->width = $w;
-		$bitmap->height = $h;
-		$this2 = (new _hx_array(array()));
-		$this2->length = intval($data->length/4);
-		$bitmap->data = $this2;
-		$i1 = 0;
-		$x = 0;
-		while ($i1<$data->length){
-			{
-				$this3 = $bitmap->data;
-				$this4 = $data->b;
-				$red = ord($this4->s[$i1]);
-				$this5 = $data->b;
-				$green = ord($this5->s[$i1+1]);
-				$this6 = $data->b;
-				$blue = ord($this6->s[$i1+2]);
-				$this7 = $data->b;
-				$alpha = ord($this7->s[$i1+3]);
-				if (!true){
-					throw new HException("FAIL: min <= max");
-				}
-				$val = null;
-				if ($red<0){
-					$val = 0;
-				} else {
-					if ($red>255){
-						$val = 255;
-					} else {
-						$val = $red;
-					}
-				}
-				if (!true){
-					throw new HException("FAIL: min <= max");
-				}
-				$val1 = null;
-				if ($green<0){
-					$val1 = 0;
-				} else {
-					if ($green>255){
-						$val1 = 255;
-					} else {
-						$val1 = $green;
-					}
-				}
-				if (!true){
-					throw new HException("FAIL: min <= max");
-				}
-				$val2 = null;
-				if ($blue<0){
-					$val2 = 0;
-				} else {
-					if ($blue>255){
-						$val2 = 255;
-					} else {
-						$val2 = $blue;
-					}
-				}
-				if (!true){
-					throw new HException("FAIL: min <= max");
-				}
-				$val3 = null;
-				if ($alpha<0){
-					$val3 = 0;
-				} else {
-					if ($alpha>255){
-						$val3 = 255;
-					} else {
-						$val3 = $alpha;
-					}
-				}
-				$this3[$x] = ($val << 24)+($val1 << 16)+($val2 << 8)+$val3;
-				unset($val3, $val2, $val1, $val, $this7, $this6, $this5, $this4, $this3, $red, $green, $blue, $alpha);
-			}
-			$i1 = $i1+4;
-			$x = $x+1;
-		}
-		return $bitmap;
+		$color = ($c['red'] << 24) + ($c['green'] << 16) + ($c['blue'] << 8) + $c['alpha'];
+		return $color;
 	}
+
 
 	function __toString(){
 		return 'geometrize.bitmap.Bitmap';
