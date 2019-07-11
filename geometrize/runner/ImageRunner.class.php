@@ -12,7 +12,7 @@ class geometrize_runner_ImageRunner {
 	}
 
 	public function step($options){
-		return $this->model->step($options->shapeTypes, $options->alpha, $options->candidateShapesPerStep, $options->shapeMutationsPerStep);
+		return $this->model->step($options['shapeTypes'], $options['alpha'], $options['candidateShapesPerStep'], $options['shapeMutationsPerStep']);
 	}
 
 	public function getImageData(){
