@@ -53,7 +53,7 @@ class geometrize_shape_Rectangle implements geometrize_shape_Shape {
 	}
 
 	public function rasterize(){
-		$lines = (new _hx_array(array()));
+		$lines = [];
 		{
 			$_g1 = $this->y1;
 			$_g = $this->y2;
@@ -77,7 +77,7 @@ class geometrize_shape_Rectangle implements geometrize_shape_Shape {
 					} else {
 						$tmp1 = $second1;
 					}
-					$lines->push(new geometrize_rasterizer_Scanline($y, $tmp, $tmp1));
+					$lines[] = new geometrize_rasterizer_Scanline($y, $tmp, $tmp1);
 					unset($tmp1, $tmp, $second1, $second, $first1, $first);
 				}
 				unset($y);

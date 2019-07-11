@@ -21,7 +21,7 @@ class geometrize_shape_Ellipse implements geometrize_shape_Shape {
 	}
 
 	public function rasterize(){
-		$lines = (new _hx_array(array()));
+		$lines = [];
 		$aspect = $this->rx/$this->ry;
 		$w = $this->xBound;
 		$h = $this->yBound;
@@ -68,7 +68,7 @@ class geometrize_shape_Ellipse implements geometrize_shape_Shape {
 					$tmp2 = false;
 				}
 				if ($tmp2){
-					$lines->push(new geometrize_rasterizer_Scanline($y1, $x1, $x2));
+					$lines[] = new geometrize_rasterizer_Scanline($y1, $x1, $x2);
 				}
 				$tmp3 = null;
 				$tmp4 = null;
@@ -83,7 +83,7 @@ class geometrize_shape_Ellipse implements geometrize_shape_Shape {
 					$tmp3 = false;
 				}
 				if ($tmp3){
-					$lines->push(new geometrize_rasterizer_Scanline($y2, $x1, $x2));
+					$lines[] = (new geometrize_rasterizer_Scanline($y2, $x1, $x2));
 				}
 				unset($y2, $y1, $x2, $x1, $tmp4, $tmp3, $tmp2, $tmp1, $tmp, $s, $dy);
 			}

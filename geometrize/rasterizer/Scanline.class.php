@@ -34,9 +34,8 @@ class geometrize_rasterizer_Scanline {
 		if (!($scanlines!==null)){
 			throw new HException("FAIL: scanlines != null");
 		}
-		$w1 = $w;
-		$h1 = $h;
-		return $scanlines->filter(array(new _hx_lambda(array(&$h1, &$w1), "geometrize_rasterizer_Scanline_0"), 'execute'));
+		$scanlines = array_filter($scanlines, function ($line) use ($w,$h) { return geometrize_rasterizer_Scanline::trimHelper($line, $w, $h); } );
+		return $scanlines;
 	}
 
 	static function trimHelper($line, $w, $h){
@@ -98,11 +97,5 @@ class geometrize_rasterizer_Scanline {
 
 	function __toString(){
 		return 'geometrize.rasterizer.Scanline';
-	}
-}
-
-function geometrize_rasterizer_Scanline_0(&$h1, &$w1, $a1){
-	{
-		return geometrize_rasterizer_Scanline::trimHelper($a1, $w1, $h1);
 	}
 }

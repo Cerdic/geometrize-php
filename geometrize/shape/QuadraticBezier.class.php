@@ -49,7 +49,7 @@ class geometrize_shape_QuadraticBezier implements geometrize_shape_Shape {
 	}
 
 	public function rasterize(){
-		$lines = (new _hx_array(array()));
+		$lines = [];
 		$points = (new _hx_array(array()));
 		$pointCount = 20;
 		{
@@ -80,7 +80,7 @@ class geometrize_shape_QuadraticBezier implements geometrize_shape_Shape {
 					while ($_g21<$pts->length){
 						$point = $pts[$_g21];
 						$_g21 = $_g21+1;
-						$lines->push(new geometrize_rasterizer_Scanline($point->y, $point->x, $point->x));
+						$lines[] = new geometrize_rasterizer_Scanline($point->y, $point->x, $point->x);
 						unset($point);
 					}
 					unset($_g21);

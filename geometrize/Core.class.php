@@ -24,31 +24,19 @@ class geometrize_Core {
 		$count = 0;
 		$f = 65535/$alpha;
 		$a = intval($f);
-		{
-			$_g = 0;
-			while ($_g<$lines->length){
-				$line = $lines[$_g];
-				$_g = $_g+1;
-				$y = $line->y;
-				{
-					$_g2 = $line->x1;
-					$_g1 = $line->x2+1;
-					while ($_g2<$_g1){
-						$_g2 = $_g2+1;
-						$x = $_g2-1;
-						$t = $target->data[$target->width*$y+$x];
-						$c = $current->data[$current->width*$y+$x];
-						$totalRed = $totalRed+((($t >> 24 & 255)-($c >> 24 & 255))*$a+($c >> 24 & 255)*257);
-						$totalGreen = $totalGreen+((($t >> 16 & 255)-($c >> 16 & 255))*$a+($c >> 16 & 255)*257);
-						$totalBlue = $totalBlue+((($t >> 8 & 255)-($c >> 8 & 255))*$a+($c >> 8 & 255)*257);
-						$count = $count+1;
-						unset($x, $t, $c);
-					}
-					unset($_g2, $_g1);
-				}
-				unset($y, $line);
+
+		foreach($lines as $line){
+			$y = $line->y;
+			for ($x=$line->x1; $x<=$line->x2; $x++) {
+				$t = $target->data[$target->width*$y+$x];
+				$c = $current->data[$current->width*$y+$x];
+				$totalRed = $totalRed+((($t >> 24 & 255)-($c >> 24 & 255))*$a+($c >> 24 & 255)*257);
+				$totalGreen = $totalGreen+((($t >> 16 & 255)-($c >> 16 & 255))*$a+($c >> 16 & 255)*257);
+				$totalBlue = $totalBlue+((($t >> 8 & 255)-($c >> 8 & 255))*$a+($c >> 8 & 255)*257);
+				$count++;
 			}
 		}
+
 		if ($count===0){
 			return 0;
 		}
@@ -203,8 +191,7 @@ class geometrize_Core {
 		}
 
 		$total = $score;
-		for ($i = 0; $i<$lines->length; $i++){
-			$line = &$lines[$i];
+		foreach ($lines as &$line) {
 			$o1 = $target->width*$line->y;
 			$o2 = $before->width*$line->y;
 			for ($x = $line->x1; $x<=$line->x2; $x++){
@@ -236,8 +223,7 @@ class geometrize_Core {
 			return $total;
 		}
 
-		for ($i = 0; $i<$lines->length; $i++){
-			$line = &$lines[$i];
+		foreach ($lines as &$line) {
 			$o1 = $target->width*$line->y;
 			$o3 = $after->width*$line->y;
 			for ($x = $line->x1; $x<=$line->x2; $x++){
@@ -336,7 +322,7 @@ class geometrize_Core {
 		if (!isset($shape->color)){
 			$shape->color = geometrize_Core::computeColor($target, $current, $lines, $alpha);
 		}
-		// copyLines only if opacity!=1 (speed issue with no opacity in shapes)
+		// copyLines only if opacity!=1 (speed issue with no transparency in shapes)
 		if ($shape->color & 255!==255){
 			geometrize_rasterizer_Rasterizer::copyLines($buffer, $current, $lines);
 		}

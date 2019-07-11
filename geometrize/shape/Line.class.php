@@ -51,14 +51,14 @@ class geometrize_shape_Line implements geometrize_shape_Shape {
 	}
 
 	public function rasterize(){
-		$lines = (new _hx_array(array()));
+		$lines = [];
 		$points = geometrize_rasterizer_Rasterizer::bresenham($this->x1, $this->y1, $this->x2, $this->y2);
 		{
 			$_g = 0;
 			while ($_g<$points->length){
 				$point = $points[$_g];
 				$_g = $_g+1;
-				$lines->push(new geometrize_rasterizer_Scanline($point->y, $point->x, $point->x));
+				$lines[] = new geometrize_rasterizer_Scanline($point->y, $point->x, $point->x);
 				unset($point);
 			}
 		}
