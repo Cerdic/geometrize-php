@@ -10,6 +10,7 @@ class geometrize_shape_QuadraticBezier implements geometrize_shape_Shape {
 	public $y2;
 	public $xBound;
 	public $yBound;
+	public $color;
 
 	public function __construct($xBound, $yBound){
 		$upper = $xBound-1;
@@ -228,9 +229,8 @@ class geometrize_shape_QuadraticBezier implements geometrize_shape_Shape {
 		$bezier->y1 = $this->y1;
 		$bezier->x2 = $this->x2;
 		$bezier->y2 = $this->y2;
-		if (isset($this->color)){
-			$bezier->color = $this->color;
-		}
+		$bezier->color = $this->color;
+
 		return $bezier;
 	}
 

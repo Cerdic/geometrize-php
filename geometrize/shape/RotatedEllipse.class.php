@@ -9,6 +9,7 @@ class geometrize_shape_RotatedEllipse implements geometrize_shape_Shape {
 	public $angle;
 	public $xBound;
 	public $yBound;
+	public $color;
 
 	public function __construct($xBound, $yBound){
 		$this->x = mt_rand(0, $xBound-1);
@@ -185,9 +186,8 @@ class geometrize_shape_RotatedEllipse implements geometrize_shape_Shape {
 		$ellipse->rx = $this->rx;
 		$ellipse->ry = $this->ry;
 		$ellipse->angle = $this->angle;
-		if (isset($this->color)){
-			$ellipse->color = $this->color;
-		}
+		$ellipse->color = $this->color;
+
 		return $ellipse;
 	}
 

@@ -8,6 +8,7 @@ class geometrize_shape_Line implements geometrize_shape_Shape {
 	public $y2;
 	public $xBound;
 	public $yBound;
+	public $color;
 
 	public function __construct($xBound, $yBound){
 		$this->x1 = mt_rand(0, $xBound-1);
@@ -173,9 +174,8 @@ class geometrize_shape_Line implements geometrize_shape_Shape {
 		$line->y1 = $this->y1;
 		$line->x2 = $this->x2;
 		$line->y2 = $this->y2;
-		if (isset($this->color)){
-			$line->color = $this->color;
-		}
+		$line->color = $this->color;
+
 		return $line;
 	}
 

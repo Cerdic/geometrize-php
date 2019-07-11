@@ -89,9 +89,8 @@ class geometrize_shape_Circle extends geometrize_shape_Ellipse {
 		$circle->y = $this->y;
 		$circle->rx = $this->rx;
 		$circle->ry = $this->ry;
-		if (isset($this->color)){
-			$circle->color = $this->color;
-		}
+		$circle->color = $this->color;
+
 		return $circle;
 	}
 

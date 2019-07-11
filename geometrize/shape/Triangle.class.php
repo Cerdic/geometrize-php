@@ -10,6 +10,7 @@ class geometrize_shape_Triangle implements geometrize_shape_Shape {
 	public $y3;
 	public $xBound;
 	public $yBound;
+	public $color;
 
 	public function __construct($xBound, $yBound){
 		$this->x1 = mt_rand(0, $xBound-1);
@@ -207,9 +208,8 @@ class geometrize_shape_Triangle implements geometrize_shape_Shape {
 		$triangle->y2 = $this->y2;
 		$triangle->x3 = $this->x3;
 		$triangle->y3 = $this->y3;
-		if (isset($this->color)){
-			$triangle->color = $this->color;
-		}
+		$triangle->color = $this->color;
+
 		return $triangle;
 	}
 

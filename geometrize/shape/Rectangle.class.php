@@ -8,6 +8,7 @@ class geometrize_shape_Rectangle implements geometrize_shape_Shape {
 	public $y2;
 	public $xBound;
 	public $yBound;
+	public $color;
 
 	public function __construct($xBound, $yBound){
 		$this->x1 = mt_rand(0, $xBound-1);
@@ -174,9 +175,8 @@ class geometrize_shape_Rectangle implements geometrize_shape_Shape {
 		$rectangle->y1 = $this->y1;
 		$rectangle->x2 = $this->x2;
 		$rectangle->y2 = $this->y2;
-		if (isset($this->color)){
-			$rectangle->color = $this->color;
-		}
+		$rectangle->color = $this->color;
+
 		return $rectangle;
 	}
 
