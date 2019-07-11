@@ -48,18 +48,17 @@ class geometrize_shape_Line implements geometrize_shape_Shape {
 		$this->yBound = $yBound;
 	}
 
+	/**
+	 * @return array
+	 * @throws HException
+	 */
 	public function rasterize(){
-		$lines = [];
-		$points = geometrize_rasterizer_Rasterizer::bresenham($this->x1, $this->y1, $this->x2, $this->y2);
-		{
-			$_g = 0;
-			while ($_g<$points->length){
-				$point = $points[$_g];
-				$_g = $_g+1;
-				$lines[] = new geometrize_rasterizer_Scanline($point->y, $point->x, $point->x);
-				unset($point);
-			}
-		}
+		$points = [
+			['x' => $this->x1, 'y' => $this->y1],
+			['x' => $this->x2, 'y' => $this->y2]
+		];
+
+		$lines = geometrize_rasterizer_Rasterizer::scanlinesForPath($points);
 		return geometrize_rasterizer_Scanline::trim($lines, $this->xBound, $this->yBound);
 	}
 
@@ -184,12 +183,23 @@ class geometrize_shape_Line implements geometrize_shape_Shape {
 		return geometrize_shape_ShapeTypes::T_LINE;
 	}
 
+	/**
+	 * @return array
+	 */
 	public function getRawShapeData(){
-		return (new _hx_array(array($this->x1, $this->y1, $this->x2, $this->y2)));
+		return [
+			$this->x1,
+			$this->y1,
+			$this->x2,
+			$this->y2
+		];
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getSvgShapeData(){
-		return "<line x1=\"" . _hx_string_rec($this->x1, "") . "\" y1=\"" . _hx_string_rec($this->y1, "") . "\" x2=\"" . _hx_string_rec($this->x2, "") . "\" y2=\"" . _hx_string_rec($this->y2, "") . "\" " . _hx_string_or_null(geometrize_exporter_SvgExporter::$SVG_STYLE_HOOK) . " />";
+		return "<line x1=\"" . $this->x1 . "\" y1=\"" . $this->y1 . "\" x2=\"" . $this->x2 . "\" y2=\"" . $this->y2 . "\" " . geometrize_exporter_SvgExporter::$SVG_STYLE_HOOK . " />";
 	}
 
 	public function __call($m, $a){

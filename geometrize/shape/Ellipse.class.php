@@ -214,12 +214,20 @@ class geometrize_shape_Ellipse implements geometrize_shape_Shape {
 		return geometrize_shape_ShapeTypes::T_ELLIPSE;
 	}
 
+	/**
+	 * @return array
+	 */
 	public function getRawShapeData(){
-		return (new _hx_array(array($this->x, $this->y, $this->rx, $this->ry)));
+		return [
+			$this->x,
+			$this->y,
+			$this->rx,
+			$this->ry
+		];
 	}
 
 	public function getSvgShapeData(){
-		return "<ellipse cx=\"" . _hx_string_rec($this->x, "") . "\" cy=\"" . _hx_string_rec($this->y, "") . "\" rx=\"" . _hx_string_rec($this->rx, "") . "\" ry=\"" . _hx_string_rec($this->ry, "") . "\" " . _hx_string_or_null(geometrize_exporter_SvgExporter::$SVG_STYLE_HOOK) . " />";
+		return "<ellipse cx=\"" . $this->x . "\" cy=\"" . $this->y . "\" rx=\"" . $this->rx . "\" ry=\"" . $this->ry . "\" " . geometrize_exporter_SvgExporter::$SVG_STYLE_HOOK . " />";
 	}
 
 	public function __call($m, $a){

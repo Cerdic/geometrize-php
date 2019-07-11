@@ -51,6 +51,22 @@ class geometrize_exporter_SvgExporter {
 	}
 
 	/**
+	 * @param array $points
+	 *   each element is a ['x'=>int, 'y'=>int] array
+	 * @return string
+	 */
+	static public function exportPolygon($points) {
+		$s1 = "<polygon points=\"";
+
+		foreach ($points as $point) {
+			$s1 .= $point['x'] . " " . $point['y'] . " ";
+		}
+		$s1 = rtrim($s1);
+		$s1 .= "\" " . geometrize_exporter_SvgExporter::$SVG_STYLE_HOOK . "/>";
+		return $s1;
+	}
+
+	/**
 	 * @return string
 	 */
 	static function getSvgPrelude(){
@@ -63,7 +79,7 @@ class geometrize_exporter_SvgExporter {
 	 * @return string
 	 */
 	static function getSvgNodeOpen($width, $height){
-		return "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.2\" baseProfile=\"tiny\" width=\"" . _hx_string_rec($width, "") . "\" height=\"" . _hx_string_rec($height, "") . "\">\x0A";
+		return "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.2\" baseProfile=\"tiny\" width=\"" . intval($width) . "\" height=\"" . intval($height) . "\">\x0A";
 	}
 
 	/**

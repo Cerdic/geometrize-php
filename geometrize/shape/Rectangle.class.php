@@ -51,36 +51,15 @@ class geometrize_shape_Rectangle implements geometrize_shape_Shape {
 	}
 
 	public function rasterize(){
+		list($xm1, $ym1, $xm2, $ym2) = $this->getRawShapeData();
+
 		$lines = [];
-		{
-			$_g1 = $this->y1;
-			$_g = $this->y2;
-			while ($_g1<$_g){
-				$_g1 = $_g1+1;
-				$y = $_g1-1;
-				if ($this->x1!==$this->x2){
-					$first = $this->x1;
-					$second = $this->x2;
-					$tmp = null;
-					if ($first<$second){
-						$tmp = $first;
-					} else {
-						$tmp = $second;
-					}
-					$first1 = $this->x1;
-					$second1 = $this->x2;
-					$tmp1 = null;
-					if ($first1>$second1){
-						$tmp1 = $first1;
-					} else {
-						$tmp1 = $second1;
-					}
-					$lines[] = new geometrize_rasterizer_Scanline($y, $tmp, $tmp1);
-					unset($tmp1, $tmp, $second1, $second, $first1, $first);
-				}
-				unset($y);
+		if ($xm2>$xm1){
+			for ($y = $ym1; $y<=$ym2; $y++){
+				$lines[] = new geometrize_rasterizer_Scanline($y, $xm1, $xm2);
 			}
 		}
+
 		return $lines;
 	}
 
@@ -205,92 +184,41 @@ class geometrize_shape_Rectangle implements geometrize_shape_Shape {
 		return geometrize_shape_ShapeTypes::T_RECTANGLE;
 	}
 
+	/**
+	 * @return array
+	 */
 	public function getRawShapeData(){
-		$first = $this->x1;
-		$second = $this->x2;
-		$tmp = null;
-		if ($first<$second){
-			$tmp = $first;
+		if ($this->x1<$this->x2){
+			$xfirst = $this->x1;
+			$xsecond = $this->x2;
 		} else {
-			$tmp = $second;
+			$xfirst = $this->x2;
+			$xsecond = $this->x1;
 		}
-		$first1 = $this->y1;
-		$second1 = $this->y2;
-		$tmp1 = null;
-		if ($first1<$second1){
-			$tmp1 = $first1;
+		if ($this->y1<$this->y2){
+			$yfirst = $this->y1;
+			$ysecond = $this->y2;
 		} else {
-			$tmp1 = $second1;
+			$yfirst = $this->y2;
+			$ysecond = $this->y1;
 		}
-		$first2 = $this->x1;
-		$second2 = $this->x2;
-		$tmp2 = null;
-		if ($first2>$second2){
-			$tmp2 = $first2;
-		} else {
-			$tmp2 = $second2;
-		}
-		$first3 = $this->y1;
-		$second3 = $this->y2;
-		$tmp3 = null;
-		if ($first3>$second3){
-			$tmp3 = $first3;
-		} else {
-			$tmp3 = $second3;
-		}
-		return (new _hx_array(array($tmp, $tmp1, $tmp2, $tmp3)));
+
+		return [
+			$xfirst,
+			$yfirst,
+			$xsecond,
+			$ysecond,
+		];
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getSvgShapeData(){
-		$first = $this->x1;
-		$second = $this->x2;
-		$tmp = null;
-		if ($first<$second){
-			$tmp = $first;
-		} else {
-			$tmp = $second;
-		}
-		$first1 = $this->y1;
-		$second1 = $this->y2;
-		$tmp1 = null;
-		if ($first1<$second1){
-			$tmp1 = $first1;
-		} else {
-			$tmp1 = $second1;
-		}
-		$first2 = $this->x1;
-		$second2 = $this->x2;
-		$tmp2 = null;
-		if ($first2>$second2){
-			$tmp2 = $first2;
-		} else {
-			$tmp2 = $second2;
-		}
-		$first3 = $this->x1;
-		$second3 = $this->x2;
-		$tmp3 = null;
-		if ($first3<$second3){
-			$tmp3 = $first3;
-		} else {
-			$tmp3 = $second3;
-		}
-		$first4 = $this->y1;
-		$second4 = $this->y2;
-		$tmp4 = null;
-		if ($first4>$second4){
-			$tmp4 = $first4;
-		} else {
-			$tmp4 = $second4;
-		}
-		$first5 = $this->y1;
-		$second5 = $this->y2;
-		$tmp5 = null;
-		if ($first5<$second5){
-			$tmp5 = $first5;
-		} else {
-			$tmp5 = $second5;
-		}
-		return "<rect x=\"" . _hx_string_rec($tmp, "") . "\" y=\"" . _hx_string_rec($tmp1, "") . "\" width=\"" . _hx_string_rec(($tmp2-$tmp3), "") . "\" height=\"" . _hx_string_rec(($tmp4-$tmp5), "") . "\" " . _hx_string_or_null(geometrize_exporter_SvgExporter::$SVG_STYLE_HOOK) . " />";
+		list($xm1, $ym1, $xm2, $ym2) = $this->getRawShapeData();
+		$width = $xm2 - $xm1;
+		$height = $ym2 - $ym1;
+		return "<rect x=\"$xm1\" y=\"$ym1\" width=\"$width\" height=\"$height\" " . geometrize_exporter_SvgExporter::$SVG_STYLE_HOOK . " />";
 	}
 
 	public function __call($m, $a){

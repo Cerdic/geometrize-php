@@ -100,11 +100,15 @@ class geometrize_shape_Circle extends geometrize_shape_Ellipse {
 	}
 
 	public function getRawShapeData(){
-		return (new _hx_array(array($this->x, $this->y, $this->rx)));
+		return [
+			$this->x,
+			$this->y,
+			$this->rx
+		];
 	}
 
 	public function getSvgShapeData(){
-		return "<circle cx=\"" . _hx_string_rec($this->x, "") . "\" cy=\"" . _hx_string_rec($this->y, "") . "\" r=\"" . _hx_string_rec($this->rx, "") . "\" " . _hx_string_or_null(geometrize_exporter_SvgExporter::$SVG_STYLE_HOOK) . " />";
+		return "<circle cx=\"" . $this->x . "\" cy=\"" . $this->y . "\" r=\"" . $this->rx . "\" " . geometrize_exporter_SvgExporter::$SVG_STYLE_HOOK . " />";
 	}
 
 	function __toString(){

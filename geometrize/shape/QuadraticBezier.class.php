@@ -47,7 +47,6 @@ class geometrize_shape_QuadraticBezier implements geometrize_shape_Shape {
 	}
 
 	public function rasterize(){
-		$lines = [];
 		$points = [];
 		$pointCount = 20;
 
@@ -63,20 +62,7 @@ class geometrize_shape_QuadraticBezier implements geometrize_shape_Shape {
 			$points[] = ["x" => $x, "y" => $y];
 		}
 
-		$_g11 = 0;
-		$_g2 = count($points);
-		while ($_g11<$_g2){
-			$_g11 = $_g11+1;
-			$i1 = $_g11-1;
-			$p0 = $points[$i1];
-			$p1 = $points[$i1+1];
-			$pts = geometrize_rasterizer_Rasterizer::bresenham($p0['x'], $p0['y'], $p1['x'], $p1['y']);
-
-			foreach ($pts as $point) {
-				$lines[] = new geometrize_rasterizer_Scanline($point['y'], $point['x'], $point['x']);
-			}
-		}
-
+		$lines = geometrize_rasterizer_Rasterizer::scanlinesForPath($points);
 		return geometrize_rasterizer_Scanline::trim($lines, $this->xBound, $this->yBound);
 	}
 
@@ -252,12 +238,25 @@ class geometrize_shape_QuadraticBezier implements geometrize_shape_Shape {
 		return geometrize_shape_ShapeTypes::T_QUADRATIC_BEZIER;
 	}
 
+	/**
+	 * @return array
+	 */
 	public function getRawShapeData(){
-		return (new _hx_array(array($this->x1, $this->y1, $this->cx, $this->cy, $this->x2, $this->y2)));
+		return [
+			$this->x1,
+			$this->y1,
+			$this->cx,
+			$this->cy,
+			$this->x2,
+			$this->y2
+		];
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getSvgShapeData(){
-		return "<path d=\"M" . _hx_string_rec($this->x1, "") . " " . _hx_string_rec($this->y1, "") . " Q " . _hx_string_rec($this->cx, "") . " " . _hx_string_rec($this->cy, "") . " " . _hx_string_rec($this->x2, "") . " " . _hx_string_rec($this->y2, "") . "\" " . _hx_string_or_null(geometrize_exporter_SvgExporter::$SVG_STYLE_HOOK) . " />";
+		return "<path d=\"M" . $this->x1 . " " . $this->y1 . " Q " . $this->cx . " " . $this->cy . " " . $this->x2 . " " . $this->y2 . "\" " . geometrize_exporter_SvgExporter::$SVG_STYLE_HOOK . " />";
 	}
 
 	public function __call($m, $a){

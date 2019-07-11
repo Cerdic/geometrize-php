@@ -195,14 +195,26 @@ class geometrize_shape_RotatedEllipse implements geometrize_shape_Shape {
 		return geometrize_shape_ShapeTypes::T_ROTATED_ELLIPSE;
 	}
 
+	/**
+	 * @return array
+	 */
 	public function getRawShapeData(){
-		return (new _hx_array(array($this->x, $this->y, $this->rx, $this->ry, $this->angle)));
+		return [
+			$this->x,
+			$this->y,
+			$this->rx,
+			$this->ry,
+			$this->angle
+		];
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getSvgShapeData(){
-		$s = "<g transform=\"translate(" . _hx_string_rec($this->x, "") . " " . _hx_string_rec($this->y, "") . ") rotate(" . _hx_string_rec($this->angle, "") . ") scale(" . _hx_string_rec($this->rx, "") . " " . _hx_string_rec($this->ry, "") . ")\">";
-		$s = _hx_string_or_null($s) . _hx_string_or_null(("<ellipse cx=\"" . _hx_string_rec(0, "") . "\" cy=\"" . _hx_string_rec(0, "") . "\" rx=\"" . _hx_string_rec(1, "") . "\" ry=\"" . _hx_string_rec(1, "") . "\" " . _hx_string_or_null(geometrize_exporter_SvgExporter::$SVG_STYLE_HOOK) . " />"));
-		$s = _hx_string_or_null($s) . "</g>";
+		$s = "<g transform=\"translate(" . $this->x . " " . $this->y . ") rotate(" . $this->angle . ") scale(" . $this->rx . " " . $this->ry . ")\">";
+		$s .= "<ellipse cx=\"" . 0 . "\" cy=\"" . 0 . "\" rx=\"" . 1 . "\" ry=\"" . 1 . "\" " . geometrize_exporter_SvgExporter::$SVG_STYLE_HOOK . " />";
+		$s .= "</g>";
 		return $s;
 	}
 

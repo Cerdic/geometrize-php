@@ -297,17 +297,31 @@ class geometrize_rasterizer_Rasterizer {
 	}
 
 	/**
-	 * @param array $points
+	 * @param $points
 	 * @return array
 	 */
 	static function scanlinesForPolygon($points){
+		return geometrize_rasterizer_Rasterizer::scanlinesForPath($points, true);
+	}
+
+	/**
+	 * @param array $points
+	 * @param bool $isClosed
+	 * @return array
+	 */
+	static function scanlinesForPath($points, $isClosed = false){
 		$lines = [];
 		$edges = [];
 
-		$prevPoint = end($points);
+		if ($isClosed) {
+			$prevPoint = end($points);
+		}
+		else {
+			$prevPoint = array_shift($points);
+		}
 		foreach ($points as $point) {
-			$line = geometrize_rasterizer_Rasterizer::bresenham($prevPoint['x'], $prevPoint['y'], $point['x'], $point['y']);
-			$edges = array_merge($edges, $line);
+			$rasterizedLine = geometrize_rasterizer_Rasterizer::bresenham($prevPoint['x'], $prevPoint['y'], $point['x'], $point['y']);
+			$edges = array_merge($edges, $rasterizedLine);
 			$prevPoint = $point;
 		}
 

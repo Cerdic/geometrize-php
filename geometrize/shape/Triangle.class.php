@@ -218,11 +218,23 @@ class geometrize_shape_Triangle implements geometrize_shape_Shape {
 	}
 
 	public function getRawShapeData(){
-		return (new _hx_array(array($this->x1, $this->y1, $this->x2, $this->y2, $this->x3, $this->y3)));
+		return [
+			$this->x1,
+			$this->y1,
+			$this->x2,
+			$this->y2,
+			$this->x3,
+			$this->y3
+		];
 	}
 
 	public function getSvgShapeData(){
-		return "<polygon points=\"" . _hx_string_rec($this->x1, "") . "," . _hx_string_rec($this->y1, "") . " " . _hx_string_rec($this->x2, "") . "," . _hx_string_rec($this->y2, "") . " " . _hx_string_rec($this->x3, "") . "," . _hx_string_rec($this->y3, "") . "\" " . _hx_string_or_null(geometrize_exporter_SvgExporter::$SVG_STYLE_HOOK) . "/>";
+		$points = [
+			["x" => $this->x1, "y" => $this->y1],
+			["x" => $this->x2, "y" => $this->y2],
+			["x" => $this->x3, "y" => $this->y3],
+		];
+		return geometrize_exporter_SvgExporter::exportPolygon($points);
 	}
 
 	public function __call($m, $a){

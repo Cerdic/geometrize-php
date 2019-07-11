@@ -204,40 +204,32 @@ class geometrize_shape_RotatedRectangle implements geometrize_shape_Shape {
 		return geometrize_shape_ShapeTypes::T_ROTATED_RECTANGLE;
 	}
 
+	/**
+	 * @return array
+	 */
 	public function getRawShapeData(){
-		$first = $this->x1;
-		$second = $this->x2;
-		$tmp = null;
-		if ($first<$second){
-			$tmp = $first;
+		if ($this->x1<$this->x2){
+			$xfirst = $this->x1;
+			$xsecond = $this->x2;
 		} else {
-			$tmp = $second;
+			$xfirst = $this->x2;
+			$xsecond = $this->x1;
 		}
-		$first1 = $this->y1;
-		$second1 = $this->y2;
-		$tmp1 = null;
-		if ($first1<$second1){
-			$tmp1 = $first1;
+		if ($this->y1<$this->y2){
+			$yfirst = $this->y1;
+			$ysecond = $this->y2;
 		} else {
-			$tmp1 = $second1;
+			$yfirst = $this->y2;
+			$ysecond = $this->y1;
 		}
-		$first2 = $this->x1;
-		$second2 = $this->x2;
-		$tmp2 = null;
-		if ($first2>$second2){
-			$tmp2 = $first2;
-		} else {
-			$tmp2 = $second2;
-		}
-		$first3 = $this->y1;
-		$second3 = $this->y2;
-		$tmp3 = null;
-		if ($first3>$second3){
-			$tmp3 = $first3;
-		} else {
-			$tmp3 = $second3;
-		}
-		return (new _hx_array(array($tmp, $tmp1, $tmp2, $tmp3, $this->angle)));
+
+		return [
+			$xfirst,
+			$yfirst,
+			$xsecond,
+			$ysecond,
+			$this->angle
+		];
 	}
 
 	/**
@@ -245,52 +237,15 @@ class geometrize_shape_RotatedRectangle implements geometrize_shape_Shape {
 	 */
 	public function getSvgShapeData(){
 		$points = $this->getCornerPoints();
-		$s1 = "<polygon points=\"";
-
-		foreach ($points as $point) {
-			$s1 .= $point['x'] . " " . $point['y'] . " ";
-		}
-		$s1 = rtrim($s1);
-		$s1 .= "\" " . geometrize_exporter_SvgExporter::$SVG_STYLE_HOOK . "/>";
-		return $s1;
+		return geometrize_exporter_SvgExporter::exportPolygon($points);
 	}
 
 	/**
 	 * @return array
 	 */
 	public function getCornerPoints(){
-		$first = $this->x1;
-		$second = $this->x2;
-		$xm1 = null;
-		if ($first<$second){
-			$xm1 = $first;
-		} else {
-			$xm1 = $second;
-		}
-		$first1 = $this->x1;
-		$second1 = $this->x2;
-		$xm2 = null;
-		if ($first1>$second1){
-			$xm2 = $first1;
-		} else {
-			$xm2 = $second1;
-		}
-		$first2 = $this->y1;
-		$second2 = $this->y2;
-		$ym1 = null;
-		if ($first2<$second2){
-			$ym1 = $first2;
-		} else {
-			$ym1 = $second2;
-		}
-		$first3 = $this->y1;
-		$second3 = $this->y2;
-		$ym2 = null;
-		if ($first3>$second3){
-			$ym2 = $first3;
-		} else {
-			$ym2 = $second3;
-		}
+		list($xm1, $ym1, $xm2, $ym2, $angle) = $this->getRawShapeData();
+
 		$cx = intval(($xm1+$xm2)/2);
 		$cy = intval(($ym1+$ym2)/2);
 		$ox1 = $xm1-$cx;
