@@ -56,12 +56,12 @@ class geometrize_exporter_SvgExporter {
 	 * @return string
 	 */
 	static public function exportPolygon($points) {
-		$s1 = "<polygon points=\"";
+		$s1 = "<path d=\"M";
 
 		foreach ($points as $point) {
 			$s1 .= $point['x'] . " " . $point['y'] . " ";
 		}
-		$s1 = rtrim($s1);
+		$s1 = rtrim($s1) . "z";
 		$s1 .= "\" " . geometrize_exporter_SvgExporter::$SVG_STYLE_HOOK . "/>";
 		return $s1;
 	}
