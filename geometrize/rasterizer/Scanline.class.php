@@ -28,6 +28,17 @@ class geometrize_rasterizer_Scanline {
 		}
 	}
 
+	/**
+	 * Rescale the scanline
+	 * @param float $xScale
+	 * @param float $yScale
+	 */
+	public function rescale($xScale, $yScale) {
+		$this->y = intval(round($this->y*$yScale));
+		$this->x1 = intval(round($this->x1*$xScale));
+		$this->x2 = intval(round($this->x2*$xScale));
+	}
+
 	static function trim($scanlines, $w, $h){
 		if (!($scanlines!==null)){
 			throw new HException("FAIL: scanlines != null");
