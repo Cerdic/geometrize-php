@@ -54,56 +54,8 @@ class geometrize_shape_RotatedRectangle implements geometrize_shape_Shape {
 	}
 
 	public function rasterize(){
-		$first = $this->x1;
-		$second = $this->x2;
-		$xm1 = null;
-		if ($first<$second){
-			$xm1 = $first;
-		} else {
-			$xm1 = $second;
-		}
-		$first1 = $this->x1;
-		$second1 = $this->x2;
-		$xm2 = null;
-		if ($first1>$second1){
-			$xm2 = $first1;
-		} else {
-			$xm2 = $second1;
-		}
-		$first2 = $this->y1;
-		$second2 = $this->y2;
-		$ym1 = null;
-		if ($first2<$second2){
-			$ym1 = $first2;
-		} else {
-			$ym1 = $second2;
-		}
-		$first3 = $this->y1;
-		$second3 = $this->y2;
-		$ym2 = null;
-		if ($first3>$second3){
-			$ym2 = $first3;
-		} else {
-			$ym2 = $second3;
-		}
-		$cx = intval(($xm1+$xm2)/2);
-		$cy = intval(($ym1+$ym2)/2);
-		$ox1 = $xm1-$cx;
-		$ox2 = $xm2-$cx;
-		$oy1 = $ym1-$cy;
-		$oy2 = $ym2-$cy;
-		$rads = $this->angle*M_PI/180.0;
-		$c = cos($rads);
-		$s = sin($rads);
-		$ulx = intval($ox1*$c-$oy1*$s+$cx);
-		$uly = intval($ox1*$s+$oy1*$c+$cy);
-		$blx = intval($ox1*$c-$oy2*$s+$cx);
-		$bly = intval($ox1*$s+$oy2*$c+$cy);
-		$urx = intval($ox2*$c-$oy1*$s+$cx);
-		$ury = intval($ox2*$s+$oy1*$c+$cy);
-		$brx = intval($ox2*$c-$oy2*$s+$cx);
-		$bry = intval($ox2*$s+$oy2*$c+$cy);
-		$tmp = geometrize_rasterizer_Rasterizer::scanlinesForPolygon((new _hx_array(array(_hx_anonymous(array("x" => $ulx, "y" => $uly)), _hx_anonymous(array("x" => $urx, "y" => $ury)), _hx_anonymous(array("x" => $brx, "y" => $bry)), _hx_anonymous(array("x" => $blx, "y" => $bly))))));
+		$points = $this->getCornerPoints();
+		$tmp = geometrize_rasterizer_Rasterizer::scanlinesForPolygon($points);
 		return geometrize_rasterizer_Scanline::trim($tmp, $this->xBound, $this->yBound);
 	}
 
@@ -288,75 +240,24 @@ class geometrize_shape_RotatedRectangle implements geometrize_shape_Shape {
 		return (new _hx_array(array($tmp, $tmp1, $tmp2, $tmp3, $this->angle)));
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getSvgShapeData(){
-		$first = $this->x1;
-		$second = $this->x2;
-		$xm1 = null;
-		if ($first<$second){
-			$xm1 = $first;
-		} else {
-			$xm1 = $second;
-		}
-		$first1 = $this->x1;
-		$second1 = $this->x2;
-		$xm2 = null;
-		if ($first1>$second1){
-			$xm2 = $first1;
-		} else {
-			$xm2 = $second1;
-		}
-		$first2 = $this->y1;
-		$second2 = $this->y2;
-		$ym1 = null;
-		if ($first2<$second2){
-			$ym1 = $first2;
-		} else {
-			$ym1 = $second2;
-		}
-		$first3 = $this->y1;
-		$second3 = $this->y2;
-		$ym2 = null;
-		if ($first3>$second3){
-			$ym2 = $first3;
-		} else {
-			$ym2 = $second3;
-		}
-		$cx = intval(($xm1+$xm2)/2);
-		$cy = intval(($ym1+$ym2)/2);
-		$ox1 = $xm1-$cx;
-		$ox2 = $xm2-$cx;
-		$oy1 = $ym1-$cy;
-		$oy2 = $ym2-$cy;
-		$rads = $this->angle*M_PI/180.0;
-		$c = cos($rads);
-		$s = sin($rads);
-		$ulx = intval($ox1*$c-$oy1*$s+$cx);
-		$uly = intval($ox1*$s+$oy1*$c+$cy);
-		$blx = intval($ox1*$c-$oy2*$s+$cx);
-		$bly = intval($ox1*$s+$oy2*$c+$cy);
-		$urx = intval($ox2*$c-$oy1*$s+$cx);
-		$ury = intval($ox2*$s+$oy1*$c+$cy);
-		$brx = intval($ox2*$c-$oy2*$s+$cx);
-		$bry = intval($ox2*$s+$oy2*$c+$cy);
-		$points = (new _hx_array(array(_hx_anonymous(array("x" => $ulx, "y" => $uly)), _hx_anonymous(array("x" => $urx, "y" => $ury)), _hx_anonymous(array("x" => $brx, "y" => $bry)), _hx_anonymous(array("x" => $blx, "y" => $bly)))));
+		$points = $this->getCornerPoints();
 		$s1 = "<polygon points=\"";
-		{
-			$_g1 = 0;
-			$_g = $points->length;
-			while ($_g1<$_g){
-				$_g1 = $_g1+1;
-				$i = $_g1-1;
-				$s1 = _hx_string_or_null($s1) . _hx_string_or_null((_hx_string_rec(_hx_array_get($points, $i)->x, "") . " " . _hx_string_rec(_hx_array_get($points, $i)->y, "")));
-				if ($i!==$points->length-1){
-					$s1 = _hx_string_or_null($s1) . " ";
-				}
-				unset($i);
-			}
+
+		foreach ($points as $point) {
+			$s1 .= $point['x'] . " " . $point['y'] . " ";
 		}
-		$s1 = _hx_string_or_null($s1) . _hx_string_or_null(("\" " . _hx_string_or_null(geometrize_exporter_SvgExporter::$SVG_STYLE_HOOK) . "/>"));
+		$s1 = rtrim($s1);
+		$s1 .= "\" " . geometrize_exporter_SvgExporter::$SVG_STYLE_HOOK . "/>";
 		return $s1;
 	}
 
+	/**
+	 * @return array
+	 */
 	public function getCornerPoints(){
 		$first = $this->x1;
 		$second = $this->x2;
@@ -407,7 +308,14 @@ class geometrize_shape_RotatedRectangle implements geometrize_shape_Shape {
 		$ury = intval($ox2*$s+$oy1*$c+$cy);
 		$brx = intval($ox2*$c-$oy2*$s+$cx);
 		$bry = intval($ox2*$s+$oy2*$c+$cy);
-		return (new _hx_array(array(_hx_anonymous(array("x" => $ulx, "y" => $uly)), _hx_anonymous(array("x" => $urx, "y" => $ury)), _hx_anonymous(array("x" => $brx, "y" => $bry)), _hx_anonymous(array("x" => $blx, "y" => $bly)))));
+
+		$corners = [
+			["x" => $ulx, "y" => $uly],
+			["x" => $urx, "y" => $ury],
+			["x" => $brx, "y" => $bry],
+			["x" => $blx, "y" => $bly]
+		];
+		return $corners;
 	}
 
 	public function __call($m, $a){

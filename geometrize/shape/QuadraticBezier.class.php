@@ -48,44 +48,35 @@ class geometrize_shape_QuadraticBezier implements geometrize_shape_Shape {
 
 	public function rasterize(){
 		$lines = [];
-		$points = (new _hx_array(array()));
+		$points = [];
 		$pointCount = 20;
-		{
-			$_g1 = 0;
-			$_g = $pointCount-1;
-			while ($_g1<$_g){
-				$_g1 = $_g1+1;
-				$i = $_g1-1;
-				$t = $i/$pointCount;
-				$tp = 1-$t;
-				$x = intval($tp*($tp*$this->x1+$t*$this->cx)+$t*($tp*$this->cx+$t*$this->x2));
-				$y = intval($tp*($tp*$this->y1+$t*$this->cy)+$t*($tp*$this->cy+$t*$this->y2));
-				$points->push(_hx_anonymous(array("x" => $x, "y" => $y)));
-				unset($y, $x, $tp, $t, $i);
+
+		$_g1 = 0;
+		$_g = $pointCount-1;
+		while ($_g1<$_g){
+			$_g1 = $_g1+1;
+			$i = $_g1-1;
+			$t = $i/$pointCount;
+			$tp = 1-$t;
+			$x = intval($tp*($tp*$this->x1+$t*$this->cx)+$t*($tp*$this->cx+$t*$this->x2));
+			$y = intval($tp*($tp*$this->y1+$t*$this->cy)+$t*($tp*$this->cy+$t*$this->y2));
+			$points[] = ["x" => $x, "y" => $y];
+		}
+
+		$_g11 = 0;
+		$_g2 = count($points);
+		while ($_g11<$_g2){
+			$_g11 = $_g11+1;
+			$i1 = $_g11-1;
+			$p0 = $points[$i1];
+			$p1 = $points[$i1+1];
+			$pts = geometrize_rasterizer_Rasterizer::bresenham($p0['x'], $p0['y'], $p1['x'], $p1['y']);
+
+			foreach ($pts as $point) {
+				$lines[] = new geometrize_rasterizer_Scanline($point['y'], $point['x'], $point['x']);
 			}
 		}
-		{
-			$_g11 = 0;
-			$_g2 = $points->length-1;
-			while ($_g11<$_g2){
-				$_g11 = $_g11+1;
-				$i1 = $_g11-1;
-				$p0 = $points[$i1];
-				$p1 = $points[$i1+1];
-				$pts = geometrize_rasterizer_Rasterizer::bresenham($p0->x, $p0->y, $p1->x, $p1->y);
-				{
-					$_g21 = 0;
-					while ($_g21<$pts->length){
-						$point = $pts[$_g21];
-						$_g21 = $_g21+1;
-						$lines[] = new geometrize_rasterizer_Scanline($point->y, $point->x, $point->x);
-						unset($point);
-					}
-					unset($_g21);
-				}
-				unset($pts, $p1, $p0, $i1);
-			}
-		}
+
 		return geometrize_rasterizer_Scanline::trim($lines, $this->xBound, $this->yBound);
 	}
 

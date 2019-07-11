@@ -196,6 +196,13 @@ class geometrize_rasterizer_Rasterizer {
 		}
 	}
 
+	/**
+	 * @param int $x1
+	 * @param int $y1
+	 * @param int $x2
+	 * @param int $y2
+	 * @return array
+	 */
 	static function bresenham($x1, $y1, $x2, $y2){
 		$dx = $x2-$x1;
 		$ix = null;
@@ -239,8 +246,8 @@ class geometrize_rasterizer_Rasterizer {
 			$dy1 = $dy;
 		}
 		$dy = $dy1 << 1;
-		$points = (new _hx_array(array()));
-		$points->push(_hx_anonymous(array("x" => $x1, "y" => $y1)));
+		$points = [];
+		$points[] = ["x" => $x1, "y" => $y1];
 		if ($dx>=$dy){
 			$error = $dy-($dx >> 1);
 			while ($x1!==$x2){
@@ -260,7 +267,7 @@ class geometrize_rasterizer_Rasterizer {
 				}
 				$error = $error+$dy;
 				$x1 = $x1+$ix2;
-				$points->push(_hx_anonymous(array("x" => $x1, "y" => $y1)));
+				$points[] = ["x" => $x1, "y" => $y1];
 				unset($tmp);
 			}
 		} else {
@@ -282,43 +289,37 @@ class geometrize_rasterizer_Rasterizer {
 				}
 				$error1 = $error1+$dx;
 				$y1 = $y1+$iy2;
-				$points->push(_hx_anonymous(array("x" => $x1, "y" => $y1)));
+				$points[] = ["x" => $x1, "y" => $y1];
 				unset($tmp1);
 			}
 		}
 		return $points;
 	}
 
+	/**
+	 * @param array $points
+	 * @return array
+	 */
 	static function scanlinesForPolygon($points){
 		$lines = [];
-		$edges = (new _hx_array(array()));
-		{
-			$_g1 = 0;
-			$_g = $points->length;
-			while ($_g1<$_g){
-				$_g1 = $_g1+1;
-				$i = $_g1-1;
-				$p1 = $points[$i];
-				$p2 = null;
-				if ($i===$points->length-1){
-					$p2 = $points[0];
-				} else {
-					$p2 = $points[$i+1];
-				}
-				$p1p2 = geometrize_rasterizer_Rasterizer::bresenham($p1->x, $p1->y, $p2->x, $p2->y);
-				$edges = $edges->concat($p1p2);
-				unset($p2, $p1p2, $p1, $i);
-			}
+		$edges = [];
+
+		$prevPoint = end($points);
+		foreach ($points as $point) {
+			$line = geometrize_rasterizer_Rasterizer::bresenham($prevPoint['x'], $prevPoint['y'], $point['x'], $point['y']);
+			$edges = array_merge($edges, $line);
+			$prevPoint = $point;
 		}
+
 		$yToXs = [];
-		for ($_g2 = 0; $_g2<$edges->length; $_g2++){
-			$point = $edges[$_g2];
-			if (!isset($yToXs[$point->y])){
-				$yToXs[$point->y] = [];
+		foreach ($edges as $point) {
+			if (!isset($yToXs[$point['y']])){
+				$yToXs[$point['y']] = [];
 			}
-			$yToXs[$point->y][] = $point->x;
+			$yToXs[$point['y']][] = $point['x'];
 		}
 		ksort($yToXs);
+
 		foreach ($yToXs as $y => $xs){
 			$minx = min($xs);
 			$maxx = max($xs);
@@ -328,6 +329,9 @@ class geometrize_rasterizer_Rasterizer {
 		return $lines;
 	}
 
+	/**
+	 * @return string
+	 */
 	function __toString(){
 		return 'geometrize.rasterizer.Rasterizer';
 	}

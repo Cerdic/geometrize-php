@@ -39,7 +39,12 @@ class geometrize_shape_Triangle implements geometrize_shape_Shape {
 	}
 
 	public function rasterize(){
-		$tmp = geometrize_rasterizer_Rasterizer::scanlinesForPolygon((new _hx_array(array(_hx_anonymous(array("x" => $this->x1, "y" => $this->y1)), _hx_anonymous(array("x" => $this->x2, "y" => $this->y2)), _hx_anonymous(array("x" => $this->x3, "y" => $this->y3))))));
+		$points = [
+			["x" => $this->x1, "y" => $this->y1],
+			["x" => $this->x2, "y" => $this->y2],
+			["x" => $this->x3, "y" => $this->y3],
+		];
+		$tmp = geometrize_rasterizer_Rasterizer::scanlinesForPolygon($points);
 		return geometrize_rasterizer_Scanline::trim($tmp, $this->xBound, $this->yBound);
 	}
 

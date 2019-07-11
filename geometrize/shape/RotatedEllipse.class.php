@@ -22,27 +22,26 @@ class geometrize_shape_RotatedEllipse implements geometrize_shape_Shape {
 
 	public function rasterize(){
 		$pointCount = 20;
-		$points = (new _hx_array(array()));
+		$points = [];
 		$rads = $this->angle*(M_PI/180.0);
 		$c = cos($rads);
 		$s = sin($rads);
-		{
-			$_g1 = 0;
-			$_g = $pointCount;
-			while ($_g1<$_g){
-				$_g1 = $_g1+1;
-				$i = $_g1-1;
-				$rot = 360.0/$pointCount*$i*(M_PI/180.0);
-				$crx = $this->rx;
-				$crx1 = $crx*cos($rot);
-				$cry = $this->ry;
-				$cry1 = $cry*sin($rot);
-				$tx = intval($crx1*$c-$cry1*$s+$this->x);
-				$ty = intval($crx1*$s+$cry1*$c+$this->y);
-				$points->push(_hx_anonymous(array("x" => $tx, "y" => $ty)));
-				unset($ty, $tx, $rot, $i, $cry1, $cry, $crx1, $crx);
-			}
+
+		$_g1 = 0;
+		$_g = $pointCount;
+		while ($_g1<$_g){
+			$_g1 = $_g1+1;
+			$i = $_g1-1;
+			$rot = 360.0/$pointCount*$i*(M_PI/180.0);
+			$crx = $this->rx;
+			$crx1 = $crx*cos($rot);
+			$cry = $this->ry;
+			$cry1 = $cry*sin($rot);
+			$tx = intval($crx1*$c-$cry1*$s+$this->x);
+			$ty = intval($crx1*$s+$cry1*$c+$this->y);
+			$points[] = ["x" => $tx, "y" => $ty];
 		}
+
 		$tmp = geometrize_rasterizer_Rasterizer::scanlinesForPolygon($points);
 		return geometrize_rasterizer_Scanline::trim($tmp, $this->xBound, $this->yBound);
 	}
