@@ -251,7 +251,7 @@ class geometrize_shape_RotatedRectangle implements geometrize_shape_Shape {
 	}
 
 	public function getType(){
-		return 1;
+		return geometrize_shape_ShapeTypes::T_ROTATED_RECTANGLE;
 	}
 
 	public function getRawShapeData(){

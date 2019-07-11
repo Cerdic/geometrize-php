@@ -7,82 +7,52 @@ class geometrize_shape_ShapeFactory {
 
 	static function create($type, $xBound, $yBound){
 		switch ($type) {
-			case 0:
-				{
-					return new geometrize_shape_Rectangle($xBound, $yBound);
-				}
+			case geometrize_shape_ShapeTypes::T_RECTANGLE:
+				return new geometrize_shape_Rectangle($xBound, $yBound);
 				break;
-			case 1:
-				{
-					return new geometrize_shape_RotatedRectangle($xBound, $yBound);
-				}
+			case geometrize_shape_ShapeTypes::T_ROTATED_RECTANGLE:
+				return new geometrize_shape_RotatedRectangle($xBound, $yBound);
 				break;
-			case 2:
-				{
-					return new geometrize_shape_Triangle($xBound, $yBound);
-				}
+			case geometrize_shape_ShapeTypes::T_TRIANGLE:
+				return new geometrize_shape_Triangle($xBound, $yBound);
 				break;
-			case 3:
-				{
-					return new geometrize_shape_Ellipse($xBound, $yBound);
-				}
+			case geometrize_shape_ShapeTypes::T_ELLIPSE:
+				return new geometrize_shape_Ellipse($xBound, $yBound);
 				break;
-			case 4:
-				{
-					return new geometrize_shape_RotatedEllipse($xBound, $yBound);
-				}
+			case geometrize_shape_ShapeTypes::T_ROTATED_ELLIPSE:
+				return new geometrize_shape_RotatedEllipse($xBound, $yBound);
 				break;
-			case 5:
-				{
-					return new geometrize_shape_Circle($xBound, $yBound);
-				}
+			case geometrize_shape_ShapeTypes::T_CIRCLE:
+				return new geometrize_shape_Circle($xBound, $yBound);
 				break;
-			case 6:
-				{
-					return new geometrize_shape_Line($xBound, $yBound);
-				}
+			case geometrize_shape_ShapeTypes::T_LINE:
+				return new geometrize_shape_Line($xBound, $yBound);
 				break;
-			case 7:
-				{
-					return new geometrize_shape_QuadraticBezier($xBound, $yBound);
-				}
+			case geometrize_shape_ShapeTypes::T_QUADRATIC_BEZIER:
+				return new geometrize_shape_QuadraticBezier($xBound, $yBound);
 				break;
 		}
 	}
 
 	static function randomShape($xBound, $yBound){
-		$a = (new _hx_array(array(0, 1, 2, 3, 4, 5, 6, 7)));
-		$tmp = null;
-		if ($a!==null){
-			$tmp = $a->length>0;
-		} else {
-			$tmp = false;
-		}
-		if (!$tmp){
-			throw new HException("FAIL: a != null && a.length > 0");
-		}
-		$upper = $a->length-1;
-		if (!(0<=$upper)){
-			throw new HException("FAIL: lower <= upper");
-		}
-		return geometrize_shape_ShapeFactory::create($a[mt_rand(0, $upper)], $xBound, $yBound);
+		$a = [
+			geometrize_shape_ShapeTypes::T_RECTANGLE,
+			geometrize_shape_ShapeTypes::T_ROTATED_RECTANGLE,
+			geometrize_shape_ShapeTypes::T_TRIANGLE,
+			geometrize_shape_ShapeTypes::T_ELLIPSE,
+			geometrize_shape_ShapeTypes::T_ROTATED_ELLIPSE,
+			geometrize_shape_ShapeTypes::T_CIRCLE,
+			geometrize_shape_ShapeTypes::T_LINE,
+			geometrize_shape_ShapeTypes::T_QUADRATIC_BEZIER,
+		];
+		return geometrize_shape_ShapeFactory::randomShapeOf($a, $xBound, $yBound);
 	}
 
 	static function randomShapeOf($types, $xBound, $yBound){
-		$tmp = null;
-		if ($types!==null){
-			$tmp = $types->length>0;
-		} else {
-			$tmp = false;
+		if (!is_array($types) || !count($types)){
+			throw new HException("FAIL: types != null && count(types) > 0");
 		}
-		if (!$tmp){
-			throw new HException("FAIL: a != null && a.length > 0");
-		}
-		$upper = $types->length-1;
-		if (!(0<=$upper)){
-			throw new HException("FAIL: lower <= upper");
-		}
-		return geometrize_shape_ShapeFactory::create($types[mt_rand(0, $upper)], $xBound, $yBound);
+		return geometrize_shape_ShapeFactory::create($types[mt_rand(0, count($types)-1)], $xBound, $yBound);
 	}
 
 	function __toString(){

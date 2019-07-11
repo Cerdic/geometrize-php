@@ -211,7 +211,7 @@ class geometrize_shape_Triangle implements geometrize_shape_Shape {
 	}
 
 	public function getType(){
-		return 2;
+		return geometrize_shape_ShapeTypes::T_TRIANGLE;
 	}
 
 	public function getRawShapeData(){

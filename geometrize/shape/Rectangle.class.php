@@ -204,7 +204,7 @@ class geometrize_shape_Rectangle implements geometrize_shape_Shape {
 	}
 
 	public function getType(){
-		return 0;
+		return geometrize_shape_ShapeTypes::T_RECTANGLE;
 	}
 
 	public function getRawShapeData(){

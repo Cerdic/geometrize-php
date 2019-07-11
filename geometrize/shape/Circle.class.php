@@ -98,7 +98,7 @@ class geometrize_shape_Circle extends geometrize_shape_Ellipse {
 	}
 
 	public function getType(){
-		return 5;
+		return geometrize_shape_ShapeTypes::T_CIRCLE;
 	}
 
 	public function getRawShapeData(){

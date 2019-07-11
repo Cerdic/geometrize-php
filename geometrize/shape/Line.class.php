@@ -183,7 +183,7 @@ class geometrize_shape_Line implements geometrize_shape_Shape {
 	}
 
 	public function getType(){
-		return 6;
+		return geometrize_shape_ShapeTypes::T_LINE;
 	}
 
 	public function getRawShapeData(){

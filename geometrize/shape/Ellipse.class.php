@@ -213,7 +213,7 @@ class geometrize_shape_Ellipse implements geometrize_shape_Shape {
 	}
 
 	public function getType(){
-		return 3;
+		return geometrize_shape_ShapeTypes::T_ELLIPSE;
 	}
 
 	public function getRawShapeData(){

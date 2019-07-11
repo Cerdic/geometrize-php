@@ -260,7 +260,7 @@ class geometrize_shape_QuadraticBezier implements geometrize_shape_Shape {
 	}
 
 	public function getType(){
-		return 7;
+		return geometrize_shape_ShapeTypes::T_QUADRATIC_BEZIER;
 	}
 
 	public function getRawShapeData(){

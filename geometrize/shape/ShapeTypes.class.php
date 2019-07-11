@@ -5,25 +5,16 @@ class geometrize_shape_ShapeTypes {
 	public function __construct(){
 	}
 
-	static $RECTANGLE;
-	static $ROTATED_RECTANGLE;
-	static $TRIANGLE;
-	static $ELLIPSE;
-	static $ROTATED_ELLIPSE;
-	static $CIRCLE;
-	static $LINE;
-	static $QUADRATIC_BEZIER;
+	const T_RECTANGLE = 0;
+	const T_ROTATED_RECTANGLE = 1;
+	const T_TRIANGLE = 2;
+	const T_ELLIPSE = 3;
+	const T_ROTATED_ELLIPSE = 4;
+	const T_CIRCLE = 5;
+	const T_LINE = 6;
+	const T_QUADRATIC_BEZIER = 7;
 
 	function __toString(){
 		return 'geometrize.shape.ShapeTypes';
 	}
 }
-
-geometrize_shape_ShapeTypes::$RECTANGLE = 0;
-geometrize_shape_ShapeTypes::$ROTATED_RECTANGLE = 1;
-geometrize_shape_ShapeTypes::$TRIANGLE = 2;
-geometrize_shape_ShapeTypes::$ELLIPSE = 3;
-geometrize_shape_ShapeTypes::$ROTATED_ELLIPSE = 4;
-geometrize_shape_ShapeTypes::$CIRCLE = 5;
-geometrize_shape_ShapeTypes::$LINE = 6;
-geometrize_shape_ShapeTypes::$QUADRATIC_BEZIER = 7;
