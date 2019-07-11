@@ -132,7 +132,7 @@ class geometrize_exporter_SvgExporter {
 				$style .= geometrize_exporter_SvgExporter::strokeOpacityForAlpha($shape->color & 255);
 				break;
 			case geometrize_shape_ShapeTypes::T_QUADRATIC_BEZIER:
-				$style = geometrize_exporter_SvgExporter::strokeForColor($shape->color). " stroke-width=\"1\" fill=\"none\" ";
+				$style = geometrize_exporter_SvgExporter::strokeForColor($shape->color) . " fill=\"none\" ";
 				$style .= geometrize_exporter_SvgExporter::strokeOpacityForAlpha($shape->color & 255);
 				break;
 			default:
