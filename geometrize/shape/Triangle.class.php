@@ -78,8 +78,7 @@ class geometrize_shape_Triangle implements geometrize_shape_Shape {
 				["x" => $this->x2, "y" => $this->y2],
 				["x" => $this->x3, "y" => $this->y3],
 			];
-			$this->lines = geometrize_rasterizer_Rasterizer::scanlinesForPolygon($points);
-			$this->lines = geometrize_rasterizer_Scanline::trim($this->lines, $this->xBound, $this->yBound);
+			$this->lines = geometrize_rasterizer_Rasterizer::scanlinesForPolygon($points, $this->xBound, $this->yBound);
 		}
 
 		return $this->lines;

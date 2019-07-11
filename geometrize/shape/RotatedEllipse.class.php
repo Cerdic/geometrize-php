@@ -43,8 +43,7 @@ class geometrize_shape_RotatedEllipse implements geometrize_shape_Shape {
 			$points[] = ["x" => $tx, "y" => $ty];
 		}
 
-		$tmp = geometrize_rasterizer_Rasterizer::scanlinesForPolygon($points);
-		return geometrize_rasterizer_Scanline::trim($tmp, $this->xBound, $this->yBound);
+		return geometrize_rasterizer_Rasterizer::scanlinesForPolygon($points, $this->xBound, $this->yBound);
 	}
 
 	public function mutate(){

@@ -59,8 +59,7 @@ class geometrize_shape_Line implements geometrize_shape_Shape {
 			['x' => $this->x2, 'y' => $this->y2]
 		];
 
-		$lines = geometrize_rasterizer_Rasterizer::scanlinesForPath($points);
-		return geometrize_rasterizer_Scanline::trim($lines, $this->xBound, $this->yBound);
+		return geometrize_rasterizer_Rasterizer::scanlinesForPath($points, $this->xBound, $this->yBound);
 	}
 
 	public function mutate(){

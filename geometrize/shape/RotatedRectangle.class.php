@@ -56,8 +56,7 @@ class geometrize_shape_RotatedRectangle implements geometrize_shape_Shape {
 
 	public function rasterize(){
 		$points = $this->getCornerPoints();
-		$tmp = geometrize_rasterizer_Rasterizer::scanlinesForPolygon($points);
-		return geometrize_rasterizer_Scanline::trim($tmp, $this->xBound, $this->yBound);
+		return geometrize_rasterizer_Rasterizer::scanlinesForPolygon($points, $this->xBound, $this->yBound);
 	}
 
 	public function mutate(){

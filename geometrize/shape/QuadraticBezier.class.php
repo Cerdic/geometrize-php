@@ -63,8 +63,7 @@ class geometrize_shape_QuadraticBezier implements geometrize_shape_Shape {
 			$points[] = ["x" => $x, "y" => $y];
 		}
 
-		$lines = geometrize_rasterizer_Rasterizer::scanlinesForPath($points);
-		return geometrize_rasterizer_Scanline::trim($lines, $this->xBound, $this->yBound);
+		return geometrize_rasterizer_Rasterizer::scanlinesForPath($points, $this->xBound, $this->yBound);
 	}
 
 	public function mutate(){
