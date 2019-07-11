@@ -93,24 +93,24 @@ class geometrize_shape_Triangle implements geometrize_shape_Shape {
 
 		switch ($r) {
 			case 0:
-				$value = $this->x1 + mt_rand(-16, +16);
-				$this->x1 = max(min($value, $this->xBound-1),0);
-				$value = $this->y1 + mt_rand(-16, +16);
-				$this->y1 = max(min($value, $this->yBound-1),0);
+				$this->x1 += mt_rand(-16, +16);
+				#$this->x1 = max(min($this->x1, $this->xBound-1),0);
+				$this->y1 += mt_rand(-16, +16);
+				#$this->y1 = max(min($this->y1, $this->yBound-1),0);
 				break;
 
 			case 1:
-				$value = $this->x2 + mt_rand(-16, +16);
-				$this->x2 = max(min($value, $this->xBound-1),0);
-				$value = $this->y2 + mt_rand(-16, +16);
-				$this->y2 = max(min($value, $this->yBound-1),0);
+				$this->x2 += mt_rand(-16, +16);
+				#$this->x2 = max(min($this->x2, $this->xBound-1),0);
+				$this->y2 +=  mt_rand(-16, +16);
+				#$this->y2 = max(min($this->y2, $this->yBound-1),0);
 				break;
 
 			case 2:
-				$value = $this->x3 + mt_rand(-16, +16);
-				$this->x3 = max(min($value, $this->xBound-1),0);
-				$value = $this->y3 + mt_rand(-16, +16);
-				$this->y3 = max(min($value, $this->yBound-1),0);
+				$this->x3 +=  mt_rand(-16, +16);
+				#$this->x3 = max(min($this->x3, $this->xBound-1),0);
+				$this->y3 += mt_rand(-16, +16);
+				#$this->y3 = max(min($this->y3, $this->yBound-1),0);
 				break;
 		}
 
