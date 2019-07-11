@@ -12,32 +12,30 @@ class geometrize_shape_Triangle implements geometrize_shape_Shape {
 	public $yBound;
 
 	public function __construct($xBound, $yBound){
-		if (!php_Boot::$skip_constructor){
-			$this->x1 = mt_rand(0, $xBound-1);
-			$this->y1 = mt_rand(0, $yBound-1);
-			$tmp = $this->x1;
-			if (!true){
-				throw new HException("FAIL: lower <= upper");
-			}
-			$this->x2 = $tmp+mt_rand(-16, +16);
-			$tmp1 = $this->y1;
-			if (!true){
-				throw new HException("FAIL: lower <= upper");
-			}
-			$this->y2 = $tmp1+mt_rand(-16, +16);
-			$tmp2 = $this->x1;
-			if (!true){
-				throw new HException("FAIL: lower <= upper");
-			}
-			$this->x3 = $tmp2+mt_rand(-16, +16);
-			$tmp3 = $this->y1;
-			if (!true){
-				throw new HException("FAIL: lower <= upper");
-			}
-			$this->y3 = $tmp3+mt_rand(-16, +16);
-			$this->xBound = $xBound;
-			$this->yBound = $yBound;
+		$this->x1 = mt_rand(0, $xBound-1);
+		$this->y1 = mt_rand(0, $yBound-1);
+		$tmp = $this->x1;
+		if (!true){
+			throw new HException("FAIL: lower <= upper");
 		}
+		$this->x2 = $tmp+mt_rand(-16, +16);
+		$tmp1 = $this->y1;
+		if (!true){
+			throw new HException("FAIL: lower <= upper");
+		}
+		$this->y2 = $tmp1+mt_rand(-16, +16);
+		$tmp2 = $this->x1;
+		if (!true){
+			throw new HException("FAIL: lower <= upper");
+		}
+		$this->x3 = $tmp2+mt_rand(-16, +16);
+		$tmp3 = $this->y1;
+		if (!true){
+			throw new HException("FAIL: lower <= upper");
+		}
+		$this->y3 = $tmp3+mt_rand(-16, +16);
+		$this->xBound = $xBound;
+		$this->yBound = $yBound;
 	}
 
 	public function rasterize(){

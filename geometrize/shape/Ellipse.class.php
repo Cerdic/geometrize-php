@@ -10,14 +10,12 @@ class geometrize_shape_Ellipse implements geometrize_shape_Shape {
 	public $yBound;
 
 	public function __construct($xBound, $yBound){
-		if (!php_Boot::$skip_constructor){
-			$this->x = mt_rand(0, $xBound-1);
-			$this->y = mt_rand(0, $yBound-1);
-			$this->rx = mt_rand(1, 32);
-			$this->ry = mt_rand(1, 32);
-			$this->xBound = $xBound;
-			$this->yBound = $yBound;
-		}
+		$this->x = mt_rand(0, $xBound-1);
+		$this->y = mt_rand(0, $yBound-1);
+		$this->rx = mt_rand(1, 32);
+		$this->ry = mt_rand(1, 32);
+		$this->xBound = $xBound;
+		$this->yBound = $yBound;
 	}
 
 	public function rasterize(){

@@ -10,17 +10,15 @@ class geometrize_State {
 	public $buffer;
 
 	public function __construct($shape, $alpha, $target, $current, $buffer){
-		if (!php_Boot::$skip_constructor){
-			if (!($shape!==null)){
-				throw new HException("FAIL: shape != null");
-			}
-			$this->shape = $shape;
-			$this->alpha = $alpha;
-			$this->score = -1;
-			$this->target = $target;
-			$this->current = $current;
-			$this->buffer = $buffer;
+		if (!($shape!==null)){
+			throw new HException("FAIL: shape != null");
 		}
+		$this->shape = $shape;
+		$this->alpha = $alpha;
+		$this->score = -1;
+		$this->target = $target;
+		$this->current = $current;
+		$this->buffer = $buffer;
 	}
 
 	public function energy($lastScore, $bestScore = null){

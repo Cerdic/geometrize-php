@@ -10,18 +10,16 @@ class geometrize_Model {
 	public $score;
 
 	public function __construct($target, $backgroundColor){
-		if (!php_Boot::$skip_constructor){
-			if (!($target!==null)){
-				throw new HException("FAIL: target != null");
-			}
-			$this->width = $target->width;
-			$this->height = $target->height;
-			$this->target = $target;
-			$this->current = geometrize_bitmap_Bitmap::create($this->width,$this->height,$backgroundColor);
-			$this->score = geometrize_Core::differenceFull($target, $this->current);
-
-			$this->buffer = $this->current->hclone();
+		if (!($target!==null)){
+			throw new HException("FAIL: target != null");
 		}
+		$this->width = $target->width;
+		$this->height = $target->height;
+		$this->target = $target;
+		$this->current = geometrize_bitmap_Bitmap::create($this->width,$this->height,$backgroundColor);
+		$this->score = geometrize_Core::differenceFull($target, $this->current);
+
+		$this->buffer = $this->current->hclone();
 	}
 
 	public function step($shapeTypes, $alpha, $n, $age){

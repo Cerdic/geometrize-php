@@ -12,40 +12,38 @@ class geometrize_shape_QuadraticBezier implements geometrize_shape_Shape {
 	public $yBound;
 
 	public function __construct($xBound, $yBound){
-		if (!php_Boot::$skip_constructor){
-			$upper = $xBound-1;
-			if (!(0<=$upper)){
-				throw new HException("FAIL: lower <= upper");
-			}
-			$this->x1 = mt_rand(0, $upper);
-			$upper1 = $yBound-1;
-			if (!(0<=$upper1)){
-				throw new HException("FAIL: lower <= upper");
-			}
-			$this->y1 = mt_rand(0, $upper1);
-			$upper2 = $xBound-1;
-			if (!(0<=$upper2)){
-				throw new HException("FAIL: lower <= upper");
-			}
-			$this->cx = mt_rand(0, $upper2);
-			$upper3 = $yBound-1;
-			if (!(0<=$upper3)){
-				throw new HException("FAIL: lower <= upper");
-			}
-			$this->cy = mt_rand(0, $upper3);
-			$upper4 = $xBound-1;
-			if (!(0<=$upper4)){
-				throw new HException("FAIL: lower <= upper");
-			}
-			$this->x2 = mt_rand(0, $upper4);
-			$upper5 = $yBound-1;
-			if (!(0<=$upper5)){
-				throw new HException("FAIL: lower <= upper");
-			}
-			$this->y2 = mt_rand(0, $upper5);
-			$this->xBound = $xBound;
-			$this->yBound = $yBound;
+		$upper = $xBound-1;
+		if (!(0<=$upper)){
+			throw new HException("FAIL: lower <= upper");
 		}
+		$this->x1 = mt_rand(0, $upper);
+		$upper1 = $yBound-1;
+		if (!(0<=$upper1)){
+			throw new HException("FAIL: lower <= upper");
+		}
+		$this->y1 = mt_rand(0, $upper1);
+		$upper2 = $xBound-1;
+		if (!(0<=$upper2)){
+			throw new HException("FAIL: lower <= upper");
+		}
+		$this->cx = mt_rand(0, $upper2);
+		$upper3 = $yBound-1;
+		if (!(0<=$upper3)){
+			throw new HException("FAIL: lower <= upper");
+		}
+		$this->cy = mt_rand(0, $upper3);
+		$upper4 = $xBound-1;
+		if (!(0<=$upper4)){
+			throw new HException("FAIL: lower <= upper");
+		}
+		$this->x2 = mt_rand(0, $upper4);
+		$upper5 = $yBound-1;
+		if (!(0<=$upper5)){
+			throw new HException("FAIL: lower <= upper");
+		}
+		$this->y2 = mt_rand(0, $upper5);
+		$this->xBound = $xBound;
+		$this->yBound = $yBound;
 	}
 
 	public function rasterize(){

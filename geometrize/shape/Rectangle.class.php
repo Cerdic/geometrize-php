@@ -10,46 +10,44 @@ class geometrize_shape_Rectangle implements geometrize_shape_Shape {
 	public $yBound;
 
 	public function __construct($xBound, $yBound){
-		if (!php_Boot::$skip_constructor){
-			$this->x1 = mt_rand(0, $xBound-1);
-			$this->y1 = mt_rand(0, $yBound-1);
-			$value = $this->x1;
-			$value1 = $value+mt_rand(1, 32);
-			$max = $xBound-1;
-			if (!(0<=$max)){
-				throw new HException("FAIL: min <= max");
-			}
-			$tmp = null;
-			if ($value1<0){
-				$tmp = 0;
-			} else {
-				if ($value1>$max){
-					$tmp = $max;
-				} else {
-					$tmp = $value1;
-				}
-			}
-			$this->x2 = $tmp;
-			$value2 = $this->y1;
-			$value3 = $value2+mt_rand(1, 32);
-			$max1 = $yBound-1;
-			if (!(0<=$max1)){
-				throw new HException("FAIL: min <= max");
-			}
-			$tmp1 = null;
-			if ($value3<0){
-				$tmp1 = 0;
-			} else {
-				if ($value3>$max1){
-					$tmp1 = $max1;
-				} else {
-					$tmp1 = $value3;
-				}
-			}
-			$this->y2 = $tmp1;
-			$this->xBound = $xBound;
-			$this->yBound = $yBound;
+		$this->x1 = mt_rand(0, $xBound-1);
+		$this->y1 = mt_rand(0, $yBound-1);
+		$value = $this->x1;
+		$value1 = $value+mt_rand(1, 32);
+		$max = $xBound-1;
+		if (!(0<=$max)){
+			throw new HException("FAIL: min <= max");
 		}
+		$tmp = null;
+		if ($value1<0){
+			$tmp = 0;
+		} else {
+			if ($value1>$max){
+				$tmp = $max;
+			} else {
+				$tmp = $value1;
+			}
+		}
+		$this->x2 = $tmp;
+		$value2 = $this->y1;
+		$value3 = $value2+mt_rand(1, 32);
+		$max1 = $yBound-1;
+		if (!(0<=$max1)){
+			throw new HException("FAIL: min <= max");
+		}
+		$tmp1 = null;
+		if ($value3<0){
+			$tmp1 = 0;
+		} else {
+			if ($value3>$max1){
+				$tmp1 = $max1;
+			} else {
+				$tmp1 = $value3;
+			}
+		}
+		$this->y2 = $tmp1;
+		$this->xBound = $xBound;
+		$this->yBound = $yBound;
 	}
 
 	public function rasterize(){

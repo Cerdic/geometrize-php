@@ -11,48 +11,46 @@ class geometrize_shape_RotatedRectangle implements geometrize_shape_Shape {
 	public $yBound;
 
 	public function __construct($xBound, $yBound){
-		if (!php_Boot::$skip_constructor){
-			$this->x1 = mt_rand(0, $xBound-1);
-			$this->y1 = mt_rand(0, $yBound-1);
-			$value = $this->x1;
-			$value1 = $value+mt_rand(1, 32);
-			if (!(0<=$xBound)){
-				throw new HException("FAIL: min <= max");
-			}
-			$tmp = null;
-			if ($value1<0){
-				$tmp = 0;
-			} else {
-				if ($value1>$xBound){
-					$tmp = $xBound;
-				} else {
-					$tmp = $value1;
-				}
-			}
-			$this->x2 = $tmp;
-			$value2 = $this->y1;
-			$value3 = $value2+mt_rand(1, 32);
-			if (!(0<=$yBound)){
-				throw new HException("FAIL: min <= max");
-			}
-			$tmp1 = null;
-			if ($value3<0){
-				$tmp1 = 0;
-			} else {
-				if ($value3>$yBound){
-					$tmp1 = $yBound;
-				} else {
-					$tmp1 = $value3;
-				}
-			}
-			$this->y2 = $tmp1;
-			if (!true){
-				throw new HException("FAIL: lower <= upper");
-			}
-			$this->angle = mt_rand(0, 360);
-			$this->xBound = $xBound;
-			$this->yBound = $yBound;
+		$this->x1 = mt_rand(0, $xBound-1);
+		$this->y1 = mt_rand(0, $yBound-1);
+		$value = $this->x1;
+		$value1 = $value+mt_rand(1, 32);
+		if (!(0<=$xBound)){
+			throw new HException("FAIL: min <= max");
 		}
+		$tmp = null;
+		if ($value1<0){
+			$tmp = 0;
+		} else {
+			if ($value1>$xBound){
+				$tmp = $xBound;
+			} else {
+				$tmp = $value1;
+			}
+		}
+		$this->x2 = $tmp;
+		$value2 = $this->y1;
+		$value3 = $value2+mt_rand(1, 32);
+		if (!(0<=$yBound)){
+			throw new HException("FAIL: min <= max");
+		}
+		$tmp1 = null;
+		if ($value3<0){
+			$tmp1 = 0;
+		} else {
+			if ($value3>$yBound){
+				$tmp1 = $yBound;
+			} else {
+				$tmp1 = $value3;
+			}
+		}
+		$this->y2 = $tmp1;
+		if (!true){
+			throw new HException("FAIL: lower <= upper");
+		}
+		$this->angle = mt_rand(0, 360);
+		$this->xBound = $xBound;
+		$this->yBound = $yBound;
 	}
 
 	public function rasterize(){

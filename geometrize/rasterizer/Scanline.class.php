@@ -7,11 +7,9 @@ class geometrize_rasterizer_Scanline {
 	public $x2;
 
 	public function __construct($y, $x1, $x2){
-		if (!php_Boot::$skip_constructor){
-			$this->y = $y;
-			$this->x1 = $x1;
-			$this->x2 = $x2;
-		}
+		$this->y = $y;
+		$this->x1 = $x1;
+		$this->x2 = $x2;
 	}
 
 	public function __call($m, $a){
