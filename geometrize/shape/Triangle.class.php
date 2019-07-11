@@ -158,6 +158,9 @@ class geometrize_shape_Triangle implements geometrize_shape_Shape {
 		return geometrize_shape_ShapeTypes::T_TRIANGLE;
 	}
 
+	/**
+	 * @return array
+	 */
 	public function getRawShapeData(){
 		return [
 			$this->x1,
