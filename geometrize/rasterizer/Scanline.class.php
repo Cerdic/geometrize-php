@@ -39,69 +39,50 @@ class geometrize_rasterizer_Scanline {
 		$this->x2 = intval(round($this->x2*$xScale));
 	}
 
-	static function trim($scanlines, $w, $h){
-		if (!($scanlines!==null)){
-			throw new HException("FAIL: scanlines != null");
+	static function trim(&$scanlines, $w, $h){
+		if (!is_array($scanlines)){
+			throw new HException("FAIL: scanlines != array");
 		}
-		$scanlines = array_filter($scanlines, function ($line) use ($w,$h) { return geometrize_rasterizer_Scanline::trimHelper($line, $w, $h); } );
-		return $scanlines;
-	}
-
-	static function trimHelper($line, $w, $h){
-		$tmp = null;
-		$tmp1 = null;
-		$tmp2 = null;
-		if ($line->y>=0){
-			$tmp2 = $line->y>=$h;
-		} else {
-			$tmp2 = true;
-		}
-		if (!$tmp2){
-			$tmp1 = $line->x1>=$w;
-		} else {
-			$tmp1 = true;
-		}
-		if (!$tmp1){
-			$tmp = $line->x2<0;
-		} else {
-			$tmp = true;
-		}
-		if ($tmp){
-			return false;
-		}
-		$value = $line->x1;
 		$max = $w-1;
 		if (!(0<=$max)){
 			throw new HException("FAIL: min <= max");
 		}
-		$tmp3 = null;
-		if ($value<0){
-			$tmp3 = 0;
-		} else {
-			if ($value>$max){
-				$tmp3 = $max;
-			} else {
-				$tmp3 = $value;
+
+		foreach ($scanlines as $k=>&$line) {
+			if (!geometrize_rasterizer_Scanline::trimHelper($line, $w, $h)) {
+				unset($scanlines[$k]);
 			}
 		}
-		$line->x1 = $tmp3;
-		$value1 = $line->x2;
-		$max1 = $w-1;
-		if (!(0<=$max1)){
-			throw new HException("FAIL: min <= max");
+		/*
+		// trim each scanline with the bounds
+		$scanlines = array_map(function (&$line) use ($w,$h) { return geometrize_rasterizer_Scanline::trimHelper($line, $w, $h); }, $scanlines);
+		// remove empty scanlines
+		$scanlines = array_filter($scanlines);
+		*/
+
+		return $scanlines;
+	}
+
+	/**
+	 * Trim a ScanLine
+	 * @param geometrize_rasterizer_Scanline $line
+	 * @param int $w
+	 * @param int $h
+	 * @return bool
+	 * @throws HException
+	 */
+	static function trimHelper(&$line, $w, $h){
+		if ($line->y<0 or $line->y>=$h) {
+			return false;
 		}
-		$tmp4 = null;
-		if ($value1<0){
-			$tmp4 = 0;
-		} else {
-			if ($value1>$max1){
-				$tmp4 = $max1;
-			} else {
-				$tmp4 = $value1;
-			}
+		if ($line->x1>=$w or $line->x2<0 or $line->x2<$line->x1) {
+			return false;
 		}
-		$line->x2 = $tmp4;
-		return $line->x1<=$line->x2;
+
+		$line->x1 = max($line->x1, 0);
+		$line->x2 = min($line->x2, $w-1);
+
+		return true;
 	}
 
 	function __toString(){
