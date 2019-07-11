@@ -99,12 +99,14 @@ class geometrize_exporter_SvgExporter {
 			case geometrize_shape_ShapeTypes::T_LINE:
 			case geometrize_shape_ShapeTypes::T_QUADRATIC_BEZIER:
 				$style = geometrize_exporter_SvgExporter::strokeForColor($shape->color) . " stroke-width=\"1\" fill=\"none\" ";
+				$style .= geometrize_exporter_SvgExporter::strokeOpacityForAlpha($shape->color & 255);
 				break;
 			default:
 				$style = geometrize_exporter_SvgExporter::fillForColor($shape->color) . " ";
+				$style .= geometrize_exporter_SvgExporter::fillOpacityForAlpha($shape->color & 255);
 				break;
 		}
-		return $style . geometrize_exporter_SvgExporter::strokeOpacityForAlpha($shape->color & 255);
+		return $style ;
 	}
 
 	/**
@@ -136,6 +138,9 @@ class geometrize_exporter_SvgExporter {
 	 * @return string
 	 */
 	static function fillOpacityForAlpha($alpha){
+		if ($alpha === 255) {
+			return "";
+		}
 		return "fill-opacity=\"" . ($alpha/255.0) . "\"";
 	}
 
@@ -144,6 +149,9 @@ class geometrize_exporter_SvgExporter {
 	 * @return string
 	 */
 	static function strokeOpacityForAlpha($alpha){
+		if ($alpha === 255) {
+			return "";
+		}
 		return "stroke-opacity=\"" . ($alpha/255.0)  . "\"";
 	}
 
