@@ -7,34 +7,40 @@ class geometrize_exporter_SvgExporter {
 
 	static $SVG_STYLE_HOOK = "::svg_style_hook::";
 
-	static function export($shapes, $width, $height){
-		$results = geometrize_exporter_SvgExporter::getSvgPrelude();
-		$results = _hx_string_or_null($results) . _hx_string_or_null(geometrize_exporter_SvgExporter::getSvgNodeOpen($width, $height));
-		$results = _hx_string_or_null($results) . _hx_string_or_null(geometrize_exporter_SvgExporter::exportShapes($shapes));
-		$results = _hx_string_or_null($results) . _hx_string_or_null(geometrize_exporter_SvgExporter::getSvgNodeClose());
-		return $results;
+	/**
+	 * @param array $results
+	 * @param int $width
+	 * @param int $height
+	 * @return string
+	 */
+	static function export($results, $width, $height){
+		$out = geometrize_exporter_SvgExporter::getSvgPrelude();
+		$out .= geometrize_exporter_SvgExporter::getSvgNodeOpen($width, $height);
+		$shapes = array_column($results, 'shape');
+		$out .= geometrize_exporter_SvgExporter::exportShapes($shapes);
+		$out .= geometrize_exporter_SvgExporter::getSvgNodeClose();
+		return $out;
 	}
 
+	/**
+	 * @param array $shapes
+	 * @return string
+	 */
 	static function exportShapes($shapes){
-		$results = "";
-		{
-			$_g1 = 0;
-			$_g = $shapes->length;
-			while ($_g1<$_g){
-				$_g1 = $_g1+1;
-				$i = $_g1-1;
-				$results = _hx_string_or_null($results) . _hx_string_or_null(geometrize_exporter_SvgExporter::exportShape($shapes[$i]));
-				if ($i!==$shapes->length-1){
-					$results = _hx_string_or_null($results) . "\x0A";
-				}
-				unset($i);
-			}
+		$out = [];
+		foreach ($shapes as $shape) {
+			$out[] = geometrize_exporter_SvgExporter::exportShape($shape);
 		}
-		return $results;
+		$out = implode("\x0A", $out);
+		return $out;
 	}
 
+	/**
+	 * @param geometrize_shape_Shape $shape
+	 * @return string
+	 */
 	static function exportShape($shape){
-		$s = $shape->shape->getSvgShapeData();
+		$s = $shape->getSvgShapeData();
 		$sub = geometrize_exporter_SvgExporter::$SVG_STYLE_HOOK;
 		$by = geometrize_exporter_SvgExporter::stylesForShape($shape);
 		if ($sub===""){
@@ -44,57 +50,90 @@ class geometrize_exporter_SvgExporter {
 		}
 	}
 
+	/**
+	 * @return string
+	 */
 	static function getSvgPrelude(){
 		return "<?xml version=\"1.0\" standalone=\"no\"?>\x0A";
 	}
 
+	/**
+	 * @param int $width
+	 * @param int $height
+	 * @return string
+	 */
 	static function getSvgNodeOpen($width, $height){
 		return "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.2\" baseProfile=\"tiny\" width=\"" . _hx_string_rec($width, "") . "\" height=\"" . _hx_string_rec($height, "") . "\">\x0A";
 	}
 
+	/**
+	 * @return string
+	 */
 	static function getSvgNodeClose(){
 		return "</svg>";
 	}
 
+	/**
+	 * @param geometrize_shape_Shape $shape
+	 * @return string
+	 */
 	static function stylesForShape($shape){
-		$_g = $shape->shape->getType();
-		switch ($_g) {
-			case 6:
-			case 7:
-				{
-					$tmp = _hx_string_or_null(geometrize_exporter_SvgExporter::strokeForColor($shape->color)) . " stroke-width=\"1\" fill=\"none\" ";
-					return _hx_string_or_null($tmp) . _hx_string_or_null(geometrize_exporter_SvgExporter::strokeOpacityForAlpha($shape->color & 255));
-				}
+		$style = "";
+		switch ($shape->getType()) {
+			case geometrize_shape_ShapeTypes::T_LINE:
+			case geometrize_shape_ShapeTypes::T_QUADRATIC_BEZIER:
+				$style = geometrize_exporter_SvgExporter::strokeForColor($shape->color) . " stroke-width=\"1\" fill=\"none\" ";
 				break;
 			default:
-				{
-					$tmp1 = _hx_string_or_null(geometrize_exporter_SvgExporter::fillForColor($shape->color)) . " ";
-					return _hx_string_or_null($tmp1) . _hx_string_or_null(geometrize_exporter_SvgExporter::fillOpacityForAlpha($shape->color & 255));
-				}
+				$style = geometrize_exporter_SvgExporter::fillForColor($shape->color) . " ";
 				break;
 		}
+		return $style . geometrize_exporter_SvgExporter::strokeOpacityForAlpha($shape->color & 255);
 	}
 
+	/**
+	 * @param int $color
+	 * @return string
+	 */
 	static function rgbForColor($color){
-		return "rgb(" . _hx_string_rec(($color >> 24 & 255), "") . "," . _hx_string_rec(($color >> 16 & 255), "") . "," . _hx_string_rec(($color >> 8 & 255), "") . ")";
+		return "rgb(" . ($color >> 24 & 255) . "," . ($color >> 16 & 255) . "," . ($color >> 8 & 255) . ")";
 	}
 
+	/**
+	 * @param int $color
+	 * @return string
+	 */
 	static function strokeForColor($color){
-		return "stroke=\"" . _hx_string_or_null(geometrize_exporter_SvgExporter::rgbForColor($color)) . "\"";
+		return "stroke=\"" . geometrize_exporter_SvgExporter::rgbForColor($color) . "\"";
 	}
 
+	/**
+	 * @param int $color
+	 * @return string
+	 */
 	static function fillForColor($color){
-		return "fill=\"" . _hx_string_or_null(geometrize_exporter_SvgExporter::rgbForColor($color)) . "\"";
+		return "fill=\"" . geometrize_exporter_SvgExporter::rgbForColor($color) . "\"";
 	}
 
+	/**
+	 * @param int $alpha
+	 * @return string
+	 */
 	static function fillOpacityForAlpha($alpha){
-		return "fill-opacity=\"" . _hx_string_rec($alpha/255.0, "") . "\"";
+		return "fill-opacity=\"" . ($alpha/255.0) . "\"";
 	}
 
+	/**
+	 * @param int $alpha
+	 * @return string
+	 */
 	static function strokeOpacityForAlpha($alpha){
-		return "stroke-opacity=\"" . _hx_string_rec($alpha/255.0, "") . "\"";
+		return "stroke-opacity=\"" . ($alpha/255.0)  . "\"";
 	}
 
+	/**
+	 * @return string
+	 */
 	function __toString(){
 		return 'geometrize.exporter.SvgExporter';
 	}

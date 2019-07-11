@@ -24,7 +24,7 @@ class geometrize_Model {
 
 	public function step($shapeTypes, $alpha, $n, $age){
 		$state = geometrize_Core::bestHillClimbState($shapeTypes, $alpha, $n, $age, $this->target, $this->current, $this->buffer, $this->score);
-		$results = (new _hx_array(array($this->addShape($state->shape, $state->alpha))));
+		$results = [$this->addShape($state->shape, $state->alpha)];
 		return $results;
 	}
 
@@ -42,7 +42,7 @@ class geometrize_Model {
 		geometrize_rasterizer_Rasterizer::drawLines($this->current, $shape->color, $lines);
 		$this->score = geometrize_Core::differencePartial($this->target, $before, $this->current, $this->score, $lines);
 		$score_normalization = $before->width * $before->height * 4 * 255;
-		$result = _hx_anonymous(array("score" => $this->score/$score_normalization, "color" => $shape->color, "shape" => $shape));
+		$result = ["score" => $this->score/$score_normalization, "color" => $shape->color, "shape" => $shape];
 		return $result;
 	}
 
