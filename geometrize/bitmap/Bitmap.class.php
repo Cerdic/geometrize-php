@@ -23,10 +23,6 @@ class geometrize_bitmap_Bitmap {
 		return $this->width * $this->height;
 	}
 
-	public function hclone(){
-		return clone $this;
-	}
-
 	public function fill($color){
 		$idx = 0;
 		$n = $this->width * $this->height;

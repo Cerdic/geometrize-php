@@ -132,10 +132,6 @@ class geometrize_shape_RotatedEllipse implements geometrize_shape_Shape {
 		}
 	}
 
-	public function hclone(){
-		return clone $this;
-	}
-
 	public function __clone() {
 		if ($this->lines) {
 			foreach ($this->lines as $k=>&$line) {

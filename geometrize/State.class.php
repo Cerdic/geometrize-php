@@ -82,10 +82,6 @@ class geometrize_State {
 		return $this->alpha;
 	}
 
-	public function hclone(){
-		return clone $this;
-	}
-
 	public function __clone() {
 		$this->shape = clone $this->shape;
 		/*

@@ -8,8 +8,6 @@ interface geometrize_shape_Shape {
 
 	function rescale($xBound, $yBound);
 
-	function hclone();
-
 	function getType();
 
 	function getRawShapeData();
