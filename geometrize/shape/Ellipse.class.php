@@ -78,10 +78,10 @@ class geometrize_shape_Ellipse implements geometrize_shape_Shape {
 				}
 
 				if ($y1>=0){
-					$this->lines[] = new geometrize_rasterizer_Scanline($y1, $x1, $x2);
+					$this->lines[] = ['y' => $y1, 'x1'=>$x1, 'x2'=>$x2];
 				}
 				if ($y2<$h){
-					$this->lines[] = new geometrize_rasterizer_Scanline($y2, $x1, $x2);
+					$this->lines[] = ['y' => $y2, 'x1'=>$x1, 'x2'=>$x2];
 				}
 			}
 		}
@@ -134,14 +134,6 @@ class geometrize_shape_Ellipse implements geometrize_shape_Shape {
 		// need to rasterize again
 		$this->lines = null;
 	}
-
-	public function __clone() {
-		if ($this->lines) {
-			foreach ($this->lines as $k=>&$line) {
-				$this->lines[$k] = clone $line;
-			}
-		}
-  }
 
 	public function getType(){
 		return geometrize_shape_ShapeTypes::T_ELLIPSE;

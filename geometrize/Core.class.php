@@ -32,8 +32,8 @@ class geometrize_Core {
 		$a = intval($f);
 
 		foreach($lines as $line){
-			$y = $line->y;
-			for ($x=$line->x1; $x<=$line->x2; $x++) {
+			$y = $line['y'];
+			for ($x=$line['x1']; $x<=$line['x2']; $x++) {
 				$t = $target->data[$target->width*$y+$x];
 				$c = $current->data[$current->width*$y+$x];
 				$totalRed = $totalRed+((($t >> 24 & 255)-($c >> 24 & 255))*$a+($c >> 24 & 255)*257);
@@ -213,9 +213,9 @@ class geometrize_Core {
 
 		$total = $score;
 		foreach ($lines as &$line) {
-			$o1 = $target->width*$line->y;
-			$o2 = $before->width*$line->y;
-			for ($x = $line->x1; $x<=$line->x2; $x++){
+			$o1 = $target->width*$line['y'];
+			$o2 = $before->width*$line['y'];
+			for ($x = $line['x1']; $x<=$line['x2']; $x++){
 				$t = $target->data[$o1+$x];
 				if (!isset($before->errorCache[$o2+$x])){
 					$b = $before->data[$o2+$x];
@@ -245,9 +245,9 @@ class geometrize_Core {
 		}
 
 		foreach ($lines as &$line) {
-			$o1 = $target->width*$line->y;
-			$o3 = $after->width*$line->y;
-			for ($x = $line->x1; $x<=$line->x2; $x++){
+			$o1 = $target->width*$line['y'];
+			$o3 = $after->width*$line['y'];
+			for ($x = $line['x1']; $x<=$line['x2']; $x++){
 				$t = $target->data[$o1+$x];
 				$a = $after->data[$o3+$x];
 

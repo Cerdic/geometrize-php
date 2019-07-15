@@ -10,9 +10,9 @@ class geometrize_rasterizer_Rasterizer {
 		// easy case: opacity=1, just a copy of the color $c, much faster
 		if ($c & 255===255){
 			foreach ($lines as &$line) {
-				$_g1 = $line->x2+1;
-				$o = $image->width*$line->y;
-				for ($x = $line->x1; $x<$_g1; $x++){
+				$_g1 = $line['x2']+1;
+				$o = $image->width*$line['y'];
+				for ($x = $line['x1']; $x<$_g1; $x++){
 					$image->data[$o+$x] = $c;
 					if (isset($image->errorCache) && isset($image->errorCache[$o+$x])){
 						unset($image->errorCache[$o+$x]);
@@ -36,14 +36,14 @@ class geometrize_rasterizer_Rasterizer {
 			$sa = $sa | $sa << 8;
 
 			foreach ($lines as &$line) {
-				$y = $line->y;
+				$y = $line['y'];
 				$ma = 65535;
 				$m = 65535;
 				$as = ($m-$sa*($ma/$m))*257;
 				$a = intval($as);
 
-				$_g2 = $line->x1;
-				$_g1 = $line->x2+1;
+				$_g2 = $line['x1'];
+				$_g1 = $line['x2']+1;
 				while ($_g2<$_g1){
 					$_g2 = $_g2+1;
 					$x = $_g2-1;
@@ -186,11 +186,11 @@ class geometrize_rasterizer_Rasterizer {
 			throw new HException("FAIL: lines != null");
 		}
 
-		foreach ($lines as &$line) {
-			$_g1 = $line->x2+1;
-			$o1 = $source->width*$line->y;
-			$o2 = $destination->width*$line->y;
-			for ($x = $line->x1; $x<$_g1; $x++){
+		foreach ($lines as $y=>&$line) {
+			$_g1 = $line['x2']+1;
+			$o1 = $source->width*$y;
+			$o2 = $destination->width*$y;
+			for ($x = $line['x1']; $x<$_g1; $x++){
 				$destination->data[$o2+$x] = $source->data[$o1+$x];
 			}
 		}
@@ -281,7 +281,6 @@ class geometrize_rasterizer_Rasterizer {
 	 */
 	static function scanlinesForPath($points, $xBound, $yBound, $isClosed = false){
 		$lines = [];
-		$edges = [];
 
 		if ($isClosed) {
 			$prevPoint = end($points);
@@ -305,7 +304,7 @@ class geometrize_rasterizer_Rasterizer {
 				$minx = min($xs);
 				$maxx = max($xs);
 				if ($minx<$xBound and $maxx>=0){
-					$lines[] = new geometrize_rasterizer_Scanline($y, max($minx, 0), min($maxx, $xBound-1));
+					$lines[] = ['y' => $y, 'x1'=>max($minx, 0), 'x2' =>min($maxx, $xBound-1)];
 				}
 			}
 		}

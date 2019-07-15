@@ -121,14 +121,6 @@ class geometrize_shape_RotatedRectangle implements geometrize_shape_Shape {
 		$this->lines = null;
 	}
 
-	public function __clone() {
-		if ($this->lines) {
-			foreach ($this->lines as $k=>&$line) {
-				$this->lines[$k] = clone $line;
-			}
-		}
-  }
-
 	public function getType(){
 		return geometrize_shape_ShapeTypes::T_ROTATED_RECTANGLE;
 	}

@@ -70,7 +70,7 @@ class geometrize_shape_Rectangle implements geometrize_shape_Shape {
 			$this->lines = [];
 			if ($xm2>$xm1){
 				for ($y = $ym1; $y<=$ym2; $y++){
-					$this->lines[] = new geometrize_rasterizer_Scanline($y, $xm1, $xm2);
+					$this->lines[] = ['y' => $y, 'x1' => $xm1, 'x2' => $xm2];
 				}
 			}
 		}
@@ -116,14 +116,6 @@ class geometrize_shape_Rectangle implements geometrize_shape_Shape {
 		// need to rasterize again
 		$this->lines = null;
 	}
-
-	public function __clone() {
-		if ($this->lines) {
-			foreach ($this->lines as $k=>&$line) {
-				$this->lines[$k] = clone $line;
-			}
-		}
-  }
 
 	public function getType(){
 		return geometrize_shape_ShapeTypes::T_RECTANGLE;
