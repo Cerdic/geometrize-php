@@ -47,7 +47,7 @@ class geometrize_Model {
 
 	public function step($shapeTypes, $alpha, $n, $age){
 		$state = geometrize_Core::bestHillClimbState($shapeTypes, $alpha, $n, $age, $this->target, $this->current, $this->buffer, $this->score);
-		$results = [$this->addShape($state->shape, $state->alpha)];
+		$results = [$this->addShape($state->getShape(), $state->getAlpha())];
 		return $results;
 	}
 
