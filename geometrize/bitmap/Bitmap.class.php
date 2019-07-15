@@ -33,7 +33,7 @@ class geometrize_bitmap_Bitmap {
 	 * @return int
 	 */
 	public function getPixel($x, $y){
-		return $this->data[$this->width*$y+$x];
+		return isset($this->data[$y][$x]) ? $this->data[$y][$x] : 255;
 	}
 
 	/**
@@ -42,7 +42,7 @@ class geometrize_bitmap_Bitmap {
 	 * @param int $color
 	 */
 	public function setPixel($x, $y, $color){
-		$this->data[$this->width*$y+$x] = $color;
+		$this->data[$y][$x] = $color;
 	}
 
 	/**
@@ -56,11 +56,10 @@ class geometrize_bitmap_Bitmap {
 	 * @param int $color
 	 */
 	public function fill($color){
-		$idx = 0;
-		$n = $this->width * $this->height;
-		while ($idx<$n){
-			$this->data[$idx] = $color;
-			$idx++;
+		for ($y=0;$y<$this->height;$y++) {
+			for ($x=0;$x<$this->width;$x++) {
+				$this->data[$y][$x] = $color;
+			}
 		}
 	}
 
@@ -143,13 +142,12 @@ class geometrize_bitmap_Bitmap {
 		$bitmap->height = $h;
 
 		for ($y = 0; $y<$h; $y++){
-			$l = $w * $y;
 			for ($x = 0; $x<$w; $x++){
 				// get a color
 				$color_index = imagecolorat($image, $x, $y);
 				// make it human readable
 				$c = imagecolorsforindex($image, $color_index);
-				$bitmap->data[$l+$x] = geometrize_bitmap_Bitmap::colorFromRGBAArray($c);
+				$bitmap->data[$y][$x] = geometrize_bitmap_Bitmap::colorFromRGBAArray($c);
 			}
 		}
 

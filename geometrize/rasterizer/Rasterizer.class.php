@@ -11,11 +11,11 @@ class geometrize_rasterizer_Rasterizer {
 		if ($c & 255===255){
 			foreach ($lines as &$line) {
 				$_g1 = $line['x2']+1;
-				$o = $image->width*$line['y'];
+				$y = $line['y'];
 				for ($x = $line['x1']; $x<$_g1; $x++){
-					$image->data[$o+$x] = $c;
-					if (isset($image->errorCache) && isset($image->errorCache[$o+$x])){
-						unset($image->errorCache[$o+$x]);
+					$image->data[$y][$x] = $c;
+					if (isset($image->errorCache[$y][$x])){
+						unset($image->errorCache[$y][$x]);
 					}
 				}
 			}
@@ -47,7 +47,7 @@ class geometrize_rasterizer_Rasterizer {
 				while ($_g2<$_g1){
 					$_g2 = $_g2+1;
 					$x = $_g2-1;
-					$d = $image->data[$image->width*$y+$x];
+					$d = $image->data[$y][$x];
 					$dr = $d >> 24 & 255;
 					$dg = $d >> 16 & 255;
 					$db = $d >> 8 & 255;
@@ -165,9 +165,9 @@ class geometrize_rasterizer_Rasterizer {
 								$color3 = $a3;
 							}
 						}
-						$image->data[$image->width*$y+$x] = ($color << 24)+($color1 << 16)+($color2 << 8)+$color3;
-						if (isset($image->errorCache) && isset($image->errorCache[$image->width*$y+$x])){
-							unset($image->errorCache[$image->width*$y+$x]);
+						$image->data[$y][$x] = ($color << 24)+($color1 << 16)+($color2 << 8)+$color3;
+						if (isset($image->errorCache[$y][$x])){
+							unset($image->errorCache[$y][$x]);
 						}
 					}
 				}
@@ -186,12 +186,11 @@ class geometrize_rasterizer_Rasterizer {
 			throw new HException("FAIL: lines != null");
 		}
 
-		foreach ($lines as $y=>&$line) {
+		foreach ($lines as &$line) {
+			$y = $line['y'];
 			$_g1 = $line['x2']+1;
-			$o1 = $source->width*$y;
-			$o2 = $destination->width*$y;
 			for ($x = $line['x1']; $x<$_g1; $x++){
-				$destination->data[$o2+$x] = $source->data[$o1+$x];
+				$destination->data[$y][$x] = $source->data[$y][$x];
 			}
 		}
 	}
