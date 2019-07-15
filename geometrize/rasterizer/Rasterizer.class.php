@@ -201,9 +201,10 @@ class geometrize_rasterizer_Rasterizer {
 	 * @param int $y1
 	 * @param int $x2
 	 * @param int $y2
+	 * @param &array
 	 * @return array
 	 */
-	static function bresenham($x1, $y1, $x2, $y2){
+	static function bresenham($x1, $y1, $x2, $y2, &$points){
 		$dx = $x2-$x1;
 		$ix1 = ($dx>0 ? 1 : 0);
 		$ix2 = ($dx<0 ? 1 : 0);
@@ -224,18 +225,24 @@ class geometrize_rasterizer_Rasterizer {
 		}
 		$dy = $dy << 1;
 
-		$points = [];
-		$points[] = ["x" => $x1, "y" => $y1];
+
+		if (!isset($points[$y1])) {
+			$points[$y1] = [];
+		}
+		$points[$y1][] = $x1;
 		if ($dx>=$dy){
 			$error = $dy-($dx >> 1);
 			while ($x1!==$x2){
 				if ($error>0 or ($error===0 and $ix>0)){
 					$error -= $dx;
 					$y1 += $iy;
+					if (!isset($points[$y1])) {
+						$points[$y1] = [];
+					}
 				}
 				$error += $dy;
 				$x1 += $ix;
-				$points[] = ["x" => $x1, "y" => $y1];
+				$points[$y1][] = $x1;
 			}
 		} else {
 			$error = $dx-($dy >> 1);
@@ -246,7 +253,10 @@ class geometrize_rasterizer_Rasterizer {
 				}
 				$error += $dx;
 				$y1 += $iy;
-				$points[] = ["x" => $x1, "y" => $y1];
+				if (!isset($points[$y1])) {
+					$points[$y1] = [];
+				}
+				$points[$y1][] = $x1;
 			}
 		}
 		return $points;
@@ -280,25 +290,17 @@ class geometrize_rasterizer_Rasterizer {
 			$prevPoint = array_shift($points);
 		}
 
-		$yToXs = [];
+		$YXpoints = [];
 
 		foreach ($points as $point) {
-			$rasterizedLine = geometrize_rasterizer_Rasterizer::bresenham($prevPoint['x'], $prevPoint['y'], $point['x'], $point['y']);
-
-			foreach ($rasterizedLine as $p) {
-				if (!isset($yToXs[$p['y']])){
-					$yToXs[$p['y']] = [];
-				}
-				$yToXs[$p['y']][] = $p['x'];
-			}
-
+			geometrize_rasterizer_Rasterizer::bresenham($prevPoint['x'], $prevPoint['y'], $point['x'], $point['y'], $YXpoints);
 			$prevPoint = $point;
 		}
 
 		// not super useful
-		// ksort($yToXs);
+		// ksort($YXpoints);
 
-		foreach ($yToXs as $y => $xs){
+		foreach ($YXpoints as $y => $xs){
 			if ($y>=0 and $y<$yBound){
 				$minx = min($xs);
 				$maxx = max($xs);
