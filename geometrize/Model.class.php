@@ -45,12 +45,26 @@ class geometrize_Model {
 		$this->buffer = clone $this->current;
 	}
 
-	public function step($shapeTypes, $alpha, $n, $age){
-		$state = geometrize_Core::bestHillClimbState($shapeTypes, $alpha, $n, $age, $this->target, $this->current, $this->buffer, $this->score);
+	/**
+	 * @param array $shapeTypes
+	 * @param int $alpha
+	 * @param int $nRandom
+	 * @param int $maxMutationAge
+	 * @return array
+	 * @throws HException
+	 */
+	public function step($shapeTypes, $alpha, $nRandom, $maxMutationAge){
+		$state = geometrize_Core::bestHillClimbState($shapeTypes, $alpha, $nRandom, $maxMutationAge, $this->target, $this->current, $this->buffer, $this->score);
 		$results = [$this->addShape($state->getShape(), $state->getAlpha())];
 		return $results;
 	}
 
+	/**
+	 * @param geometrize_shape_Shape $shape
+	 * @param int $alpha
+	 * @return array
+	 * @throws HException
+	 */
 	public function addShape($shape, $alpha){
 		if (!($shape!==null)){
 			throw new HException("FAIL: shape != null");
@@ -69,14 +83,23 @@ class geometrize_Model {
 		return $result;
 	}
 
+	/**
+	 * @return geometrize_bitmap_Bitmap
+	 */
 	public function getCurrent() {
 		return $this->current;
 	}
 
+	/**
+	 * @return int
+	 */
 	public function getHeight() {
 		return $this->height;
 	}
 
+	/**
+	 * @return int
+	 */
 	public function getWidth() {
 		return $this->width;
 	}

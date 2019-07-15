@@ -280,7 +280,7 @@ class geometrize_Core {
 	/**
 	 * @param array $shapes
 	 * @param int $alpha
-	 * @param int $n
+	 * @param int $nRandom
 	 * @param geometrize_bitmap_Bitmap $target
 	 * @param geometrize_bitmap_Bitmap $current
 	 * @param geometrize_bitmap_Bitmap $buffer
@@ -288,13 +288,13 @@ class geometrize_Core {
 	 * @return geometrize_State
 	 * @throws HException
 	 */
-	static function bestRandomState($shapes, $alpha, $n, $target, $current, $buffer, $lastScore){
+	static function bestRandomState($shapes, $alpha, $nRandom, $target, $current, $buffer, $lastScore){
 		$bestEnergy = null;
 		$bestState = null;
 
-		$n = max($n, 1);
+		$nRandom = max($nRandom, 1);
 
-		for ($i = 0; $i<$n; $i++){
+		for ($i = 0; $i<$nRandom; $i++){
 			$state = new geometrize_State(geometrize_shape_ShapeFactory::randomShapeOf($shapes, $current->width, $current->height), $alpha, $target, $current, $buffer);
 			$energy = $state->energy($lastScore, $bestEnergy);
 			if (is_null($bestEnergy) || $energy<$bestEnergy){
@@ -309,8 +309,8 @@ class geometrize_Core {
 	/**
 	 * @param array $shapes
 	 * @param int $alpha
-	 * @param int $n
-	 * @param int $age
+	 * @param int $nRandom
+	 * @param int $maxMutationAge
 	 * @param geometrize_bitmap_Bitmap $target
 	 * @param geometrize_bitmap_Bitmap $current
 	 * @param geometrize_bitmap_Bitmap $buffer
@@ -318,9 +318,9 @@ class geometrize_Core {
 	 * @return geometrize_State
 	 * @throws HException
 	 */
-	static function bestHillClimbState($shapes, $alpha, $n, $age, $target, $current, $buffer, $lastScore){
-		$state = geometrize_Core::bestRandomState($shapes, $alpha, $n, $target, $current, $buffer, $lastScore);
-		$state = geometrize_Core::hillClimb($state, $age, $lastScore);
+	static function bestHillClimbState($shapes, $alpha, $nRandom, $maxMutationAge, $target, $current, $buffer, $lastScore){
+		$state = geometrize_Core::bestRandomState($shapes, $alpha, $nRandom, $target, $current, $buffer, $lastScore);
+		$state = geometrize_Core::hillClimb($state, $maxMutationAge, $lastScore);
 		return $state;
 	}
 
