@@ -28,119 +28,53 @@ class geometrize_Core {
 		$totalGreen = 0;
 		$totalBlue = 0;
 		$count = 0;
-		$f = 65535/$alpha;
-		$a = intval($f);
 
-		foreach($lines as $line){
-			$y = $line['y'];
-			for ($x=$line['x1']; $x<=$line['x2']; $x++) {
-				$t = $target->data[$y][$x];
-				$c = $current->data[$y][$x];
-				$totalRed = $totalRed+((($t >> 24 & 255)-($c >> 24 & 255))*$a+($c >> 24 & 255)*257);
-				$totalGreen = $totalGreen+((($t >> 16 & 255)-($c >> 16 & 255))*$a+($c >> 16 & 255)*257);
-				$totalBlue = $totalBlue+((($t >> 8 & 255)-($c >> 8 & 255))*$a+($c >> 8 & 255)*257);
-				$count++;
+		if ($alpha < 255) {
+			$f = 256 * 255 /$alpha;
+			$a = intval($f);
+
+			foreach($lines as $line){
+				$y = $line['y'];
+				for ($x=$line['x1']; $x<=$line['x2']; $x++) {
+					$t = $target->data[$y][$x];
+					$c = $current->data[$y][$x];
+					$totalRed += (($t >> 24 & 255)-($c >> 24 & 255))*$a+($c >> 24 & 255)*256;
+					$totalGreen += (($t >> 16 & 255)-($c >> 16 & 255))*$a+($c >> 16 & 255)*256;
+					$totalBlue += (($t >> 8 & 255)-($c >> 8 & 255))*$a+($c >> 8 & 255)*256;
+					$count++;
+				}
+			}
+			$totalRed = $totalRed >> 8;
+			$totalGreen = $totalGreen >> 8;
+			$totalBlue = $totalBlue >> 8;
+		}
+		else {
+			foreach($lines as $line){
+				$y = $line['y'];
+				for ($x=$line['x1']; $x<=$line['x2']; $x++) {
+					$t = $target->data[$y][$x];
+					$totalRed += ($t >> 24 & 255);
+					$totalGreen += ($t >> 16 & 255);
+					$totalBlue += ($t >> 8 & 255);
+					$count++;
+				}
 			}
 		}
 
 		if ($count===0){
 			return 0;
 		}
-		$value = intval($totalRed/$count) >> 8;
-		if (!true){
-			throw new HException("FAIL: min <= max");
-		}
-		$r = null;
-		if ($value<0){
-			$r = 0;
-		} else {
-			if ($value>255){
-				$r = 255;
-			} else {
-				$r = $value;
-			}
-		}
-		$value1 = intval($totalGreen/$count) >> 8;
-		if (!true){
-			throw new HException("FAIL: min <= max");
-		}
-		$g = null;
-		if ($value1<0){
-			$g = 0;
-		} else {
-			if ($value1>255){
-				$g = 255;
-			} else {
-				$g = $value1;
-			}
-		}
-		$value2 = intval($totalBlue/$count) >> 8;
-		if (!true){
-			throw new HException("FAIL: min <= max");
-		}
-		$b = null;
-		if ($value2<0){
-			$b = 0;
-		} else {
-			if ($value2>255){
-				$b = 255;
-			} else {
-				$b = $value2;
-			}
-		}
-		if (!true){
-			throw new HException("FAIL: min <= max");
-		}
-		$tmp = null;
-		if ($r<0){
-			$tmp = 0;
-		} else {
-			if ($r>255){
-				$tmp = 255;
-			} else {
-				$tmp = $r;
-			}
-		}
-		if (!true){
-			throw new HException("FAIL: min <= max");
-		}
-		$tmp1 = null;
-		if ($g<0){
-			$tmp1 = 0;
-		} else {
-			if ($g>255){
-				$tmp1 = 255;
-			} else {
-				$tmp1 = $g;
-			}
-		}
-		if (!true){
-			throw new HException("FAIL: min <= max");
-		}
-		$tmp2 = null;
-		if ($b<0){
-			$tmp2 = 0;
-		} else {
-			if ($b>255){
-				$tmp2 = 255;
-			} else {
-				$tmp2 = $b;
-			}
-		}
-		if (!true){
-			throw new HException("FAIL: min <= max");
-		}
-		$tmp3 = null;
-		if ($alpha<0){
-			$tmp3 = 0;
-		} else {
-			if ($alpha>255){
-				$tmp3 = 255;
-			} else {
-				$tmp3 = $alpha;
-			}
-		}
-		return ($tmp << 24)+($tmp1 << 16)+($tmp2 << 8)+$tmp3;
+
+		$r = intval(round($totalRed/$count));
+		$r = min(255, $r);
+
+		$g = intval(round($totalGreen/$count));
+		$g = min(255, $g);
+
+		$b = intval(round($totalBlue/$count));
+		$b = min(255, $b);
+
+		return ($r << 24) + ($g << 16) + ($b << 8) + $alpha;
 	}
 
 	/**
