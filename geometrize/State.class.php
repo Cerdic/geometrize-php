@@ -61,11 +61,9 @@ class geometrize_State {
 	 * @return geometrize_State
 	 */
 	public function mutate(){
-		$oldState = clone $this;
 		$this->shape->mutate();
 		// force score recomputing as we mutated
 		$this->score = -1;
-		return $oldState;
 	}
 
 	/**

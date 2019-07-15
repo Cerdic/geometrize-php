@@ -227,23 +227,23 @@ class geometrize_Core {
 		if (!($maxAge>=0)){
 			throw new HException("FAIL: maxAge >= 0");
 		}
-		$state1 = clone $state;
-		$bestState = clone $state1;
-		$bestEnergy = $state1->energy($lastScore);
+
+		$bestEnergy = $state->energy($lastScore);
+		$bestState = clone $state;
+
 		$age = 0;
-		while ($age<$maxAge){
-			$undo = $state1->mutate();
+		while ($age++<$maxAge){
+			$state1 = clone $bestState;
+			$state1->mutate();
 			$energy = $state1->energy($lastScore, $bestEnergy);
-			if ($energy>=$bestEnergy){
-				$state1 = $undo;
-			} else {
+
+			if ($energy<$bestEnergy){
 				$bestEnergy = $energy;
-				$bestState = clone $state1;
-				$age = -1;
+				$bestState = $state1;
+				$age = 0;
 			}
-			$age = $age+1;
-			unset($undo, $energy);
 		}
+
 		return $bestState;
 	}
 
