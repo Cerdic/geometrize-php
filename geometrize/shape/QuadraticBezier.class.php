@@ -54,7 +54,7 @@ class geometrize_shape_QuadraticBezier implements geometrize_shape_Shape {
 	 */
 	protected $lines = null;
 
-	public function __construct($xBound, $yBound){
+	public function __construct($xBound, $yBound, $sizeFactor=1.0){
 		$this->x1 = mt_rand(0, $xBound-1);
 		$this->y1 = mt_rand(0, $yBound-1);
 

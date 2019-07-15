@@ -49,14 +49,14 @@ class geometrize_shape_RotatedRectangle implements geometrize_shape_Shape {
 	 */
 	protected $lines = null;
 
-	public function __construct($xBound, $yBound){
+	public function __construct($xBound, $yBound, $sizeFactor=1.0){
 		$this->x1 = mt_rand(0, $xBound-1);
 		$this->y1 = mt_rand(0, $yBound-1);
 
-		$this->x2 = $this->x1 + mt_rand(1, 32);
+		$this->x2 = $this->x1 + intval(mt_rand(0, +$xBound>>2) * $sizeFactor);
 		$this->x2 = min($this->x2, $xBound-1);
 
-		$this->y2 = $this->y1 + mt_rand(1, 32);
+		$this->y2 = $this->y1 + intval(mt_rand(0, +$yBound>>2) * $sizeFactor);
 		$this->y2 = min($this->y2, $yBound-1);
 
 		$this->angle = mt_rand(0, 359);
@@ -106,6 +106,15 @@ class geometrize_shape_RotatedRectangle implements geometrize_shape_Shape {
 		// force to rasterize the new shape
 		$this->lines = null;
 	}
+
+	public function getSizeFactor(){
+
+		$dx = abs($this->x1-$this->x2);
+		$dy = abs($this->y1-$this->y2);
+
+		return $dx / $this->xBound + $dy / $this->yBound;
+	}
+
 
 	public function rescale($xBound, $yBound){
 		$xScale = ($xBound-1) / ($this->xBound-1);

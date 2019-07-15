@@ -44,11 +44,11 @@ class geometrize_shape_Ellipse implements geometrize_shape_Shape {
 	 */
 	protected $lines = null;
 
-	public function __construct($xBound, $yBound){
+	public function __construct($xBound, $yBound, $sizeFactor=1.0){
 		$this->x = mt_rand(0, $xBound-1);
 		$this->y = mt_rand(0, $yBound-1);
-		$this->rx = mt_rand(1, 32);
-		$this->ry = mt_rand(1, 32);
+		$this->rx = intval(mt_rand(1, $xBound >> 2) * $sizeFactor);
+		$this->ry = intval(mt_rand(1, $yBound >> 2) * $sizeFactor);
 		$this->xBound = $xBound;
 		$this->yBound = $yBound;
 	}
@@ -115,6 +115,14 @@ class geometrize_shape_Ellipse implements geometrize_shape_Shape {
 		// force to rasterize the new shape
 		$this->lines = null;
 
+	}
+
+	/**
+	 * Get an approximative size ratio of the shape vs the bounds
+	 * @return float|int
+	 */
+	public function getSizeFactor(){
+		return $this->rx / $this->xBound + $this->ry / $this->yBound;
 	}
 
 	/**

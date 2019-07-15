@@ -5,7 +5,15 @@ class geometrize_shape_ShapeFactory {
 	public function __construct(){
 	}
 
-	static function create($type, $xBound, $yBound){
+	/**
+	 * Create a random shape from a given type
+	 * @param int $type
+	 * @param int $xBound
+	 * @param int $yBound
+	 * @param float $shapeSizeFactor
+	 * @return geometrize_shape_Shape
+	 */
+	static function create($type, $xBound, $yBound, $shapeSizeFactor=1.0){
 		switch ($type) {
 			case geometrize_shape_ShapeTypes::T_RECTANGLE:
 				return new geometrize_shape_Rectangle($xBound, $yBound);
@@ -14,7 +22,7 @@ class geometrize_shape_ShapeFactory {
 				return new geometrize_shape_RotatedRectangle($xBound, $yBound);
 				break;
 			case geometrize_shape_ShapeTypes::T_TRIANGLE:
-				return new geometrize_shape_Triangle($xBound, $yBound);
+				return new geometrize_shape_Triangle($xBound, $yBound, $shapeSizeFactor);
 				break;
 			case geometrize_shape_ShapeTypes::T_ELLIPSE:
 				return new geometrize_shape_Ellipse($xBound, $yBound);
@@ -34,7 +42,16 @@ class geometrize_shape_ShapeFactory {
 		}
 	}
 
-	static function randomShape($xBound, $yBound){
+	/**
+	 * Create any random type of a shape in known shape types
+	 *
+	 * @param int $xBound
+	 * @param int $yBound
+	 * @param float $shapeSizeFactor
+	 * @return geometrize_shape_Shape
+	 * @throws HException
+	 */
+	static function randomShape($xBound, $yBound, $shapeSizeFactor=1.0){
 		$a = [
 			geometrize_shape_ShapeTypes::T_RECTANGLE,
 			geometrize_shape_ShapeTypes::T_ROTATED_RECTANGLE,
@@ -45,14 +62,23 @@ class geometrize_shape_ShapeFactory {
 			geometrize_shape_ShapeTypes::T_LINE,
 			geometrize_shape_ShapeTypes::T_QUADRATIC_BEZIER,
 		];
-		return geometrize_shape_ShapeFactory::randomShapeOf($a, $xBound, $yBound);
+		return geometrize_shape_ShapeFactory::randomShapeOf($a, $xBound, $yBound, $shapeSizeFactor);
 	}
 
-	static function randomShapeOf($types, $xBound, $yBound){
+	/**
+	 * Create a random shape in a given list of possioble types
+	 * @param array $types
+	 * @param int $xBound
+	 * @param int $yBound
+	 * @param float $shapeSizeFactor
+	 * @return geometrize_shape_Shape
+	 * @throws HException
+	 */
+	static function randomShapeOf($types, $xBound, $yBound, $shapeSizeFactor=1.0){
 		if (!is_array($types) || !count($types)){
 			throw new HException("FAIL: types != null && count(types) > 0");
 		}
-		return geometrize_shape_ShapeFactory::create($types[mt_rand(0, count($types)-1)], $xBound, $yBound);
+		return geometrize_shape_ShapeFactory::create($types[mt_rand(0, count($types)-1)], $xBound, $yBound, $shapeSizeFactor);
 	}
 
 	function __toString(){

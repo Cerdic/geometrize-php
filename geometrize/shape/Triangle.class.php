@@ -54,13 +54,13 @@ class geometrize_shape_Triangle implements geometrize_shape_Shape {
 	 */
 	protected $lines = null;
 
-	public function __construct($xBound, $yBound){
+	public function __construct($xBound, $yBound, $sizeFactor=1.0){
 		$this->x1 = mt_rand(0, $xBound-1);
 		$this->y1 = mt_rand(0, $yBound-1);
-		$this->x2 = $this->x1 + mt_rand(-16, +16);
-		$this->y2 = $this->y1 + mt_rand(-16, +16);
-		$this->x3 = $this->x1 + mt_rand(-16, +16);
-		$this->y3 = $this->y1 + mt_rand(-16, +16);
+		$this->x2 = $this->x1 + intval(mt_rand(-$xBound>>2, +$xBound>>2) * $sizeFactor);
+		$this->y2 = $this->y1 + intval(mt_rand(-$yBound>>2, +$yBound>>2) * $sizeFactor);
+		$this->x3 = $this->x1 + intval(mt_rand(-$xBound>>2, +$xBound>>2) * $sizeFactor);
+		$this->y3 = $this->y1 + intval(mt_rand(-$yBound>>2, +$yBound>>2) * $sizeFactor);
 
 		$this->xBound = $xBound;
 		$this->yBound = $yBound;
@@ -116,6 +116,14 @@ class geometrize_shape_Triangle implements geometrize_shape_Shape {
 
 		// force to rasterize the new shape
 		$this->lines = null;
+	}
+
+	public function getSizeFactor(){
+
+		$dx = max(abs($this->x1-$this->x2),abs($this->x2-$this->x3),abs($this->x1-$this->x3));
+		$dy = max(abs($this->y1-$this->y2),abs($this->y2-$this->y3),abs($this->y1-$this->y3));
+
+		return 0.5 * $dx / $this->xBound + 0.5 * $dy / $this->yBound;
 	}
 
 	/**
