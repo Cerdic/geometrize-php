@@ -30,6 +30,11 @@ class geometrize_Model {
 	/**
 	 * @var float
 	 */
+	protected $shapeSizeFactor;
+
+	/**
+	 * @var float
+	 */
 	protected $score;
 
 	public function __construct($target, $backgroundColor){
@@ -43,6 +48,8 @@ class geometrize_Model {
 		$this->score = geometrize_Core::differenceFull($target, $this->current);
 
 		$this->buffer = clone $this->current;
+
+		$this->shapeSizeFactor = 1.0;
 	}
 
 	/**
@@ -54,7 +61,7 @@ class geometrize_Model {
 	 * @throws HException
 	 */
 	public function step($shapeTypes, $alpha, $nRandom, $maxMutationAge){
-		$state = geometrize_Core::bestHillClimbState($shapeTypes, $alpha, $nRandom, $maxMutationAge, $this->target, $this->current, $this->buffer, $this->score);
+		$state = geometrize_Core::bestHillClimbState($shapeTypes, $this->shapeSizeFactor, $alpha, $nRandom, $maxMutationAge, $this->target, $this->current, $this->buffer, $this->score);
 		$results = [$this->addShape($state->getShape(), $state->getAlpha())];
 		return $results;
 	}
@@ -80,6 +87,9 @@ class geometrize_Model {
 		$this->score = geometrize_Core::differencePartial($this->target, $before, $this->current, $this->score, $lines);
 		$score_normalization = $before->width * $before->height * 4 * 255;
 		$result = ["score" => $this->score/$score_normalization, "color" => $shape->color, "shape" => $shape];
+
+		$this->shapeSizeFactor = 0.75 * $this->shapeSizeFactor + 0.25 * $shape->getSizeFactor();
+		$this->shapeSizeFactor = max(min($this->shapeSizeFactor, 1.0),0.1);
 		return $result;
 	}
 

@@ -176,14 +176,14 @@ class geometrize_Core {
 	 * @return geometrize_State
 	 * @throws HException
 	 */
-	static function bestRandomState($shapes, $alpha, $nRandom, $target, $current, $buffer, $lastScore){
+	static function bestRandomState($shapes, $shapeSizeFactor, $alpha, $nRandom, $target, $current, $buffer, $lastScore){
 		$bestEnergy = null;
 		$bestState = null;
 
 		$nRandom = max($nRandom, 1);
 
 		for ($i = 0; $i<$nRandom; $i++){
-			$state = new geometrize_State(geometrize_shape_ShapeFactory::randomShapeOf($shapes, $current->width, $current->height), $alpha, $target, $current, $buffer);
+			$state = new geometrize_State(geometrize_shape_ShapeFactory::randomShapeOf($shapes, $current->width, $current->height, $shapeSizeFactor), $alpha, $target, $current, $buffer);
 			$energy = $state->energy($lastScore, $bestEnergy);
 			if (is_null($bestEnergy) || $energy<$bestEnergy){
 				$bestEnergy = $energy;
@@ -196,6 +196,7 @@ class geometrize_Core {
 
 	/**
 	 * @param array $shapes
+	 * @param float $shapeSizeFactor
 	 * @param int $alpha
 	 * @param int $nRandom
 	 * @param int $maxMutationAge
@@ -206,8 +207,8 @@ class geometrize_Core {
 	 * @return geometrize_State
 	 * @throws HException
 	 */
-	static function bestHillClimbState($shapes, $alpha, $nRandom, $maxMutationAge, $target, $current, $buffer, $lastScore){
-		$state = geometrize_Core::bestRandomState($shapes, $alpha, $nRandom, $target, $current, $buffer, $lastScore);
+	static function bestHillClimbState($shapes, $shapeSizeFactor, $alpha, $nRandom, $maxMutationAge, $target, $current, $buffer, $lastScore){
+		$state = geometrize_Core::bestRandomState($shapes, $shapeSizeFactor, $alpha, $nRandom, $target, $current, $buffer, $lastScore);
 		$state = geometrize_Core::hillClimb($state, $maxMutationAge, $lastScore);
 		return $state;
 	}
