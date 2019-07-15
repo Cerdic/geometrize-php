@@ -162,6 +162,7 @@ class geometrize_Core {
 			throw new HException("FAIL: values are not equal (expected: " . _hx_string_rec($expected1, "") . ", actual: " . _hx_string_rec($actual1, "") . ")");
 		}
 
+		$current->errorCache = [];
 		$total = 0;
 		$width = $target->width;
 		$height = $target->height;
