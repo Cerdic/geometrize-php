@@ -24,14 +24,7 @@ class geometrize_bitmap_Bitmap {
 	}
 
 	public function hclone(){
-		$bitmap = new geometrize_bitmap_Bitmap();
-		$bitmap->width = $this->width;
-		$bitmap->height = $this->height;
-		$bitmap->data = $this->data;
-		if (isset($this->errorCache)) {
-			$bitmap->errorCache = $this->errorCache;
-		}
-		return $bitmap;
+		return clone $this;
 	}
 
 	public function fill($color){
