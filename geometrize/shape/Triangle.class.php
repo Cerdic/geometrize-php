@@ -135,11 +135,8 @@ class geometrize_shape_Triangle implements geometrize_shape_Shape {
 		$this->x3 = intval(round($this->x3*$xScale));
 		$this->y3 = intval(round($this->y3*$yScale));
 
-		if ($this->lines) {
-			foreach ($this->lines as &$line) {
-				$line->rescale($xScale, $yScale);
-			}
-		}
+		// need to rasterize again
+		$this->lines = null;
 	}
 
 	public function __clone() {

@@ -131,11 +131,8 @@ class geometrize_shape_Ellipse implements geometrize_shape_Shape {
 		$this->rx = intval(round($this->rx*$xScale));
 		$this->ry = intval(round($this->ry*$yScale));
 
-		if ($this->lines) {
-			foreach ($this->lines as &$line) {
-				$line->rescale($xScale, $yScale);
-			}
-		}
+		// need to rasterize again
+		$this->lines = null;
 	}
 
 	public function __clone() {

@@ -117,11 +117,8 @@ class geometrize_shape_RotatedRectangle implements geometrize_shape_Shape {
 		$this->x2 = intval(round($this->x2*$xScale));
 		$this->y2 = intval(round($this->y2*$yScale));
 
-		if ($this->lines) {
-			foreach ($this->lines as &$line) {
-				$line->rescale($xScale, $yScale);
-			}
-		}
+		// need to rasterize again
+		$this->lines = null;
 	}
 
 	public function __clone() {
