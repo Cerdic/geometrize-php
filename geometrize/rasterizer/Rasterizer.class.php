@@ -205,92 +205,48 @@ class geometrize_rasterizer_Rasterizer {
 	 */
 	static function bresenham($x1, $y1, $x2, $y2){
 		$dx = $x2-$x1;
-		$ix = null;
-		if ($dx>0){
-			$ix = 1;
-		} else {
-			$ix = 0;
-		}
-		$ix1 = null;
+		$ix1 = ($dx>0 ? 1 : 0);
+		$ix2 = ($dx<0 ? 1 : 0);
+		$ix = $ix1-$ix2;
+
 		if ($dx<0){
-			$ix1 = 1;
-		} else {
-			$ix1 = 0;
+			$dx *= -1;
 		}
-		$ix2 = $ix-$ix1;
-		$dx1 = null;
-		if ($dx<0){
-			$dx1 = -$dx;
-		} else {
-			$dx1 = $dx;
-		}
-		$dx = $dx1 << 1;
+		$dx = $dx << 1;
+
 		$dy = $y2-$y1;
-		$iy = null;
-		if ($dy>0){
-			$iy = 1;
-		} else {
-			$iy = 0;
-		}
-		$iy1 = null;
+		$iy1 = ($dy>0 ? 1 : 0);
+		$iy2 = ($dy<0 ? 1 : 0);
+		$iy = $iy1-$iy2;
+
 		if ($dy<0){
-			$iy1 = 1;
-		} else {
-			$iy1 = 0;
+			$dy *= -1;
 		}
-		$iy2 = $iy-$iy1;
-		$dy1 = null;
-		if ($dy<0){
-			$dy1 = -$dy;
-		} else {
-			$dy1 = $dy;
-		}
-		$dy = $dy1 << 1;
+		$dy = $dy << 1;
+
 		$points = [];
 		$points[] = ["x" => $x1, "y" => $y1];
 		if ($dx>=$dy){
 			$error = $dy-($dx >> 1);
 			while ($x1!==$x2){
-				$tmp = null;
-				if ($error>=0){
-					if ($error===0){
-						$tmp = $ix2>0;
-					} else {
-						$tmp = true;
-					}
-				} else {
-					$tmp = false;
+				if ($error>0 or ($error===0 and $ix>0)){
+					$error -= $dx;
+					$y1 += $iy;
 				}
-				if ($tmp){
-					$error = $error-$dx;
-					$y1 = $y1+$iy2;
-				}
-				$error = $error+$dy;
-				$x1 = $x1+$ix2;
+				$error += $dy;
+				$x1 += $ix;
 				$points[] = ["x" => $x1, "y" => $y1];
-				unset($tmp);
 			}
 		} else {
-			$error1 = $dx-($dy >> 1);
+			$error = $dx-($dy >> 1);
 			while ($y1!==$y2){
-				$tmp1 = null;
-				if ($error1>=0){
-					if ($error1===0){
-						$tmp1 = $iy2>0;
-					} else {
-						$tmp1 = true;
-					}
-				} else {
-					$tmp1 = false;
+				if ($error>0 or ($error===0 and $iy>0)){
+					$error -= $dy;
+					$x1 += $ix;
 				}
-				if ($tmp1){
-					$error1 = $error1-$dy;
-					$x1 = $x1+$ix2;
-				}
-				$error1 = $error1+$dx;
-				$y1 = $y1+$iy2;
+				$error += $dx;
+				$y1 += $iy;
 				$points[] = ["x" => $x1, "y" => $y1];
-				unset($tmp1);
 			}
 		}
 		return $points;
