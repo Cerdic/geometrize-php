@@ -151,42 +151,23 @@ class geometrize_Core {
 	 */
 	static function differenceFull($target, $current){
 
-		$actual = $target->width;
-		$expected = $current->width;
-		if ($actual!==$expected){
-			throw new HException("FAIL: values are not equal (expected: " . _hx_string_rec($expected, "") . ", actual: " . _hx_string_rec($actual, "") . ")");
-		}
-		$actual1 = $target->height;
-		$expected1 = $current->height;
-		if ($actual1!==$expected1){
-			throw new HException("FAIL: values are not equal (expected: " . _hx_string_rec($expected1, "") . ", actual: " . _hx_string_rec($actual1, "") . ")");
-		}
-
 		$current->errorCache = [];
 		$total = 0;
 		$width = $target->width;
 		$height = $target->height;
 		for ($y = 0; $y<$height; $y++){
 			for ($x = 0; $x<$width; $x++){
-				$f = $target->data[$y][$x];
-				$s = $current->data[$y][$x];
-				$dr = ($f >> 24 & 255)-($s >> 24 & 255);
-				if ($dr<0){
-					$dr *= -1;
+				$t = &$target->data[$y][$x];
+				$c = &$current->data[$y][$x];
+				$e = 0;
+				foreach ([24,16,8,0] as $k){
+					$dk = ($t>>$k & 255)-($c>>$k & 255);
+					if ($dk<0){
+						$dk *= -1;
+					}
+					$e += $dk;
 				}
-				$dg = ($f >> 16 & 255)-($s >> 16 & 255);
-				if ($dg<0){
-					$dg *= -1;
-				}
-				$db = ($f >> 8 & 255)-($s >> 8 & 255);
-				if ($db<0){
-					$db *= -1;
-				}
-				$da = ($f & 255)-($s & 255);
-				if ($da<0){
-					$da *= -1;
-				}
-				$total += ($current->errorCache[$y][$x] = $dr+$dg+$db+$da);
+				$total += ($current->errorCache[$y][$x] = $e);
 			}
 		}
 		return $total;
@@ -206,29 +187,22 @@ class geometrize_Core {
 		$total = $score;
 		foreach ($lines as &$line) {
 			$y = $line['y'];
-			for ($x = $line['x1']; $x<=$line['x2']; $x++){
-				$t = $target->data[$y][$x];
+			$_xe = $line['x2']+1;
+			for ($x = $line['x1']; $x<$_xe; $x++){
 				if (!isset($before->errorCache[$y][$x])){
-					$b = $before->data[$y][$x];
-					$dtbr = ($t >> 24 & 255)-($b >> 24 & 255);
-					if ($dtbr<0){
-						$dtbr *= -1;
+					$e = 0;
+					$t = &$target->data[$y][$x];
+					$b = &$before->data[$y][$x];
+					foreach ([24,16,8,0] as $k){
+						$dk = ($t>>$k & 255)-($b>>$k & 255);
+						if ($dk<0){
+							$dk *= -1;
+						}
+						$e += $dk;
 					}
-					$dtbg = ($t >> 16 & 255)-($b >> 16 & 255);
-					if ($dtbg<0){
-						$dtbg *= -1;
-					}
-					$dtbb = ($t >> 8 & 255)-($b >> 8 & 255);
-					if ($dtbb<0){
-						$dtbb *= -1;
-					}
-					$dtba = ($t & 255)-($b & 255);
-					if ($dtba<0){
-						$dtba *= -1;
-					}
-					$before->errorCache[$y][$x] = $dtbr+$dtbg+$dtbb+$dtba;
+					$before->errorCache[$y][$x] = $e;
 				}
-				$total = $total-$before->errorCache[$y][$x];
+				$total -= $before->errorCache[$y][$x];
 			}
 		}
 		if (!is_null($bestScore) && $total>$bestScore){
@@ -237,27 +211,17 @@ class geometrize_Core {
 
 		foreach ($lines as &$line) {
 			$y = $line['y'];
-			for ($x = $line['x1']; $x<=$line['x2']; $x++){
-				$t = $target->data[$y][$x];
-				$a = $after->data[$y][$x];
-
-				$dtar = ($t >> 24 & 255)-($a >> 24 & 255);
-				if ($dtar<0){
-					$dtar *= -1;
+			$_xe = $line['x2']+1;
+			for ($x = $line['x1']; $x<$_xe; $x++){
+				$t = &$target->data[$y][$x];
+				$a = &$after->data[$y][$x];
+				foreach ([24,16,8,0] as $k){
+					$dk = ($t>>$k & 255)-($a>>$k & 255);
+					if ($dk<0){
+						$dk *= -1;
+					}
+					$total += $dk;
 				}
-				$dtag = ($t >> 16 & 255)-($a >> 16 & 255);
-				if ($dtag<0){
-					$dtag *= -1;
-				}
-				$dtab = ($t >> 8 & 255)-($a >> 8 & 255);
-				if ($dtab<0){
-					$dtab *= -1;
-				}
-				$dtaa = ($t & 255)-($a & 255);
-				if ($dtaa<0){
-					$dtaa *= -1;
-				}
-				$total = $total+($dtar+$dtag+$dtab+$dtaa);
 			}
 			if (!is_null($bestScore) && $total>$bestScore){
 				return $total;
