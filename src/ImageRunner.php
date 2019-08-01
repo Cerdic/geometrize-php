@@ -3,6 +3,8 @@
 namespace Cerdic\Geometrize;
 
 use \Cerdic\Geometrize\Model;
+use \Cerdic\Geometrize\Exporter\SvgExporter;
+use \Cerdic\Geometrize\Shape\Rectangle;
 
 class ImageRunner {
 
@@ -73,6 +75,26 @@ class ImageRunner {
 		}
 
 		return $this->getScore();
+	}
+
+	/**
+	 * Export the result as a SVG
+	 * @param int $imageWidth
+	 * @param int $imageHeight
+	 * @return string
+	 */
+	public function exportToSVG($imageWidth=0, $imageHeight=0) {
+
+		$shapes = array_column($this->geometrizationSteps, 'shape');
+
+		// add background shape
+		$backgroundShape = new Rectangle($this->model->getWidth(), $this->model->getHeight(), 1, true);
+		$backgroundShape->color = $this->backgroundColor;
+		array_unshift($shapes, $backgroundShape);
+
+		$svg_image = SvgExporter::export($shapes, $this->model->getWidth(), $this->model->getHeight(), $imageWidth, $imageHeight);
+		return $svg_image;
+
 	}
 
 	/**
