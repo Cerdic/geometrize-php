@@ -47,15 +47,23 @@ class Rectangle implements Shape {
 	 */
 	protected $lines = null;
 
-	public function __construct($xBound, $yBound, $sizeFactor=1.0){
-		$this->x1 = mt_rand(0, $xBound-1);
-		$this->y1 = mt_rand(0, $yBound-1);
+	public function __construct($xBound, $yBound, $sizeFactor=1.0, $isBackground = false){
+		if ($isBackground) {
+			$this->x1 = 0;
+			$this->y1 = 0;
+			$this->x2 = $xBound;
+			$this->y2 = $yBound;
+		}
+		else {
+			$this->x1 = mt_rand(0, $xBound-1);
+			$this->y1 = mt_rand(0, $yBound-1);
 
-		$this->x2 = $this->x1 + intval(mt_rand(0, +$xBound>>2) * $sizeFactor);
-		$this->x2 = min($this->x2, $xBound-1);
+			$this->x2 = $this->x1 + intval(mt_rand(0, +$xBound>>2) * $sizeFactor);
+			$this->x2 = min($this->x2, $xBound-1);
 
-		$this->y2 = $this->y1 + intval(mt_rand(0, +$yBound>>2) * $sizeFactor);
-		$this->y2 = min($this->y2, $yBound-1);
+			$this->y2 = $this->y1 + intval(mt_rand(0, +$yBound>>2) * $sizeFactor);
+			$this->y2 = min($this->y2, $yBound-1);
+		}
 
 		$this->xBound = $xBound;
 		$this->yBound = $yBound;
