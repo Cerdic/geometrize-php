@@ -124,6 +124,14 @@ class geometrize_shape_QuadraticBezier implements geometrize_shape_Shape {
 		$this->lines = null;
 	}
 
+	public function getSizeFactor(){
+
+		$dx = abs($this->x1-$this->x2);
+		$dy = abs($this->y1-$this->y2);
+
+		return $dx / $this->xBound + $dy / $this->yBound;
+	}
+
 	public function rescale($xBound, $yBound){
 		$xScale = ($xBound-1) / ($this->xBound-1);
 		$yScale = ($yBound-1) / ($this->yBound-1);
