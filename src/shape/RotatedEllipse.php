@@ -163,8 +163,8 @@ class RotatedEllipse implements Shape {
 	 * @return string
 	 */
 	public function getSvgShapeData(){
-		$s = "<g transform=\"translate(" . $this->x . " " . $this->y . ") rotate(" . $this->angle . ") scale(" . $this->rx . " " . $this->ry . ")\">";
-		$s .= "<ellipse cx=\"" . 0 . "\" cy=\"" . 0 . "\" rx=\"" . 1 . "\" ry=\"" . 1 . "\" " . SvgExporter::$SVG_STYLE_HOOK . " />";
+		$s = "<g transform=\"rotate(" . $this->angle . " " . $this->x . " " . $this->y . ")\">";
+		$s .= "<ellipse cx=\"" . $this->x . "\" cy=\"" . $this->y . "\" rx=\"" . $this->rx . "\" ry=\"" . $this->ry . "\" " . SvgExporter::$SVG_STYLE_HOOK . " />";
 		$s .= "</g>";
 		return $s;
 	}
