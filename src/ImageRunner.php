@@ -6,8 +6,6 @@ use \Cerdic\Geometrize\Model;
 
 class ImageRunner {
 
-	const Version = "2.0";
-
 	/**
 	 * @var \Cerdic\Geometrize\Model
 	 */
@@ -19,6 +17,7 @@ class ImageRunner {
 	 * @param \Cerdic\Geometrize\Bitmap $inputImage
 	 * @param int $backgroundColor
 	 *   32bits encoded color
+	 * @throws \Exception
 	 */
 	public function __construct($inputImage, $backgroundColor){
 		$this->model = new Model($inputImage, $backgroundColor);
@@ -27,6 +26,7 @@ class ImageRunner {
 	/**
 	 * @param array $options
 	 * @return array
+	 * @throws \Exception
 	 */
 	public function step($options){
 		return $this->model->step($options['shapeTypes'], $options['alpha'], $options['candidateShapesPerStep'], $options['shapeMutationsPerStep']);
