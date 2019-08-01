@@ -15,4 +15,32 @@ if(version_compare(PHP_VERSION, '5.1.0', '<')) {
 };
 
 
-require_once dirname(__FILE__).'/php/Boot.class.php';
+require_once __DIR__ . '/geometrize/bitmap/Bitmap.class.php';
+
+require_once __DIR__ . '/geometrize/rasterizer/Scanline.class.php';
+require_once __DIR__ . '/geometrize/rasterizer/Rasterizer.class.php';
+
+
+require_once __DIR__ . '/geometrize/shape/ShapeTypes.class.php';
+require_once __DIR__ . '/geometrize/shape/Shape.interface.php';
+require_once __DIR__ . '/geometrize/shape/ShapeFactory.class.php';
+
+require_once __DIR__ . '/geometrize/shape/Ellipse.class.php';
+require_once __DIR__ . '/geometrize/shape/QuadraticBezier.class.php';
+require_once __DIR__ . '/geometrize/shape/RotatedEllipse.class.php';
+require_once __DIR__ . '/geometrize/shape/Rectangle.class.php';
+require_once __DIR__ . '/geometrize/shape/RotatedRectangle.class.php';
+require_once __DIR__ . '/geometrize/shape/Triangle.class.php';
+
+require_once __DIR__ . '/geometrize/shape/Circle.class.php';
+require_once __DIR__ . '/geometrize/shape/Line.class.php';
+
+
+
+require_once __DIR__ . '/geometrize/runner/ImageRunner.class.php';
+
+require_once __DIR__ . '/geometrize/exporter/SvgExporter.class.php';
+
+require_once __DIR__ . '/geometrize/State.class.php';
+require_once __DIR__ . '/geometrize/Model.class.php';
+require_once __DIR__ . '/geometrize/Core.class.php';
