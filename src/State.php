@@ -3,10 +3,11 @@
 namespace Cerdic\Geometrize;
 
 use \Cerdic\Geometrize\Core;
+use \Cerdic\Geometrize\Shape\Shape;
 
 class State {
 	/**
-	 * @var \geometrize_shape_Shape
+	 * @var \Cerdic\Geometrize\Shape\Shape
 	 */
 	protected $shape;
 
@@ -70,7 +71,7 @@ class State {
 	}
 
 	/**
-	 * @return \geometrize_shape_Shape
+	 * @return \Cerdic\Geometrize\Shape\Shape
 	 */
 	public function getShape() {
 		return $this->shape;

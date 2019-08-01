@@ -67,8 +67,7 @@ class Model {
 	 */
 	public function step($shapeTypes, $alpha, $nRandom, $maxMutationAge){
 		$state = Core::bestHillClimbState($shapeTypes, $this->shapeSizeFactor, $alpha, $nRandom, $maxMutationAge, $this->target, $this->current, $this->buffer, $this->score);
-		$results = [$this->addShape($state->getShape(), $state->getAlpha())];
-		return $results;
+		return $this->addShape($state->getShape(), $state->getAlpha());
 	}
 
 	/**
