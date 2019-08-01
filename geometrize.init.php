@@ -37,3 +37,4 @@ require_once __DIR__ . '/src/State.php';
 require_once __DIR__ . '/src/Model.php';
 require_once __DIR__ . '/src/Core.php';
 require_once __DIR__ . '/src/ImageRunner.php';
+require_once __DIR__ . '/src/Version.php';
