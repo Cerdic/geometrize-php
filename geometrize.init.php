@@ -17,7 +17,6 @@ if(version_compare(PHP_VERSION, '5.1.0', '<')) {
 
 require_once __DIR__ . '/geometrize/bitmap/Bitmap.class.php';
 
-require_once __DIR__ . '/geometrize/rasterizer/Scanline.class.php';
 require_once __DIR__ . '/geometrize/rasterizer/Rasterizer.class.php';
 
 
