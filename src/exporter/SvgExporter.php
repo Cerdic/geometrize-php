@@ -11,15 +11,16 @@ class SvgExporter {
 	static $SVG_STYLE_HOOK = "::svg_style_hook::";
 
 	/**
-	 * @param array $results
-	 * @param int $width
-	 * @param int $height
+	 * @param array $shapes
+	 * @param int $boxWidth
+	 * @param int $boxHeight
+	 * @param int $imageWidth
+	 * @param int $imageHeight
 	 * @return string
 	 */
-	static function export($results, $width, $height){
+	static function export($shapes, $boxWidth, $boxHeight, $imageWidth=0, $imageHeight=0){
 		$out = SvgExporter::getSvgPrelude();
-		$out .= SvgExporter::getSvgNodeOpen($width, $height);
-		$shapes = array_column($results, 'shape');
+		$out .= SvgExporter::getSvgNodeOpen($boxWidth, $boxHeight, $imageWidth, $imageHeight);
 		$out .= SvgExporter::exportShapes($shapes);
 		$out .= SvgExporter::getSvgNodeClose();
 		return $out;
@@ -104,16 +105,26 @@ class SvgExporter {
 	 * @return string
 	 */
 	static function getSvgPrelude(){
-		return "<?xml version=\"1.0\" standalone=\"no\"?>\x0A";
+		return "<?xml version=\"1.0\"?>\x0A";
 	}
 
 	/**
-	 * @param int $width
-	 * @param int $height
+	 * @param int $boxWidth
+	 * @param int $boxHeight
+	 * @param int $imageWidth
+	 * @param int $imageHeight
 	 * @return string
 	 */
-	static function getSvgNodeOpen($width, $height){
-		return "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.2\" baseProfile=\"tiny\" width=\"" . intval($width) . "\" height=\"" . intval($height) . "\">\x0A";
+	static function getSvgNodeOpen($boxWidth, $boxHeight, $imageWidth=0, $imageHeight=0){
+		$viewBox = "0 0 " . intval($boxWidth -1) . " " . intval($boxHeight -1);
+		$attrWH = "";
+		if ($imageWidth = intval($imageWidth)) {
+			$attrWH .= " width=\"$imageWidth\"";
+		}
+		if ($imageHeight = intval($imageHeight)) {
+			$attrWH .= " height=\"$imageHeight\"";
+		}
+		return "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.2\" viewBox=\"$viewBox\"$attrWH>\x0A";
 	}
 
 	/**
@@ -155,11 +166,22 @@ class SvgExporter {
 	}
 
 	/**
+	 * @param $color
+	 * @return string
+	 */
+	static function hexaForColor($color) {
+		$red = str_pad(dechex($color >> 24 & 255), 2, "0", STR_PAD_LEFT);
+		$green = str_pad(dechex($color >> 16 & 255), 2, "0", STR_PAD_LEFT);
+		$blue = str_pad(dechex($color >> 8 & 255), 2, "0", STR_PAD_LEFT);
+		return "#".$red.$green.$blue;
+	}
+
+	/**
 	 * @param int $color
 	 * @return string
 	 */
 	static function strokeForColor($color){
-		return "stroke=\"" . SvgExporter::rgbForColor($color) . "\"";
+		return "stroke=\"" . SvgExporter::hexaForColor($color) . "\"";
 	}
 
 	/**
@@ -167,7 +189,7 @@ class SvgExporter {
 	 * @return string
 	 */
 	static function fillForColor($color){
-		return "fill=\"" . SvgExporter::rgbForColor($color) . "\"";
+		return "fill=\"" . SvgExporter::hexaForColor($color) . "\"";
 	}
 
 	/**
