@@ -104,4 +104,19 @@ All rendering with 1200 triangles
 ![JPG](https://raw.githubusercontent.com/Cerdic/geometrize-php/master/screenshots/screenshot-2.jpg)
 [![SVG 1200 triangles](https://raw.githubusercontent.com/Cerdic/geometrize-php/master/screenshots/screenshot-2-geo.png)](https://github.com/Cerdic/geometrize-php/blob/master/screenshots/screenshot-1-geo.svg)
 
+----
+
+![JPG](https://raw.githubusercontent.com/Cerdic/geometrize-php/master/screenshots/screenshot-3.jpg)
+[![SVG 1200 triangles](https://raw.githubusercontent.com/Cerdic/geometrize-php/master/screenshots/screenshot-3-geo.png)](https://github.com/Cerdic/geometrize-php/blob/master/screenshots/screenshot-3-geo.svg)
+
+----
+
+![JPG](https://raw.githubusercontent.com/Cerdic/geometrize-php/master/screenshots/screenshot-4.jpg)
+[![SVG 1200 triangles](https://raw.githubusercontent.com/Cerdic/geometrize-php/master/screenshots/screenshot-4-geo.png)](https://github.com/Cerdic/geometrize-php/blob/master/screenshots/screenshot-4-geo.svg)
+
+----
+
+![JPG](https://raw.githubusercontent.com/Cerdic/geometrize-php/master/screenshots/screenshot-5.jpg)
+[![SVG 1200 triangles](https://raw.githubusercontent.com/Cerdic/geometrize-php/master/screenshots/screenshot-5-geo.png)](https://github.com/Cerdic/geometrize-php/blob/master/screenshots/screenshot-5-geo.svg)
+
 
