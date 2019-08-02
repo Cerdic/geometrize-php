@@ -31,6 +31,26 @@ file_put_contents($fileSVG, $svg);
 
 ```
 
+### Shapes
+
+Provide an array with the list of the shapes you want to use.
+Availables shapes are :
+* `ShapeTypes::T_RECTANGLE`
+* `ShapeTypes::T_ROTATED_RECTANGLE`
+* `ShapeTypes::T_TRIANGLE`
+* `ShapeTypes::T_ELLIPSE`
+* `ShapeTypes::T_ROTATED_ELLIPSE`
+* `ShapeTypes::T_CIRCLE`
+* `ShapeTypes::T_LINE`
+* `ShapeTypes::T_QUADRATIC_BEZIER`
+
+Triangles ar the much faster to be computed.
+Then comes Rectangles, Rotated Rectangles and Lines which are still not too bad.
+Ellipses, Circles and Bezier curves are much slower.
+
+In general Triangles alone gives the best compromise for result vs time computing.
+
+
 ### Background Color
 
 Not setting any background Color, Geometrize will determine the dominant color and use it as a background.
