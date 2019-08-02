@@ -91,3 +91,11 @@ $svg = $runner->exportToSVG($originalWidth, $originalHeight);
 ```
 
 
+# Screenshots
+
+All rendering with 1200 triangles
+
+JPG<br/>
+<img src="https://raw.githubusercontent.com/Cerdic/geometrize-php/master/screenshots/screenshot-1.jpg" width="800" height="600" /><br/>
+<img src="https://raw.githubusercontent.com/Cerdic/geometrize-php/master/screenshots/screenshot-1-geo.svg" width="800" height="600" /><br/>
+SVG<br/>
