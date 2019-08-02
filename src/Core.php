@@ -21,9 +21,6 @@ class Core {
 		if (!($target!==null)){
 			throw new \Exception("FAIL: target != null");
 		}
-		if (!($current!==null)){
-			throw new \Exception("FAIL: current != null");
-		}
 		if (!($lines!==null)){
 			throw new \Exception("FAIL: lines != null");
 		}
@@ -36,6 +33,10 @@ class Core {
 		$count = 0;
 
 		if ($alpha < 255) {
+			if (!($current!==null)){
+				throw new \Exception("FAIL: current != null");
+			}
+
 			$f = 256 * 255 /$alpha;
 			$a = intval($f);
 

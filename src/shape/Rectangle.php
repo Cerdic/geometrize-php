@@ -49,8 +49,9 @@ class Rectangle implements Shape {
 
 	public function __construct($xBound, $yBound, $sizeFactor=1.0, $isBackground = false){
 		if ($isBackground) {
-			$this->x1 = 0;
-			$this->y1 = 0;
+			// be sure to cover all the surface, even in case of resizing
+			$this->x1 = -1;
+			$this->y1 = -1;
 			$this->x2 = $xBound;
 			$this->y2 = $yBound;
 		}

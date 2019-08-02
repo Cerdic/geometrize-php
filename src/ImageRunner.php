@@ -14,12 +14,6 @@ class ImageRunner {
 	protected $model;
 
 	/**
-	 * The initial BackgroundColor used to init the Model
-	 * @var
-	 */
-	protected $backgroundColor;
-
-	/**
 	 * Geometrization steps : score, color, shape
 	 * @var array
 	 */
@@ -29,13 +23,12 @@ class ImageRunner {
 	/**
 	 * ImageRunner constructor.
 	 * @param \Cerdic\Geometrize\Bitmap $inputImage
-	 * @param int $backgroundColor
-	 *   32bits encoded color
+	 * @param int|bool $backgroundColor
+	 *   32bits encoded color or true for automatic $backgroundColor or false for no background (transparent)
 	 * @throws \Exception
 	 */
 	public function __construct($inputImage, $backgroundColor){
-		$this->backgroundColor = $backgroundColor;
-		$this->model = new Model($inputImage, $this->backgroundColor);
+		$this->model = new Model($inputImage, $backgroundColor);
 		$this->geometrizationSteps = [];
 	}
 
@@ -60,7 +53,8 @@ class ImageRunner {
 	public function reScale($rescaledImage) {
 
 		$previousSteps = $this->geometrizationSteps;
-		$this->model = new Model($rescaledImage, $this->backgroundColor);
+		$backgroundColor = $this->model->getBackgroundColor();
+		$this->model = new Model($rescaledImage, $backgroundColor);
 		$this->geometrizationSteps = [];
 
 		if (count($previousSteps)){
@@ -87,10 +81,14 @@ class ImageRunner {
 
 		$shapes = array_column($this->geometrizationSteps, 'shape');
 
-		// add background shape
-		$backgroundShape = new Rectangle($this->model->getWidth(), $this->model->getHeight(), 1, true);
-		$backgroundShape->color = $this->backgroundColor;
-		array_unshift($shapes, $backgroundShape);
+		// add background shape if necessary
+		$backgroundColor = $this->model->getBackgroundColor();
+		// 0 or false are transparents, nothing needed
+		if ($backgroundColor) {
+			$backgroundShape = new Rectangle($this->model->getWidth(), $this->model->getHeight(), 1, true);
+			$backgroundShape->color = $backgroundColor;
+			array_unshift($shapes, $backgroundShape);
+		}
 
 		$svg_image = SvgExporter::export($shapes, $this->model->getWidth(), $this->model->getHeight(), $imageWidth, $imageHeight);
 		return $svg_image;

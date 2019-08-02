@@ -5,6 +5,7 @@ namespace Cerdic\Geometrize;
 use \Cerdic\Geometrize\Bitmap;
 use \Cerdic\Geometrize\Core;
 use \Cerdic\Geometrize\Rasterizer\Rasterizer;
+use \Cerdic\Geometrize\Shape\Rectangle;
 
 class Model {
 	/**
@@ -16,6 +17,11 @@ class Model {
 	 * @var int
 	 */
 	protected $height;
+
+	/**
+	 * @var int|bool
+	 */
+	protected $backgroundColor;
 
 	/**
 	 * @var \Cerdic\Geometrize\Bitmap
@@ -42,6 +48,12 @@ class Model {
 	 */
 	protected $score;
 
+	/**
+	 * Model constructor.
+	 * @param Bitmap $target
+	 * @param int|bool $backgroundColor
+	 * @throws \Exception
+	 */
 	public function __construct($target, $backgroundColor){
 		if (!($target!==null)){
 			throw new \Exception("FAIL: target != null");
@@ -49,7 +61,16 @@ class Model {
 		$this->width = $target->width;
 		$this->height = $target->height;
 		$this->target = $target;
-		$this->current = Bitmap::create($this->width,$this->height,$backgroundColor);
+
+		$this->backgroundColor = $backgroundColor;
+
+		// automatic best backgroundColor (lowering the error) ?
+		if ($this->backgroundColor === true) {
+			$bg = new Rectangle($this->width, $this->height, 1, true);
+			$this->backgroundColor = Core::computeColor($this->target, null, $bg->rasterize(), 255);
+		}
+
+		$this->current = Bitmap::create($this->width,$this->height,$this->backgroundColor);
 		$this->score = Core::differenceFull($target, $this->current);
 
 		$this->buffer = clone $this->current;
@@ -116,6 +137,13 @@ class Model {
 	 */
 	public function getWidth() {
 		return $this->width;
+	}
+
+	/**
+	 * @return bool|int
+	 */
+	public function getBackgroundColor() {
+		return $this->backgroundColor;
 	}
 
 }
