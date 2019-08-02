@@ -35,7 +35,7 @@ file_put_contents($fileSVG, $svg);
 
 Not setting any background Color, Geometrize will determine the dominant color and use it as a background.
 
-You can also remove any background color when intializing the Runner:
+You can also remove any background color when initializing the Runner:
 ```
 $runner = new ImageRunner($bitmap, false);
 ```
