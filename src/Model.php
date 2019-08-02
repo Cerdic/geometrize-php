@@ -3,6 +3,7 @@
 namespace Cerdic\Geometrize;
 
 use \Cerdic\Geometrize\Bitmap;
+use \Cerdic\Geometrize\Bitmap\DominantColours;
 use \Cerdic\Geometrize\Core;
 use \Cerdic\Geometrize\Rasterizer\Rasterizer;
 use \Cerdic\Geometrize\Shape\Rectangle;
@@ -67,7 +68,8 @@ class Model {
 		// automatic best backgroundColor (lowering the error) ?
 		if ($this->backgroundColor === true) {
 			$bg = new Rectangle($this->width, $this->height, 1, true);
-			$this->backgroundColor = Core::computeColor($this->target, null, $bg->rasterize(), 255);
+			$dominantColours = DominantColours::dominantColours(3, $this->target, $bg->rasterize());
+			$this->backgroundColor = reset($dominantColours);
 		}
 
 		$this->current = Bitmap::create($this->width,$this->height,$this->backgroundColor);

@@ -14,6 +14,7 @@ if(version_compare(PHP_VERSION, '5.4.0', '<')) {
 
 require_once __DIR__ . '/src/Bitmap.php';
 
+require_once __DIR__ . '/src/bitmap/DominantColours.php';
 require_once __DIR__ . '/src/rasterizer/Rasterizer.php';
 
 

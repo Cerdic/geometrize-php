@@ -21,15 +21,7 @@ $geometrize_options = [
 
 
 $bitmap = Bitmap::createFromImageFile($imageFile);
-// set the background color / extracting a color from the image could be better
-$red = 127;
-$green = 127;
-$blue = 127;
-$alpha = 255;
-$background = ($red << 24) + ($green << 16) + ($blue << 8) + $alpha;
-// alternative is no background, using a fully transparent color for the background (ie 0)
-
-$runner = new ImageRunner($bitmap, $background);
+$runner = new ImageRunner($bitmap);
 
 $nb_shapes = 100;
 $score = $runner->steps($geometrize_options, $nb_shapes);
@@ -39,10 +31,31 @@ file_put_contents($fileSVG, $svg);
 
 ```
 
+### Background Color
+
+Not setting any background Color, Geometrize will determine the dominant color and use it as a background.
+
+You can also remove any background color when intializing the Runner:
+```
+$runner = new ImageRunner($bitmap, false);
+```
+
+Or fix an arbitrary background color:
+
+```
+// set a background color
+$red = 127;
+$green = 127;
+$blue = 127;
+$alpha = 255;
+$background = ($red << 24) + ($green << 16) + ($blue << 8) + $alpha;
+$runner = new ImageRunner($bitmap, $background);
+```
+
 ## Performance considerations
 
 For performance purposes you should not operate directly on the full-sized image but on a thumbnail, 
-like 128px, 256px or 512px wide depending of the quality of the rendering you want:
+like 128px, 256px or 512px wide depending on the quality of the rendering you want:
 
 ```
 // TODO create a thumbnail and store it into $imageFileTumbnail
@@ -58,4 +71,3 @@ $svg = $runner->exportToSVG($originalWidth, $originalHeight);
 ```
 
 
- 

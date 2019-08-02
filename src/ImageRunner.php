@@ -27,7 +27,7 @@ class ImageRunner {
 	 *   32bits encoded color or true for automatic $backgroundColor or false for no background (transparent)
 	 * @throws \Exception
 	 */
-	public function __construct($inputImage, $backgroundColor){
+	public function __construct($inputImage, $backgroundColor = true){
 		$this->model = new Model($inputImage, $backgroundColor);
 		$this->geometrizationSteps = [];
 	}
