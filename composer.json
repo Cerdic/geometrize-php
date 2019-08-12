@@ -1,0 +1,30 @@
+{
+    "name": "cerdic/geometrize-php",
+    "type": "library",
+    "description": "Geometrize PHP is a PHP library for recreating images with geometric primitives.",
+    "keywords": ["image", "svg", "vectorization"],
+    "homepage": "https://git.spip.net/cerdic/geometrize-php",
+    "license": [
+        "MIT"
+    ],
+    "authors": [
+        {
+            "name": "Cédric Morin",
+            "email": "cedric@yterium.com",
+            "homepage": "https://github.com/Cerdic"
+        }
+    ],
+    "autoload": {
+        "psr-4": { "Cerdic\\Geometrize\\": "src/" }
+    },
+    "require": {
+        "php": "^5.6.0 || ^7"
+    },
+    "archive": {
+        "exclude": [
+            "/.gitignore",
+            "/.travis.yml",
+            "/screenshots"
+        ]
+    }
+}
