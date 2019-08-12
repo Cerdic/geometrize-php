@@ -4,5 +4,5 @@ namespace Cerdic\Geometrize;
 
 class Version
 {
-    const VERSION = 'v1.1.5';
+    const VERSION = 'v1.1.6';
 }
