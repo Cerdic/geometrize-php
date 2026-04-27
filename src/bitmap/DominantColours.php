@@ -27,8 +27,12 @@ class DominantColours {
 		$points = [];
 		foreach($lines as $line){
 			$y = $line['y'];
-			for ($x=$line['x1']; $x<=$line['x2']; $x++) {
-				$points[] = $t = $target->data[$y][$x];
+			if (isset($target->data[$y])) {
+				for ($x=$line['x1']; $x<=$line['x2']; $x++) {
+					if (!empty($target->data[$y][$x])) {
+						$points[] = $target->data[$y][$x];
+					}
+				}
 			}
 		}
 
